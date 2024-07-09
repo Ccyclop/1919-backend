@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MusicsModule } from './musics/musics.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthorsModule } from './authors/authors.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -13,9 +14,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     password:'',
     database:'1919-database',
     autoLoadEntities:true,
-    synchronize: false
-    // ცოტახნით გამოვრთავ სანამ გადაბმებს გავაკეთებ მაინც რავიცი...
-  }),MusicsModule],
+    synchronize: true
+  }),MusicsModule, AuthorsModule],
   controllers: [AppController],
   providers: [AppService],
 })

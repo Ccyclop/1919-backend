@@ -10,35 +10,41 @@ export class MusicsRepository{
     constructor(@InjectRepository(Music)
                 private readonly musicRepo:Repository<Music>) {}
 
-    create(data: CreateMusicDto) {
+    async create(data: CreateMusicDto) {
         const music = this.musicRepo.create(data)
-        return this.musicRepo.save(music)
+        return await this.musicRepo.save(music)
     }
 
-    findAll() {
-        return this.musicRepo
-                .createQueryBuilder('music')
+    async findAll() {
+        return await this.musicRepo
+                .createQueryBuilder('mus')
+                .leftJoinAndSelect('mus.author', 'author')
+                .leftJoinAndSelect('author.musics', 'music')
                 .getMany()
     }
 
-    findOne(id: number){
-        return this.musicRepo
-                .createQueryBuilder('music')
-                .where('music.id = :id', { id })
+    async findOne(id: number){
+        return await this.musicRepo
+                .createQueryBuilder('mus')
+                .where('mus.id = :id', { id })
+                .leftJoinAndSelect('mus.author', 'author')
+                .leftJoinAndSelect('author.musics', 'music')
                 .getOne()
     }
 
     async update(id: number, data: UpdateMusicDto) {
         await this.musicRepo
-                .createQueryBuilder('music')
+                .createQueryBuilder('mus')
                 .update()
                 .set(data)
-                .where('music.id = :id', { id })
+                .where('mus.id = :id', { id })
                 .execute()
 
         return this.musicRepo
-                .createQueryBuilder('music')
-                .where('music.id = :id', {id})
+                .createQueryBuilder('mus')
+                .where('mus.id = :id', {id})
+                .leftJoinAndSelect('mus.author', 'author')
+                .leftJoinAndSelect('author.musics', 'music')
                 .getOne()
     }
 
@@ -46,9 +52,11 @@ export class MusicsRepository{
         await this.musicRepo.softDelete(id)
 
         return this.musicRepo
-                .createQueryBuilder('music')
+                .createQueryBuilder('mus')
                 .withDeleted()
-                .where('music.id = :id', {id})
+                .where('mus.id = :id', {id})
+                .leftJoinAndSelect('mus.author', 'author')
+                .leftJoinAndSelect('author.musics', 'music')
                 .getOne()
 
     }

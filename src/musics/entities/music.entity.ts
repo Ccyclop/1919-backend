@@ -1,4 +1,4 @@
-import { ColdObservable } from "rxjs/internal/testing/ColdObservable";
+import { Author } from "src/authors/entities/author.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
@@ -10,23 +10,22 @@ export class Music {
     @Column({type: 'varchar'})
     name: string
 
-    @Column({type: 'int'})
-    artistId: number;
+    @Column({type: 'int', nullable: true})
+    authorId: number;
 
-    // @ManyToOne(() => Artist, (artist) => artist.musics)
-    // artist: Artist;
-    // ჯერჯერობით არ შემიქმნია არტისტის მოდული ასე რომ დავაკომენტარებ
-
+    @ManyToOne(() => Author, (author) => author.musics)
+    author: Author;
+    
     @Column({type: 'int'})
     duration: number;
 
     @CreateDateColumn()
-    created_at: Date;
+    createdAt: Date;
 
     @UpdateDateColumn()
-    updated_at: Date;
+    updatedAt: Date;
 
     @DeleteDateColumn()
-    deleted_at: Date;
+    deletedAt: Date;
 
 }

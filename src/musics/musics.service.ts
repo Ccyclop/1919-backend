@@ -8,23 +8,23 @@ export class MusicsService {
 
   constructor(private readonly musicRepo: MusicsRepository) {}
 
-  create(createMusicDto: CreateMusicDto) {
-    return this.musicRepo.create(createMusicDto);
+  async create(createMusicDto: CreateMusicDto) {
+    return await this.musicRepo.create(createMusicDto);
   }
 
-  findAll() {
-    return this.musicRepo.findAll();
+  async findAll() {
+    return await this.musicRepo.findAll();
   }
 
-  findOne(id: number) {
-    return this.musicRepo.findOne(id);
+  async findOne(id: number) {
+    return await this.musicRepo.findOne(id);
   }
 
-  update(id: number, updateMusicDto: UpdateMusicDto) {
-    return this.musicRepo.update(id, updateMusicDto);
+  async update(id: number, updateMusicDto: UpdateMusicDto) {
+    return await this.musicRepo.update(id, updateMusicDto);
   }
 
-  remove(id: number) {
-    return this.musicRepo.remove(id);
+  async remove(id: number) {
+    return await this.musicRepo.remove(id);
   }
 }
