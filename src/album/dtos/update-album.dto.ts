@@ -1,0 +1,17 @@
+import { IsArray, IsNumber, IsString } from "class-validator";
+
+export class UpdateAlbumDto {
+
+    @IsNumber()
+    albumId?: number;
+
+    @IsString()
+    title?: string;
+
+    @IsArray()
+    @IsNumber({},{each:true})
+    musicIds?: number[];
+
+    @IsNumber()
+    authortId?: number;
+}
