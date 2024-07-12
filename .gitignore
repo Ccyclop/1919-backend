@@ -3,6 +3,9 @@
 /node_modules
 /build
 
+.env
+# Ignore AWS config file
+src\music\config/aws.config.ts
 # Logs
 logs
 *.log
