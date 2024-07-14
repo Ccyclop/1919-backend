@@ -5,12 +5,12 @@ import { AlbumController } from "./album.controller";
 import { AlbumService } from "./album.service";
 import { AlbumRepository } from "./album.repository";
 import { AuthorsModule } from "src/authors/authors.module";
-import { MusicModule } from "src/music/music.module";
+import { MusicsModule } from "src/musics/musics.module";
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Album]),
-    MusicModule, 
+    MusicsModule, 
     AuthorsModule
   ],
   controllers: [AlbumController],

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { MusicModule } from './music/music.module';
+import { MusicsModule } from './musics/musics.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthorsModule } from './authors/authors.module';
 import { AlbumModule } from './album/album.module';
@@ -15,9 +15,9 @@ import { AlbumModule } from './album/album.module';
     password:'Fircxa@18',
     database:'F2R0C0X5',
     autoLoadEntities:true,
-    synchronize: false
+    synchronize: true
   }),
-  MusicModule, AuthorsModule,AlbumModule],
+  MusicsModule, AuthorsModule,AlbumModule],
   controllers: [AppController],
   providers: [AppService],
 })

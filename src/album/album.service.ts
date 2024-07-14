@@ -1,19 +1,19 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Music } from 'src/music/entities/music.entity';
+import { Music } from 'src/musics/entities/music.entity';
 import { CreateAlbumDto } from '../album/dtos/create-album.dto.ts';
 import { Album } from '../album/entities/album.entity';
 import { UpdateAlbumDto } from '../album/dtos/update-album.dto';
 import { AuthorRepository } from 'src/authors/authors.repository';
 import { AlbumRepository } from './album.repository';
-import { MusicRepository } from 'src/music/music.repository';
+import { MusicsRepository } from 'src/musics/musics.repository';
 
 @Injectable()
 export class AlbumService {
     constructor(
     private readonly albumRepository: AlbumRepository,
     private readonly authorRepository:AuthorRepository,
-    private readonly musicRepository: MusicRepository,
+    private readonly musicRepository: MusicsRepository,
     ){}
 
     

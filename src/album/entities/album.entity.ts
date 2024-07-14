@@ -14,7 +14,7 @@ Auth,
 } from 'typeorm';
 
 import { Author } from 'src/authors/entities/author.entity';
-import { Music } from 'src/music/entities/music.entity';
+import { Music } from 'src/musics/entities/music.entity';
   
 @Entity()
 export class Album {

@@ -1,6 +1,6 @@
 import { Album } from "src/album/entities/album.entity";
-import { CreateMusicDto } from "src/music/dtos/create.music.dto";
-import { Music } from "src/music/entities/music.entity";
+import { CreateMusicDto } from "src/musics/dto/create-music.dto";
+import { Music } from "src/musics/entities/music.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinTable, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
