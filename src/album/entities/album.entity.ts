@@ -33,6 +33,9 @@ export class Album {
   @DeleteDateColumn({ type: 'timestamp' })
   deletedAt?: Date;
 
+  @Column()
+  authorId: number
+
   @ManyToOne(() => Author, (author) => author.albums)
   author: Author; 
 

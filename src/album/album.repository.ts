@@ -2,6 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Album } from './entities/album.entity';
+import { Music } from 'src/musics/entities/music.entity';
+import { CreateMusicDto } from 'src/musics/dto/create-music.dto';
+import { Author } from 'src/authors/entities/author.entity';
 
 @Injectable()
 export class AlbumRepository {
@@ -25,6 +28,29 @@ export class AlbumRepository {
   async findAllAlbums(): Promise<Album[]> {
     return this.albumRepository.find({ where: { deletedAt: null }, relations: ['author', 'musics'] });
   }
+
+  // async saveAlbumWithMusics(album: Album, musics: CreateMusicDto[], author: Author): Promise<Album> {
+  //   const savedAlbum = await this.albumRepository.save(album);
+
+  //   if (musics && musics.length > 0) {
+  //     const musicEntities: Music[] = [];
+
+  //     for (const musicDto of musics) {
+  //       const music = new Music();
+  //       music.name = musicDto.name;
+  //       music.author = author;
+  //       music.duration = musicDto.duration;
+
+  //       const savedMusic = await this.musicRepository.save(music);
+  //       musicEntities.push(savedMusic);
+  //     }
+
+  //     savedAlbum.musics = musicEntities;
+  //     await this.albumRepository.save(savedAlbum);
+  //   }
+
+  //   return savedAlbum;
+  // }
 
   async saveAlbum(album: Album): Promise<Album> {
     return this.albumRepository.save(album);

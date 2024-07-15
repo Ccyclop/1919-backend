@@ -2,8 +2,6 @@ import { IsArray, IsNumber, IsString } from "class-validator";
 
 export class UpdateAlbumDto {
 
-    @IsNumber()
-    albumId?: number;
 
     @IsString()
     title?: string;

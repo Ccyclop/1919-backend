@@ -27,8 +27,7 @@ export class AlbumController {
   @Put(':id')
   async updateAlbum(@Param('id') albumId: number, @Body() updateAlbumDto: UpdateAlbumDto,): Promise<Album> {
     console.log(updateAlbumDto)
-      updateAlbumDto.albumId = albumId;
-      return await this.albumService.updateAlbum(updateAlbumDto);
+      return await this.albumService.updateAlbum(albumId,updateAlbumDto);
   }
 
   @Delete(':id')

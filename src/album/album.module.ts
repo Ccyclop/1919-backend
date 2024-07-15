@@ -6,10 +6,11 @@ import { AlbumService } from "./album.service";
 import { AlbumRepository } from "./album.repository";
 import { AuthorsModule } from "src/authors/authors.module";
 import { MusicsModule } from "src/musics/musics.module";
+import { Music } from "src/musics/entities/music.entity";
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Album]),
+    TypeOrmModule.forFeature([Album,Music]),
     MusicsModule, 
     AuthorsModule
   ],

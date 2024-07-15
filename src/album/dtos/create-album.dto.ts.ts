@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsArray, IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsDate, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { CreateMusicDto } from 'src/musics/dto/create-music.dto';
 
 export class CreateAlbumDto {
@@ -14,9 +14,11 @@ export class CreateAlbumDto {
   @IsNumber({}, { each: true })
   musicIds: number[];
 
+  @IsArray()
+  @ValidateNested({ each: true })
   @IsOptional()
   @Type(() => CreateMusicDto)
-  musics: CreateMusicDto[]
+  musics: CreateMusicDto[];
 
   @IsNumber()
   authorId: number;

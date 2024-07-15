@@ -15,7 +15,7 @@ import { AlbumModule } from './album/album.module';
     password:'Fircxa@18',
     database:'F2R0C0X5',
     autoLoadEntities:true,
-    synchronize: true
+    synchronize: false
   }),
   MusicsModule, AuthorsModule,AlbumModule],
   controllers: [AppController],

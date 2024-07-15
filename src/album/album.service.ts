@@ -7,6 +7,8 @@ import { UpdateAlbumDto } from '../album/dtos/update-album.dto';
 import { AuthorRepository } from 'src/authors/authors.repository';
 import { AlbumRepository } from './album.repository';
 import { MusicsRepository } from 'src/musics/musics.repository';
+import { CreateMusicDto } from 'src/musics/dto/create-music.dto.js';
+import { Author } from 'src/authors/entities/author.entity.js';
 
 @Injectable()
 export class AlbumService {
@@ -16,129 +18,99 @@ export class AlbumService {
     private readonly musicRepository: MusicsRepository,
     ){}
 
-    
-
-
-  async createAlbum(createAlbumDto: CreateAlbumDto): Promise<Album> {
-    const { title, musicIds, authorId } = createAlbumDto;
-
-    const artist = await this.authorRepository.findOne(authorId);
-    if (!artist) {
-      throw new Error(`author with id ${authorId} not found`);
-    }
-
-    const musics = await this.musicRepository.findMusicsByIds(musicIds);
-    if (musics.length !== musicIds.length) {
-      throw new Error('Some of the music IDs were not found');
-    }
-
-    const album = new Album();
-    album.title = title;
-    album.releaseDate = new Date();
-    album.author = artist;
-    album.musics = musics;
-
-    return await this.albumRepository.saveAlbum(album);
-  }
-  // async createAlbum(createAlbumDto: CreateAlbumDto): Promise<Album> {
-  //   const { title, musicIds, artistId } = createAlbumDto;
+    async createAlbum(createAlbumDto: CreateAlbumDto): Promise<Album> {
+      const { title, authorId, musics,musicIds } = createAlbumDto;
   
-  //   const artist = await this.authorRepository
-  //     .createQueryBuilder('artist')
-  //     .where('artist.id = :artistId', { artistId })
-  //     .getOne();  
+      const author = await this.authorRepository.findOne(authorId);
+      if (!author) {
+        throw new NotFoundException(`Author with id ${authorId} not found`);
+      }
 
-
-  //   if (!artist) {
-  //     throw new Error(`artist with id ${artistId} not found`);
-  //   }
+      const realMusics = await this.musicRepository.findMusicsByIds(musicIds);
+      if (realMusics.length !== musicIds.length) {
+        throw new Error('Some of the music IDs were not found');
+      }
   
-  //   const musics = await this.musicRepository
-  //     .createQueryBuilder('music')
-  //     .where('music.id IN (:...musicIds)', { musicIds })
-  //     .getMany();
+      const album = new Album();
+      album.title = title;
+      album.releaseDate = new Date();
+      album.author = author;
+      album.authorId = authorId
+      album.musics = realMusics
   
-  //   if (musics.length !== musicIds.length) {
-  //     throw new Error('Some of the music IDs were not found');
-  //   }
-  
-  //   const album = new Album();
-  //   album.title = title;
-  //   album.releaseDate = new Date();
-  //   album.artistId = artist;
-  //   album.musics = musics;
-  
-  //   return await this.albumRepository.save(album);
-  // }
-
-  async updateAlbum(updateAlbumDto: UpdateAlbumDto): Promise<Album> {
-    const { albumId, title, musicIds, authortId } = updateAlbumDto;
-
-    const album = await this.albumRepository.findAlbumWithArtistAndMusics(albumId)
-
-    if (!album) {
-        throw new NotFoundException(`Album with id ${albumId} not found`);
+      return await this.saveAlbumWithMusics(album, musics, author);
     }
 
-    if (title) {
-        album.title = title;
-    }
-
-    if (authortId) {
-        const artist = await this.authorRepository.findOne(authortId);
-
-        if (!artist) {
-            throw new NotFoundException(`Artist with id ${authortId} not found`);
-        }
-
-        album.author = artist;
-    }
-
-    if (musicIds) {
-        const musics = await this.musicRepository.findMusicsByIds(musicIds)
-            
-        if (musics.length !== musicIds.length) {
-            throw new NotFoundException('Some of the music IDs were not found');
-        }
-        
-        album.musics = musics;
-    }
-
-    return await this.albumRepository.saveAlbum(album);
-}
-
-
-    // async createAlbum(createAlbumDto: CreateAlbumDto): Promise<Album> {
-    //   const { title, musicIds, artistId } = createAlbumDto;
-
-    //   const artist = await this.authorRepository.findOne({where:{id:artistId}});
-
-    //   const fetchedMusics: Music[] = [];
-    //   for(const musicId of musicIds) {
-    //     const music = await this.musicRepository.findOne({ where: { id: musicId } });
-    //     if (music) {
-    //       fetchedMusics.push(music);
-    //     };  
+    // async saveAlbumWithMusics(album: Album, musics: CreateMusicDto[], author: Author): Promise<Album> {
+    //   const savedAlbum = await this.albumRepository.saveAlbum(album);
+  
+    //   if (musics && musics.length > 0) {
+    //     const musicEntities: Music[] = [];
+  
+    //     for (const musicDto of musics) {
+    //       const savedMusic = await this.musicRepository.saveMusics(musicDto, author);
+    //       musicEntities.push(savedMusic);
+    //     }
+  
+    //     savedAlbum.musics = musicEntities;
+    //     await this.albumRepository.saveAlbum(savedAlbum);
     //   }
-    //   // const fetchedMusics = await Promise.all(fetchMusicPromises);
-
-    //   const album = {
-    //     title,
-    //     releaseDate: new Date(), 
-    //     artistId: { id: artistId },
-    //     musics: fetchedMusics,
-    //   };
-
-    //   return await this.albumRepository.save(album);
+  
+    //   return savedAlbum;
     // }
 
+    async saveAlbumWithMusics(album: Album, musics: CreateMusicDto[], author: Author): Promise<Album> {
+      const savedAlbum = await this.albumRepository.saveAlbum(album);
+  
+      if (musics && musics.length > 0) {
+        const savedMusics = await this.musicRepository.saveMusics(musics);
+  
+        savedAlbum.musics = savedMusics;
+        await this.albumRepository.saveAlbum(savedAlbum);
+      }
+  
+      return savedAlbum;
+    }
+ 
+    async updateAlbum(id:number,updateAlbumDto: UpdateAlbumDto): Promise<Album> {
+      const {  title, musicIds, authortId } = updateAlbumDto;
 
+      const album = await this.albumRepository.findAlbumWithArtistAndMusics(id)
+
+      if (!album) {
+          throw new NotFoundException(`Album with id ${id} not found`);
+      }
+
+      if (title) {
+          album.title = title;
+      }
+
+      if (authortId) {
+          const artist = await this.authorRepository.findOne(authortId);
+
+          if (!artist) {
+              throw new NotFoundException(`Artist with id ${authortId} not found`);
+          }
+
+          album.author = artist;
+      }
+
+      if (musicIds) {
+          const musics = await this.musicRepository.findMusicsByIds(musicIds)
+              
+          if (musics.length !== musicIds.length) {
+              throw new NotFoundException('Some of the music IDs were not found');
+          }
+          
+          album.musics = musics;
+      }
+
+      return await this.albumRepository.saveAlbum(album);
+    }
 
     async getAllAlbums(): Promise<Album[]> {
       return await this.albumRepository.findAllAlbums();
     }
-
-
 
     async getAlbum(albumId: number): Promise<Album> {
       const album = await this.albumRepository.findAlbumById(albumId);
@@ -159,4 +131,5 @@ export class AlbumService {
     
       await this.albumRepository.softDeleteAlbum(albumId);
     }
+
 }
