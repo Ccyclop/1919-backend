@@ -41,24 +41,6 @@ export class AlbumService {
       return await this.saveAlbumWithMusics(album, musics, author);
     }
 
-    // async saveAlbumWithMusics(album: Album, musics: CreateMusicDto[], author: Author): Promise<Album> {
-    //   const savedAlbum = await this.albumRepository.saveAlbum(album);
-  
-    //   if (musics && musics.length > 0) {
-    //     const musicEntities: Music[] = [];
-  
-    //     for (const musicDto of musics) {
-    //       const savedMusic = await this.musicRepository.saveMusics(musicDto, author);
-    //       musicEntities.push(savedMusic);
-    //     }
-  
-    //     savedAlbum.musics = musicEntities;
-    //     await this.albumRepository.saveAlbum(savedAlbum);
-    //   }
-  
-    //   return savedAlbum;
-    // }
-
     async saveAlbumWithMusics(album: Album, musics: CreateMusicDto[], author: Author): Promise<Album> {
       const savedAlbum = await this.albumRepository.saveAlbum(album);
   

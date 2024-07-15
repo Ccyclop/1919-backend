@@ -29,29 +29,6 @@ export class AlbumRepository {
     return this.albumRepository.find({ where: { deletedAt: null }, relations: ['author', 'musics'] });
   }
 
-  // async saveAlbumWithMusics(album: Album, musics: CreateMusicDto[], author: Author): Promise<Album> {
-  //   const savedAlbum = await this.albumRepository.save(album);
-
-  //   if (musics && musics.length > 0) {
-  //     const musicEntities: Music[] = [];
-
-  //     for (const musicDto of musics) {
-  //       const music = new Music();
-  //       music.name = musicDto.name;
-  //       music.author = author;
-  //       music.duration = musicDto.duration;
-
-  //       const savedMusic = await this.musicRepository.save(music);
-  //       musicEntities.push(savedMusic);
-  //     }
-
-  //     savedAlbum.musics = musicEntities;
-  //     await this.albumRepository.save(savedAlbum);
-  //   }
-
-  //   return savedAlbum;
-  // }
-
   async saveAlbum(album: Album): Promise<Album> {
     return this.albumRepository.save(album);
   }
