@@ -2,9 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Album } from './entities/album.entity';
-import { Music } from 'src/musics/entities/music.entity';
 import { CreateMusicDto } from 'src/musics/dto/create-music.dto';
-import { Author } from 'src/authors/entities/author.entity';
 
 @Injectable()
 export class AlbumRepository {
@@ -42,5 +40,12 @@ export class AlbumRepository {
 
     album.deletedAt = new Date();
     await this.albumRepository.save(album);
+  }
+
+  async searchAlbums(searchString: string): Promise<Album[]> {
+    const lowerCaseSearchString = `%${String(searchString).toLowerCase()}%`;
+    return this.albumRepository.createQueryBuilder('album')
+      .where('LOWER(album.title) LIKE :searchString', { searchString: lowerCaseSearchString })
+      .getMany();
   }
 }
