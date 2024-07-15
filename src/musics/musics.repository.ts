@@ -4,6 +4,7 @@ import { Music } from "./entities/music.entity";
 import { Repository } from "typeorm";
 import { CreateMusicDto } from "./dto/create-music.dto";
 import { UpdateMusicDto } from "./dto/update-music.dto";
+import { Author } from "src/authors/entities/author.entity";
 
 @Injectable()
 export class MusicsRepository{
@@ -31,6 +32,46 @@ export class MusicsRepository{
                 .leftJoinAndSelect('author.musics', 'music')
                 .getOne()
     }
+
+
+    async saveMusics(musicDto: CreateMusicDto[]): Promise<Music[]> {
+        
+        const insertedMusics = await this.musicRepo.createQueryBuilder()
+            .insert()
+            .values(musicDto)
+            // .values(musicDto.map(dto => ({ ...dto, author: author }))) 
+            .execute();
+    
+        const insertedIds = insertedMusics.identifiers.map(id => id.id);
+    
+        const savedMusics = await this.findMusicsByIds(insertedIds);
+    
+        return savedMusics;
+    }
+
+    // async saveMusics(musicDto: CreateMusicDto[], author: Author) {
+    //     const musics= await this.musicRepo.createQueryBuilder().insert().values(musicDto).execute()
+    //     console.log(musics)
+
+      
+    //     return musics
+    // }
+        // const musics= await this.musicRepo.createQueryBuilder().insert().values(musicDto).execute()
+          // const music = new Music();
+        // music.name = musicDto.name;
+        // music.author = author;
+        // music.duration = musicDto.duration;
+    
+        // return await this.musicRepo.save(music);
+
+    async findMusicsByIds(musicIds: number[]): Promise<Music[]> {
+        const realMusics = await this.musicRepo
+          .createQueryBuilder('music')
+          .where('music.id IN (:...musicIds)', { musicIds })
+          .getMany();
+    
+          return realMusics
+      }
 
     async update(id: number, data: UpdateMusicDto) {
         await this.musicRepo

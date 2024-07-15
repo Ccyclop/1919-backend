@@ -10,5 +10,6 @@ import { Author } from 'src/authors/entities/author.entity';
   imports: [TypeOrmModule.forFeature([Music, Author])],
   controllers: [MusicsController],
   providers: [MusicsService, MusicsRepository],
+  exports:[MusicsRepository]
 })
 export class MusicsModule {}
