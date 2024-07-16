@@ -3,6 +3,7 @@ import { Author } from 'src/authors/entities/author.entity';
 import { Album } from 'src/album/entities/album.entity';
 
 export class SearchResultDto {
-  type: 'music' | 'artist' | 'album';
+  type: 'music' | 'author' | 'album';
+  
   data: Music | Author | Album;
 }

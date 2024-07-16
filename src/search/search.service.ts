@@ -12,25 +12,16 @@ export class SearchService {
     private readonly albumRepository: AlbumRepository
   ) {}
 
-  async searchInfo(searchString: string): Promise<SearchResultDto[]> {
+  async searchInfo(searchString: string): Promise<{ music: any[], artist: any[], album: any[] }> {
     const musicResults = await this.musicRepository.searchMusic(searchString);
     const artistResults = await this.authorRepository.searchAuthors(searchString);
     const albumResults = await this.albumRepository.searchAlbums(searchString);
 
-    const results: SearchResultDto[] = [];
-
-    musicResults.forEach(music => {
-      results.push({ type: 'music', data: music });
-    });
-
-    artistResults.forEach(artist => {
-      results.push({ type: 'artist', data: artist });
-    });
-
-    albumResults.forEach(album => {
-      results.push({ type: 'album', data: album });
-    });
-
-    return results;
+    return {
+      music: musicResults,
+      artist: artistResults,
+      album: albumResults,
+    };
   }
+
 }

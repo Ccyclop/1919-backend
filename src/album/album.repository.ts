@@ -44,7 +44,7 @@ export class AlbumRepository {
 
   async searchAlbums(searchString: string): Promise<Album[]> {
     const lowerCaseSearchString = `%${String(searchString).toLowerCase()}%`;
-    return this.albumRepository.createQueryBuilder('album')
+    return await this.albumRepository.createQueryBuilder('album')
       .where('LOWER(album.title) LIKE :searchString', { searchString: lowerCaseSearchString })
       .getMany();
   }
