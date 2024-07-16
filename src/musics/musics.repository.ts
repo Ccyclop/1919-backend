@@ -49,6 +49,14 @@ export class MusicsRepository{
         return savedMusics;
     }
 
+    async searchMusic(searchString: string): Promise<Music[]> {
+        const lowerCaseSearchString = `%${String(searchString).toLowerCase()}%`;
+        return await this.musicRepo.createQueryBuilder('music')
+          .where('LOWER(music.name) LIKE :searchString', { searchString: lowerCaseSearchString })
+          .getMany();
+      }
+    
+
     // async saveMusics(musicDto: CreateMusicDto[], author: Author) {
     //     const musics= await this.musicRepo.createQueryBuilder().insert().values(musicDto).execute()
     //     console.log(musics)
