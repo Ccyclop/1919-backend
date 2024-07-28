@@ -110,6 +110,13 @@ export class AlbumService {
       if (!album) {
         throw new NotFoundException(`Album with id ${albumId} not found`);
       }
+
+      if (album.musics) {
+        for (const music of album.musics) {
+          music.deletedAt = new Date();
+          await this.musicRepository.create(music);
+        }
+      }
     
       await this.albumRepository.softDeleteAlbum(albumId);
     }

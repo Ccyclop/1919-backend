@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthorsModule } from './authors/authors.module';
 import { AlbumModule } from './album/album.module';
 import { SearchModule } from './search/search.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -18,7 +19,7 @@ import { SearchModule } from './search/search.module';
     autoLoadEntities:true,
     synchronize: false
   }),
-  MusicsModule, AuthorsModule,AlbumModule,SearchModule],
+  MusicsModule, AuthorsModule,AlbumModule,SearchModule,UserModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -15,7 +15,7 @@ export class MusicsRepository{
         const music = this.musicRepo.create(data)
         return await this.musicRepo.save(music)
     }
-
+   
     async findAll() {
         return await this.musicRepo
                 .createQueryBuilder('mus')
