@@ -38,6 +38,7 @@ export class AlbumRepository {
       throw new Error(`Album with id ${albumId} not found`);
     }
 
+
     album.deletedAt = new Date();
     await this.albumRepository.save(album);
   }
