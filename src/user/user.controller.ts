@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Injectable, Param, Post, Put, Res, UseGu
 import { UserService } from './user.service';
 import { CreateDto } from './dto';
 import { Response } from 'express';
-import { User } from './entity/user.entity';
+import { UserEntity } from './entity/user.entity';
 
 
 @Controller('user')
@@ -11,18 +11,18 @@ export class UserController {
 
     @Post('signup')
     signUp(@Body() dto:CreateDto, @Res({ passthrough: true }) res: Response) {
-      return this.userService.signupLocal(dto,res) 
+      return this.userService.signup(dto,res) 
     }
     
 
     @Get(':id')
-    async getUser(@Param('id') id: number): Promise<User> {
+    async getUser(@Param('id') id: number): Promise<UserEntity> {
       const user = await this.userService.getUserById(id);
       return user;
     }
 
     @Get()
-    async GetAll(): Promise<User[]> {
+    async GetAll(): Promise<UserEntity[]> {
       return await this.userService.GetAll();
     }
 

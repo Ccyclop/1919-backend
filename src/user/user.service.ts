@@ -3,7 +3,7 @@ import * as bcryptjs  from 'bcryptjs';
 import { CreateDto } from './dto';
 import { Response } from 'express';
 import { UserRepository } from './user.repository';
-import { User } from './entity/user.entity';
+import { UserEntity } from './entity/user.entity';
 
 @Injectable()
 export class UserService {
@@ -11,7 +11,7 @@ export class UserService {
         private readonly userRepository : UserRepository,
 
     ) {}
-    async signupLocal(dto: CreateDto, res:Response){
+    async signup(dto: CreateDto, res:Response){
 
         const checkEmail = await this.userRepository.findByEmail(dto.email)
 
@@ -25,7 +25,7 @@ export class UserService {
         return this.userRepository.getAllUsers();
       }
 
-      async getUserById(id: number): Promise<User> {
+      async getUserById(id: number): Promise<UserEntity> {
         return this.userRepository.findById(id);
       }
 

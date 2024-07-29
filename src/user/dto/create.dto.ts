@@ -6,7 +6,7 @@ export class CreateDto {
   id: number
 
   @IsString()
-  first_name:string
+  name:string
   
   @IsEmail()
   email: string;

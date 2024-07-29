@@ -1,53 +1,53 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CreateDto } from "./dto";
-import { User } from "./entity/user.entity";
+import { UserEntity } from "./entity/user.entity";
 import { Repository } from "typeorm";
 import * as bcryptjs  from 'bcryptjs';
 
 @Injectable()
 export class UserRepository{
     constructor(
-        @InjectRepository(User)
-        private readonly userRepository: Repository<User>
+        @InjectRepository(UserEntity)
+        private readonly userRepository: Repository<UserEntity>
     ) {}
 
-    async createUser(dto: CreateDto): Promise<User>{
-        const hashP = await bcryptjs.hash(dto.password,10);
+    async createUser(dto: CreateDto): Promise<UserEntity>{
+        const password = await bcryptjs.hash(dto.password,10);
         const user = this.userRepository
             .create({
-                first_name:dto.first_name,
+                name:dto.name,
                 email: dto.email,
-                hashP,
+                password,
               })
         return await this.userRepository.save(user)
     }
 
-      async findById(id: number): Promise<User | undefined> {
+      async findById(id: number): Promise<UserEntity | undefined> {
         return await this.userRepository.findOne(
             { where: { id: id } }
         );
       }
 
-      async getAllUsers(): Promise<User[]> {
+      async getAllUsers(): Promise<UserEntity[]> {
         return await this.userRepository.createQueryBuilder('user')
           .select(['user.id', 'user.first_name', 'user.email','user.role']) 
           .getMany();
       }
     
-      async findByEmail(email: string): Promise<User | undefined> {
+      async findByEmail(email: string): Promise<UserEntity | undefined> {
         return await this.userRepository.findOne({where:{ email }});
       }
     
-      async updateUser(user: User): Promise<User> {
+      async updateUser(user: UserEntity): Promise<UserEntity> {
         return await this.userRepository.save(user);
       }
 
-      async findAll(): Promise<User[]> {
+      async findAll(): Promise<UserEntity[]> {
         return await this.userRepository.find();
       }
 
-      async findUserById(id: number): Promise<User | undefined> {
+      async findUserById(id: number): Promise<UserEntity | undefined> {
         return this.userRepository.findOne({ where: { id, deleted_at: null } });
       }
     

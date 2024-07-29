@@ -10,18 +10,18 @@ import {
 
 
 @Entity()
-export class User {
+export class UserEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
-    first_name: string;
+    name: string;
 
     @Column()
     email: string;
 
     @Column()
-    hashP: string
+    password: string
 
     @CreateDateColumn()
     created_at: Date
