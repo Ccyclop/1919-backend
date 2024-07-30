@@ -7,6 +7,7 @@ import { AuthorsModule } from './authors/authors.module';
 import { AlbumModule } from './album/album.module';
 import { SearchModule } from './search/search.module';
 import { UserModule } from './user/user.module';
+import { PlaylistMoulde } from './playlist/playlist.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -19,7 +20,7 @@ import { UserModule } from './user/user.module';
     autoLoadEntities:true,
     synchronize: false
   }),
-  MusicsModule, AuthorsModule,AlbumModule,SearchModule,UserModule],
+  MusicsModule, AuthorsModule,AlbumModule,SearchModule,UserModule,PlaylistMoulde],
   controllers: [AppController],
   providers: [AppService],
 })
