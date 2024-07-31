@@ -14,7 +14,7 @@ Auth,
 } from 'typeorm';
 
 import { Author } from 'src/authors/entities/author.entity';
-import { Music } from 'src/musics/entities/music.entity';
+import { MusicEntity } from 'src/musics/entities/music.entity';
   
 @Entity()
 export class Album {
@@ -39,6 +39,6 @@ export class Album {
   @ManyToOne(() => Author, (author) => author.albums)
   author: Author; 
 
-  @OneToMany(() => Music, (music) => music.album, { cascade: true })
-  musics: Music[];
+  @OneToMany(() => MusicEntity, (music) => music.album, { cascade: true })
+  musics: MusicEntity[];
 }

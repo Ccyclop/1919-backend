@@ -4,7 +4,7 @@ import { playlistEntity } from "src/playlist/entities/playlist.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
-export class Music {
+export class MusicEntity {
 
     @PrimaryGeneratedColumn()
     id: number;

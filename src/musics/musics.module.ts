@@ -3,11 +3,16 @@ import { MusicsService } from './musics.service';
 import { MusicsController } from './musics.controller';
 import { MusicsRepository } from './musics.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Music } from './entities/music.entity';
+import { MusicEntity } from './entities/music.entity';
 import { Author } from 'src/authors/entities/author.entity';
+import { UserModule } from 'src/user/user.module';
+import { PlaylistMoulde } from 'src/playlist/playlist.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Music, Author])],
+  imports: [TypeOrmModule.forFeature([MusicEntity, Author]),
+    UserModule
+
+],
   controllers: [MusicsController],
   providers: [MusicsService, MusicsRepository],
   exports:[MusicsRepository]

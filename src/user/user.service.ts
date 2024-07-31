@@ -17,23 +17,24 @@ export class UserService {
 
         if(checkEmail) throw new ForbiddenException('email is already used')
 
-        const user = await this.userRepository.createUser(dto)   
+        const user = await this.userRepository.createUser(dto) 
+        
 
     }
 
-      GetAll() {
-        return this.userRepository.getAllUsers();
-      }
+    GetAll() {
+      return this.userRepository.getAllUsers();
+    }
 
-      async getUserById(id: number): Promise<UserEntity> {
-        return this.userRepository.findById(id);
-      }
+    async getUserById(id: number): Promise<UserEntity> {
+      return this.userRepository.findById(id);
+    }
 
-      async deleteUser(id: number): Promise<void> {
-        const user  = await this.userRepository.findById(id)
-        if(!user) throw new UnauthorizedException(`user wiht id ${id} not found`)
-        await this.userRepository.softDeleteUser(id);
-      }
+    async deleteUser(id: number): Promise<void> {
+      const user  = await this.userRepository.findById(id)
+      if(!user) throw new UnauthorizedException(`user wiht id ${id} not found`)
+      await this.userRepository.softDeleteUser(id);
+    }
       
 
       

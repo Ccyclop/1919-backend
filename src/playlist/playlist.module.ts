@@ -5,12 +5,13 @@ import { PlaylistController } from "./playlist.controller";
 import { PlaylistRepository } from "./playlist.repository";
 import { PlaylistService } from "./playlist.service";
 import { MusicsModule } from "src/musics/musics.module";
-import { Music } from "src/musics/entities/music.entity";
+import { MusicEntity } from "src/musics/entities/music.entity";
+import { UserModule } from "src/user/user.module";
 
 @Module({
     imports: [
-     TypeOrmModule.forFeature([playlistEntity,Music]),
-     MusicsModule
+     TypeOrmModule.forFeature([playlistEntity,MusicEntity]),
+     MusicsModule,UserModule
     ],
     controllers: [PlaylistController],
     providers: [PlaylistRepository,PlaylistService],

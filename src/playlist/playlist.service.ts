@@ -3,7 +3,7 @@ import { CreatePlaylistDto } from "./dto/create-playlist.dto";
 import { playlistEntity } from "./entities/playlist.entity";
 import { PlaylistRepository } from "./playlist.repository";
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { Music } from "src/musics/entities/music.entity";
+import { MusicEntity } from "src/musics/entities/music.entity";
 
 @Injectable()
 export class PlaylistService {
@@ -16,7 +16,6 @@ export class PlaylistService {
 
     async CreatePlaylist(dto: CreatePlaylistDto) {
         const {name,musicTracks} = dto
-        console.log(name,musicTracks)
 
         const existingPlaylist = await this.playlistRepository.getPLaylistByName(name) 
         if(!existingPlaylist) throw new NotFoundException(`playlist with name ${dto.name} not found`)
@@ -26,7 +25,7 @@ export class PlaylistService {
         if(checkedMusics.length !== musicTracks.length){
             throw new NotFoundException('Some of the music IDs were not found')
         }
-
+        console.log(checkedMusics , 'check')
         return this.playlistRepository.createPlaylist(dto.name,checkedMusics)
     }
 

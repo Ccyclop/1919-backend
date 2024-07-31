@@ -1,7 +1,8 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { playlistEntity } from "./entities/playlist.entity";
 import { Repository } from "typeorm";
-import { Music } from "src/musics/entities/music.entity";
+import { MusicEntity } from "src/musics/entities/music.entity";
+import { CreatePlaylistDto } from "./dto/create-playlist.dto";
 
 
 export class PlaylistRepository {
@@ -11,7 +12,7 @@ export class PlaylistRepository {
 
     ) {}
 
-    async createPlaylist(name: string, musics: Music[]): Promise<playlistEntity> {
+    async createPlaylist(name: string, musics: MusicEntity[]): Promise<playlistEntity> {
         const playlist = this.playlistRepo.create({
           name,
           musics
@@ -37,7 +38,7 @@ export class PlaylistRepository {
         return this.playlistRepo.save(playlist);
     }
 
-    async addMusicToPlaylist(playlistId: number, music: Music): Promise<playlistEntity> {
+    async addMusicToPlaylist(playlistId: number, music: MusicEntity): Promise<playlistEntity> {
         const playlist = await this.playlistRepo.findOne({where : {id:playlistId}, relations: ['musics'] });
         if (!playlist) {
           throw new Error('Playlist not found');

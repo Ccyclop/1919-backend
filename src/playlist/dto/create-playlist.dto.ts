@@ -3,11 +3,9 @@ import { IsString, IsNotEmpty, IsArray, ArrayNotEmpty, IsOptional, IsInt, IsNumb
 export class CreatePlaylistDto {
   @IsString()
   @IsNotEmpty()
-  name: string;
-
-
+  name!: string;
 
   @IsArray()
   @IsNumber({}, {each: true })
-  musicTracks: number[];
+  musicTracks!: number[];
 }

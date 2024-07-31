@@ -9,7 +9,6 @@ import { removeMusicfromPlaylistDto } from "./dto/delete-music.dto";
 export class PlaylistController {
     constructor(private readonly playlsitService: PlaylistService) {}
 
-
     @Get()
     async getAll(): Promise<playlistEntity[]> {
         return this.playlsitService.getAllPlaylist();

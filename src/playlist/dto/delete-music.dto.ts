@@ -3,9 +3,9 @@ import { IsString, IsNotEmpty, IsArray, ArrayNotEmpty, IsOptional, IsInt, IsNumb
 export class removeMusicfromPlaylistDto {
 
     @IsNumber()
-    playlistId:number
+    playlistId!:number
 
     @IsNumber()
-    musicId:number
+    musicId!:number
 
 }
