@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Music } from "./entities/music.entity";
+import { MusicEntity } from "./entities/music.entity";
 import { Repository } from "typeorm";
 import { CreateMusicDto } from "./dto/create-music.dto";
 import { UpdateMusicDto } from "./dto/update-music.dto";
@@ -8,8 +8,8 @@ import { Author } from "src/authors/entities/author.entity";
 
 @Injectable()
 export class MusicsRepository{
-    constructor(@InjectRepository(Music)
-                private readonly musicRepo:Repository<Music>) {}
+    constructor(@InjectRepository(MusicEntity)
+                private readonly musicRepo:Repository<MusicEntity>) {}
 
     async create(data: CreateMusicDto) {
         const music = this.musicRepo.create(data)
@@ -34,7 +34,7 @@ export class MusicsRepository{
     }
 
 
-    async saveMusics(musicDto: CreateMusicDto[]): Promise<Music[]> {
+    async saveMusics(musicDto: CreateMusicDto[]): Promise<MusicEntity[]> {
         
         const insertedMusics = await this.musicRepo.createQueryBuilder()
             .insert()
@@ -49,7 +49,7 @@ export class MusicsRepository{
         return savedMusics;
     }
 
-    async searchMusic(searchString: string): Promise<Music[]> {
+    async searchMusic(searchString: string): Promise<MusicEntity[]> {
         const lowerCaseSearchString = `%${String(searchString).toLowerCase()}%`;
         return await this.musicRepo.createQueryBuilder('music')
           .where('LOWER(music.name) LIKE :searchString', { searchString: lowerCaseSearchString })
@@ -72,7 +72,7 @@ export class MusicsRepository{
     
         // return await this.musicRepo.save(music);
 
-    async findMusicsByIds(musicIds: number[]): Promise<Music[]> {
+    async findMusicsByIds(musicIds: number[]): Promise<MusicEntity[]> {
         const realMusics = await this.musicRepo
           .createQueryBuilder('music')
           .where('music.id IN (:...musicIds)', { musicIds })

@@ -3,7 +3,7 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { CreateDto } from './dto';
 import { Response } from 'express';
-import { User } from './entity/user.entity';
+import { UserEntity } from './entity/user.entity';
 
 describe('UserController', () => {
   let userController: UserController;

@@ -1,3 +1,4 @@
+import { playlistEntity } from 'src/playlist/entities/playlist.entity';
 import {
     Column,
     CreateDateColumn,
@@ -31,6 +32,9 @@ export class UserEntity {
 
     @DeleteDateColumn()
     deleted_at : Date
+
+    @OneToMany(() => playlistEntity, playlist => playlist.user)
+    playlist:playlistEntity
 
 
 

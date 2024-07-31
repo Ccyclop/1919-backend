@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Music } from 'src/musics/entities/music.entity';
+import { MusicEntity } from 'src/musics/entities/music.entity';
 import { CreateAlbumDto } from '../album/dtos/create-album.dto.ts';
 import { Album } from '../album/entities/album.entity';
 import { UpdateAlbumDto } from '../album/dtos/update-album.dto';

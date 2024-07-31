@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { Music } from "src/musics/entities/music.entity";
+import { MusicEntity } from "src/musics/entities/music.entity";
 import { SearchController } from "./search.contorller";
 import { SearchService } from "./search.service";
 import { Author } from "src/authors/entities/author.entity";
