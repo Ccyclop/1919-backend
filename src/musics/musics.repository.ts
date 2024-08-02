@@ -4,16 +4,18 @@ import { Music } from "./entities/music.entity";
 import { Repository } from "typeorm";
 import { CreateMusicDto } from "./dto/create-music.dto";
 import { UpdateMusicDto } from "./dto/update-music.dto";
-import { Author } from "src/authors/entities/author.entity";
 
 @Injectable()
 export class MusicsRepository{
     constructor(@InjectRepository(Music)
                 private readonly musicRepo:Repository<Music>) {}
 
-    async create(data: CreateMusicDto) {
-        const music = this.musicRepo.create(data)
-        return await this.musicRepo.save(music)
+    create(data: CreateMusicDto) {
+        return this.musicRepo.create(data)   
+    }
+
+    async save(data: CreateMusicDto) {
+        return await this.musicRepo.save(data)
     }
    
     async findAll() {
@@ -21,6 +23,7 @@ export class MusicsRepository{
                 .createQueryBuilder('mus')
                 .leftJoinAndSelect('mus.author', 'author')
                 .leftJoinAndSelect('author.musics', 'music')
+                .leftJoinAndSelect('mus.views', 'view')
                 .getMany()
     }
 
@@ -30,6 +33,7 @@ export class MusicsRepository{
                 .where('mus.id = :id', { id })
                 .leftJoinAndSelect('mus.author', 'author')
                 .leftJoinAndSelect('author.musics', 'music')
+                .leftJoinAndSelect('mus.views', 'view')
                 .getOne()
     }
 

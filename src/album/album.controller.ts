@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { AlbumService } from './album.service';
 import { CreateAlbumDto } from '../album/dtos/create-album.dto.ts';
 import { Album } from '../album/entities/album.entity';

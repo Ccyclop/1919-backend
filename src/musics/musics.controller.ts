@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
 import { MusicsService } from './musics.service';
 import { CreateMusicDto } from './dto/create-music.dto';
 import { UpdateMusicDto } from './dto/update-music.dto';
@@ -20,6 +20,11 @@ export class MusicsController {
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.musicsService.findOne(+id);
+  }
+
+  @Put(':id')
+  async incrementView(@Param('id') id: number) {
+    return await this.musicsService.incrementView(id);
   }
 
   @Patch(':id')
