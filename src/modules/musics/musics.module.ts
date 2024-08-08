@@ -5,7 +5,7 @@ import { MusicsRepository } from './musics.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MusicEntity } from './entities/music.entity';
 import { Author } from '../authors/entities/author.entity';
-import { UserModule } from 'src/auth-module/user/user.module';
+import { UserModule } from '@src/auth-modules/user/user.module';
 import { PlaylistMoulde } from '../playlist/playlist.module';
 
 @Module({
