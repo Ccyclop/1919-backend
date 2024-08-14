@@ -1,10 +1,12 @@
 import { ForbiddenException, Injectable } from "@nestjs/common";
-import { AuthDto,ChangePDto } from "../user/dto";
-import { UserRepository } from "../user/user.repository";
+import { AuthDto,ChangePDto } from "../../user/dto";
+import { UserRepository } from "../../user/user.repository";
 import * as bcryptjs from 'bcryptjs'
-import { TokenService } from "../token/token.service";
+import { TokenService } from "./token.service";
 import { Response } from "express";
 import * as session from 'express-session';
+import { UserRole } from "../types/role.type";
+import { User } from "@src/auth-modules/user/entity/user.entity";
 
 
 @Injectable()
@@ -22,11 +24,16 @@ export class AuthService {
         const passwordMatches = await bcryptjs.compare(dto.password,user.hashP);
         if (!passwordMatches) throw new ForbiddenException('access denied');
 
-        const refreshTokenExpiresIn = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000); 
+       
+        user.role = UserRole.user;
+        await this.userRepository.updateUser(user)
+     
+        const refreshTokenExpiresIn = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
+        const accessTokenExpiresIn = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); 
+ 
 
         const tokens = await this.tokenService.getTokens(user.id, user.email);
         await this.tokenService.saveToken(user.id, tokens.refresh_token,refreshTokenExpiresIn);
-
 
         res.cookie('refresh_token', tokens.refresh_token, {
             httpOnly: true,
@@ -36,7 +43,7 @@ export class AuthService {
         res.cookie('access_token', tokens.access_token, {
             httpOnly: true,
             secure: true,
-            expires: refreshTokenExpiresIn,
+            expires: accessTokenExpiresIn,
         });
 
         // res.req.session.user = {
@@ -57,9 +64,12 @@ export class AuthService {
         }
 
         user.hashedRt = null; 
+
+        user.role = UserRole.guest
   
         await this.userRepository.updateUser(user);
 
+        res.clearCookie('access_token');
         res.clearCookie('refresh_token');
         return true;
   

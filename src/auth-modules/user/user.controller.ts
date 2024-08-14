@@ -18,20 +18,17 @@ export class UserController {
     }
     
 
-    @PublicRoute()
     @Get(':id')
     async getUser(@Param('id') id: number): Promise<User> {
       const user = await this.userService.getUserById(id);
       return user;
     }
 
-    @PublicRoute()
     @Get()
     async GetAll(): Promise<User[]> {
       return await this.userService.GetAll();
     }
 
-    @PublicRoute()
     @Delete(':id')
     DeleteUser(@Param('id') userId : number) {
       return this.userService.deleteUser(userId)

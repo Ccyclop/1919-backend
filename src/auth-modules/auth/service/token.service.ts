@@ -1,12 +1,12 @@
 import { ForbiddenException, Injectable, Res, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { JwtPayload,JwtPayloadWithRt } from "./types";
+import { JwtPayload,JwtPayloadWithRt } from "../types";
 import * as bcryptjs  from 'bcryptjs';
-import { UserRepository } from "../user/user.repository";
-import { Token } from "./entities/token.entity";
-import { TokenRepository } from "./token.repository";
+import { UserRepository } from "../../user/user.repository";
+import { Token } from "../entity/token.entity";
+import { TokenRepository } from "../repository/token.repository";
 import { Response } from "express";
-import { UserRole } from "./types/role.type";
+import { UserRole } from "../types/role.type";
 
 @Injectable()
 export class TokenService {
@@ -31,7 +31,6 @@ export class TokenService {
         const isExpired = tokenEntity.expirationDate < new Date();
         if (isExpired) {
             throw new ForbiddenException('token has expired!');
-            
         }
 
         // const accessTokenExpiresIn = new Date(Date.now() + 15 * 60 * 1000); 
@@ -111,7 +110,7 @@ export class TokenService {
         };
     
         const [at, rt] = await Promise.all([
-          this.jwtService.signAsync(jwtPayload, { expiresIn: '15m' }),
+          this.jwtService.signAsync(jwtPayload, { expiresIn: '1w' }),
           this.jwtService.signAsync(JwtPayloadWithRt, { expiresIn: '2w' }),
         ]);
 

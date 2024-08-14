@@ -3,19 +3,18 @@ import { ForbiddenException } from '@nestjs/common';
 import * as bcryptjs from 'bcryptjs';
 import { UserService } from './user.service';
 import { UserRepository } from './user.repository';
-import { TokenService } from '../token/token.service';
+import { TokenService } from '../auth/service/token.service';
 import { CreateDto } from './dto';
 import { User } from './entity/user.entity';
 import { Response } from 'express';
-import { TokenRepository } from '../token/token.repository';
-import { Token } from '../token/entities/token.entity';
+import { TokenRepository } from '../auth/repository/token.repository';
+import { Token } from '../auth/entity/token.entity';
 
 describe('UserService', () => {
     let service: UserService;
     let fakeUserRepository: Partial<UserRepository>;
     let fakeTokenService: Partial<TokenService>;
     let fakeTokenRepository: Partial<TokenRepository>;
-
     beforeEach(async () => {
         const users: User[] = [];
         const tokens: Token[] = [];
@@ -24,6 +23,7 @@ describe('UserService', () => {
               const filteredUsers = users.filter(user => user.email === email);
               return Promise.resolve(filteredUsers[0]);
           }),
+          findByEmail1: jest.fn().mockResolvedValue(users[0])
           createUser: jest.fn((dto: CreateDto) => {
               const user = {
                   id: Math.floor(Math.random() * 999999),

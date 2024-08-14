@@ -3,24 +3,19 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entity/user.entity';
-import { Token } from '../token/entities/token.entity';
-import { EmailService } from '../reset-token/email.service';
+import { Token } from '../auth/entity/token.entity';
+import { EmailService } from '../auth/service/email.service';
 import { UserRepository } from './user.repository';
-import { TokenModule } from '../token/token.module';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { ResetToken } from '../reset-token/entities/reset-token.entity';
-import { RsTokenModule } from '../reset-token/RsToken.module';
+import { ResetToken } from '../auth/entity/reset-token.entity';
 import { AuthModule } from '../auth/auth.module';
-import { TokenRepository } from '../token/token.repository';
-import { TokenService } from '../token/token.service';
+import { TokenRepository } from '../auth/repository/token.repository';
+import { TokenService } from '../auth/service/token.service';
 
 @Module({
 
   imports: [
     TypeOrmModule.forFeature([User,Token,ResetToken]),
-    
-    forwardRef(() => TokenModule),
-    forwardRef(() => RsTokenModule),
     forwardRef(() => AuthModule),
 
   ],

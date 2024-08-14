@@ -4,19 +4,19 @@ import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import config from './auth-modules/common/config/config';
 import { UserModule } from './auth-modules/user/user.module';
-import { AtStrategy, RtStrategy } from './auth-modules/common/strategies';
+import { AtStrategy, RtStrategy } from './auth-modules/auth/strategies';
 import { APP_GUARD, Reflector } from '@nestjs/core';
 import { CookieParserMiddleware } from '@nest-middlewares/cookie-parser';
-import { AdminGuard } from './auth-modules/common/guards/admin.guard';
+import { RolesGuard } from './auth-modules/auth/guards/role.guard';
 import { PassportModule } from '@nestjs/passport';
-import { TokenModule } from './auth-modules/token/token.module';
-import { RsTokenModule } from './auth-modules/reset-token/RsToken.module';
 import { AuthModule } from './auth-modules/auth/auth.module';
 import { PlaylistMoulde } from './modules/playlist/playlist.module';
 import { AlbumModule } from './modules/album/album.module';
 import { MusicsModule } from './modules/musics/musics.module';
 import { AuthorsModule } from './modules/authors/authors.module';
 import { SearchModule } from './modules/search/search.module';
+import { UserGuard } from './auth-modules/auth/guards/user.guard';
+import { AtGuard } from './auth-modules/auth/guards';
 
 @Module({
   imports: [
@@ -42,11 +42,9 @@ import { SearchModule } from './modules/search/search.module';
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_DATABASE,
       autoLoadEntities: true,
-      synchronize: false,
+      synchronize: true,
     }),
     UserModule,
-    TokenModule,
-    RsTokenModule,
     AuthModule,
     PlaylistMoulde,
     AlbumModule,
@@ -57,8 +55,17 @@ import { SearchModule } from './modules/search/search.module';
   providers: [
     {
       provide: APP_GUARD,
-      useClass: AdminGuard,
+      useClass: AtGuard 
     },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: UserGuard,
+    },
+
     Reflector,
     AtStrategy,
     RtStrategy,

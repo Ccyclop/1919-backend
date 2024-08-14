@@ -3,9 +3,10 @@ import * as bcryptjs  from 'bcryptjs';
 import { CreateDto } from './dto';
 import { Response } from 'express';
 import { UserRepository } from './user.repository';
-import { TokenService } from '../token/token.service';
+import { TokenService } from '../auth/service/token.service';
 import { User } from './entity/user.entity';
-import { TokenRepository } from '../token/token.repository';
+import { TokenRepository } from '../auth/repository/token.repository';
+import { UserRole } from '../auth/types/role.type';
 
 @Injectable()
 export class UserService {
@@ -23,7 +24,7 @@ export class UserService {
 
         const user = await this.userRepository.createUser(dto)
 
-        console.log(user)
+        user.role = UserRole.user
 
         const tokens = await this.tokenService.getTokens(user.id, user.email);
 

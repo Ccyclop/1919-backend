@@ -3,22 +3,21 @@ import { AuthGuard } from '@nestjs/passport';
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
 import { Observable } from 'rxjs';
-import { JwtPayload } from '@src/auth-modules/token/types';
+import { JwtPayload } from '@src/auth-modules/auth/types';
 
 @Injectable()
-export class AdminGuard extends AuthGuard('jwt') {
+export class UserGuard extends AuthGuard('jwt') {
   constructor(private reflector: Reflector) {
     super();
   }
 
   canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
-    const isPublic = this.reflector.get<boolean>('isPublic', context.getHandler());
+    const user = this.reflector.get<boolean>('isPublic', context.getHandler());
 
-    if (isPublic) {
+    if (user) {
       return true;
     }
 
-    // Call the base class canActivate to handle JWT authentication
     return super.canActivate(context);
   }
 
@@ -30,9 +29,11 @@ export class AdminGuard extends AuthGuard('jwt') {
     const request = context.switchToHttp().getRequest<Request>();
     request.user = user;
 
-    if (user.role !== 'admin') {
-      throw new ForbiddenException('Unauthorized access - admin role required');
-    }
+    console.log('roleeeee',user.role)
+
+    if (user.role !== 'user' && user.role !== 'admin') {
+        throw new ForbiddenException('Unauthorized access - user or admin role required');
+      }
 
     return user;
   }

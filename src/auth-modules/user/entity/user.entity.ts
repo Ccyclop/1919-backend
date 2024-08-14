@@ -7,9 +7,9 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
   } from 'typeorm';
-  import { Token } from '../../token/entities/token.entity';
-  import { ResetToken } from '../../reset-token/entities/reset-token.entity';
-  import { UserRole } from '../../token/types/role.type';
+  import { Token } from '../../auth/entity/token.entity';
+  import { ResetToken } from '../../auth/entity/reset-token.entity';
+  import { UserRole } from '../../auth/types/role.type';
 import { playlistEntity } from '../../../modules/playlist/entities/playlist.entity';
   
 
@@ -31,7 +31,7 @@ export class User {
     @Column({
         type: 'enum',
         enum: UserRole,
-        default: UserRole.user
+        default: UserRole.guest
     })
     role: UserRole
 
