@@ -2,21 +2,21 @@ import { Module, forwardRef } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { MailerModule } from "@nestjs-modules/mailer";
-import { AuthService } from "./service/auth.service";
-import { AuthController } from "./controller/auth.controller";
-import { AuthRepository } from "./repository/auth.repository";
-import { TokenService } from "./service/token.service";
-import { EmailService } from "./service/email.service";
+import { AuthService } from "./services/auth.service";
+import { AuthController } from "./controllers/auth.controller";
+import { AuthRepository } from "./repositories/auth.repository";
+import { TokenService } from "./services/token.service";
+import { EmailService } from "./services/email.service";
 import { User } from "../user/entity/user.entity";
 import { Token } from "./entity/token.entity";
 import { ResetToken } from "./entity/reset-token.entity";
 import { UserModule } from "../user/user.module";
 import { UserRepository } from "../user/user.repository";
-import { TokenRepository } from "./repository/token.repository";
-import { RsTokenService } from "./service/RsToken.service";
-import { RsTokenRepository } from "./repository/RsToken.repository";
-import { TokenController } from "./controller/token.controller";
-import { RsTokenController } from "./controller/rstoken.controller";
+import { TokenRepository } from "./repositories/token.repository";
+import { RsTokenService } from "./services/RsToken.service";
+import { RsTokenRepository } from "./repositories/RsToken.repository";
+import { TokenController } from "./controllers/token.controller";
+import { RsTokenController } from "./controllers/rstoken.controller";
 
 @Module({
     imports: [

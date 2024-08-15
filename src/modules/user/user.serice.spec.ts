@@ -3,11 +3,11 @@ import { ForbiddenException } from '@nestjs/common';
 import * as bcryptjs from 'bcryptjs';
 import { UserService } from './user.service';
 import { UserRepository } from './user.repository';
-import { TokenService } from '../auth/service/token.service';
+import { TokenService } from '../auth/services/token.service';
 import { CreateDto } from './dto';
 import { User } from './entity/user.entity';
 import { Response } from 'express';
-import { TokenRepository } from '../auth/repository/token.repository';
+import { TokenRepository } from '../auth/repositories/token.repository';
 import { Token } from '../auth/entity/token.entity';
 
 describe('UserService', () => {

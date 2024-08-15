@@ -2,7 +2,7 @@ import { ForbiddenException, Injectable, UnauthorizedException } from "@nestjs/c
 import { UserRepository } from "../../user/user.repository";
 import * as bcryptjs  from 'bcryptjs';
 import { resetPDto } from "../dto/reset-password.dto";
-import { RsTokenRepository } from "../repository/RsToken.repository";
+import { RsTokenRepository } from "../repositories/RsToken.repository";
 import { v4 } from "uuid";
 import { ResetToken } from "../entity/reset-token.entity";
 import { EmailService } from "./email.service";

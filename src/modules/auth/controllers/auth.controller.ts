@@ -1,5 +1,5 @@
 import { Body, Controller, Post, Put, Req, Res, UseGuards } from "@nestjs/common";
-import { AuthService } from "../service/auth.service";
+import { AuthService } from "../services/auth.service";
 import { PublicRoute } from "../decorators/admin.decorator";
 import { AuthDto,ChangePDto } from "../../user/dto";
 import { GetCurrentUserId } from "../decorators";

@@ -3,9 +3,9 @@ import * as bcryptjs  from 'bcryptjs';
 import { CreateDto } from './dto';
 import { Response } from 'express';
 import { UserRepository } from './user.repository';
-import { TokenService } from '../auth/service/token.service';
+import { TokenService } from '../auth/services/token.service';
 import { User } from './entity/user.entity';
-import { TokenRepository } from '../auth/repository/token.repository';
+import { TokenRepository } from '../auth/repositories/token.repository';
 import { UserRole } from '../auth/types/role.type';
 
 @Injectable()

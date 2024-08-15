@@ -1,5 +1,5 @@
 import { Body, Controller, Param, Post, Put, UseGuards } from "@nestjs/common";
-import { RsTokenService } from "../service/RsToken.service";
+import { RsTokenService } from "../services/RsToken.service";
 import { PublicRoute } from "../decorators/admin.decorator";
 import { GetCurrentUser } from "../decorators";
 import { JwtPayloadWithRt } from "../types";

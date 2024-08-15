@@ -4,13 +4,13 @@ import { UserService } from './user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entity/user.entity';
 import { Token } from '../auth/entity/token.entity';
-import { EmailService } from '../auth/service/email.service';
+import { EmailService } from '../auth/services/email.service';
 import { UserRepository } from './user.repository';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ResetToken } from '../auth/entity/reset-token.entity';
 import { AuthModule } from '../auth/auth.module';
-import { TokenRepository } from '../auth/repository/token.repository';
-import { TokenService } from '../auth/service/token.service';
+import { TokenRepository } from '../auth/repositories/token.repository';
+import { TokenService } from '../auth/services/token.service';
 
 @Module({
 

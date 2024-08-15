@@ -4,7 +4,7 @@ import { JwtPayload,JwtPayloadWithRt } from "../types";
 import * as bcryptjs  from 'bcryptjs';
 import { UserRepository } from "../../user/user.repository";
 import { Token } from "../entity/token.entity";
-import { TokenRepository } from "../repository/token.repository";
+import { TokenRepository } from "../repositories/token.repository";
 import { Response } from "express";
 import { UserRole } from "../types/role.type";
 

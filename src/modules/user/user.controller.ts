@@ -16,7 +16,6 @@ export class UserController {
     signUp(@CustomBody() dto:CreateDto, @Res({ passthrough: true }) res: Response) {
       return this.userService.signupLocal(dto,res) 
     }
-    
 
     @Get(':id')
     async getUser(@Param('id') id: number): Promise<User> {
