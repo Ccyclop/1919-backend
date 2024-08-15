@@ -3,7 +3,10 @@ import { AuthGuard } from '@nestjs/passport';
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
 import { Observable } from 'rxjs';
-import { JwtPayload } from '@src/auth-modules/auth/types';
+import { JwtPayload } from '@src/modules/auth/types';
+import { RequestInterface } from '../interfaces/request.interface';
+
+
 
 @Injectable()
 export class UserGuard extends AuthGuard('jwt') {
@@ -26,7 +29,7 @@ export class UserGuard extends AuthGuard('jwt') {
       throw err || new UnauthorizedException('Unauthorized!!!');
     }
 
-    const request = context.switchToHttp().getRequest<Request>();
+    const request = context.switchToHttp().getRequest<RequestInterface>();
     request.user = user;
 
     console.log('roleeeee',user.role)

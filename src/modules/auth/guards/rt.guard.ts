@@ -1,6 +1,6 @@
 import { Injectable, ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { Request } from 'express';
+import { RequestInterface } from '../interfaces/request.interface';
 
 @Injectable()
 export class RtGuard extends AuthGuard('jwt-refresh') {
@@ -16,7 +16,7 @@ export class RtGuard extends AuthGuard('jwt-refresh') {
       throw err || new UnauthorizedException('error!!!');
     }
     
-    const request = context.switchToHttp().getRequest<Request>();
+    const request = context.switchToHttp().getRequest<RequestInterface>();
     request.user = user;
     return user;
   }

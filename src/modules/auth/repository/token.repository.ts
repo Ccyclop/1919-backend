@@ -10,7 +10,6 @@ export class TokenRepository {
         private readonly tokenRepository: Repository<Token>
     ) {}
 
-
     async findOneByUserAndToken(userId: number, token: string): Promise<Token | undefined> {
         return this.tokenRepository.createQueryBuilder('token')
           .innerJoinAndSelect('token.user', 'user')

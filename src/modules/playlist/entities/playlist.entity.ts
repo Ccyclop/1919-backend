@@ -1,5 +1,5 @@
 import { MusicEntity } from "src/modules/musics/entities/music.entity";
-import { User } from "@src/auth-modules/user/entity/user.entity";
+import { User } from "@src/modules/user/entity/user.entity";
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()

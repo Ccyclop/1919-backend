@@ -10,7 +10,7 @@ import {
   import { Token } from '../../auth/entity/token.entity';
   import { ResetToken } from '../../auth/entity/reset-token.entity';
   import { UserRole } from '../../auth/types/role.type';
-import { playlistEntity } from '../../../modules/playlist/entities/playlist.entity';
+import { playlistEntity } from '../../playlist/entities/playlist.entity';
   
 
 

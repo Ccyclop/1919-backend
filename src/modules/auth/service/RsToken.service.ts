@@ -33,7 +33,6 @@ export class RsTokenService {
           rsTokenEntity.token = resetToken;
           rsTokenEntity.expirationDate = expirationDate;
           await this.rsTokenRepository.saveRsToken(rsTokenEntity);
-
         } 
         else {
           rsTokenEntity = new ResetToken(); 

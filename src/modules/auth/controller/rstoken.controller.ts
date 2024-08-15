@@ -1,31 +1,31 @@
 import { Body, Controller, Param, Post, Put, UseGuards } from "@nestjs/common";
 import { RsTokenService } from "../service/RsToken.service";
-import { PublicRoute } from "../../common/decorators/admin.decorator";
-import { GetCurrentUser } from "../../common/decorators";
+import { PublicRoute } from "../decorators/admin.decorator";
+import { GetCurrentUser } from "../decorators";
 import { JwtPayloadWithRt } from "../types";
 import { resetPDto } from "../dto/reset-password.dto";
 import { RtGuard } from "../guards";
 import { forgotPDto } from "../dto/forgotPassword.dto";
-import { CustomBody } from "../../common/decorators/body.decorator";
-import { Roles } from "@src/auth-modules/common/decorators/role.decorator";
+import { CustomBody } from "../decorators/body.decorator";
+import { Roles } from "@src/modules/auth/decorators/role.decorator";
 
 @Controller('resetToken')
 export class RsTokenController {
     constructor(private rsTokenService: RsTokenService) {}
 
     
-    @Roles('user', 'admin')
+    @Roles('user')
     @Post('forgot-password')
-    forgotPasswrod(@CustomBody() dto:forgotPDto){
-      return this.rsTokenService.forgotPassword(dto.email)
+    async forgotPasswrod(@CustomBody() dto:forgotPDto){
+      return await this.rsTokenService.forgotPassword(dto.email)
     }
 
     // @UseGuards(RtGuard)
-    @Roles('user','admin')
+    @Roles('user')
     @Put('reset-password/:resettoken')
-    resetPassword( @CustomBody() dto:resetPDto, @Param('resettoken') RsToken:string){
+    async resetPassword( @CustomBody() dto:resetPDto, @Param('resettoken') RsToken:string){
         console.log(RsToken)
-        return this.rsTokenService.resetPassword( RsToken,dto)
+        return await this.rsTokenService.resetPassword( RsToken,dto)
     }
 
 

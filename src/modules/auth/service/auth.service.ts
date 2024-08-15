@@ -6,7 +6,6 @@ import { TokenService } from "./token.service";
 import { Response } from "express";
 import * as session from 'express-session';
 import { UserRole } from "../types/role.type";
-import { User } from "@src/auth-modules/user/entity/user.entity";
 
 
 @Injectable()
@@ -24,8 +23,12 @@ export class AuthService {
         const passwordMatches = await bcryptjs.compare(dto.password,user.hashP);
         if (!passwordMatches) throw new ForbiddenException('access denied');
 
-       
-        user.role = UserRole.user;
+        if(user.role ==='guest'){
+          user.role = UserRole.user;
+        } 
+
+
+        
         await this.userRepository.updateUser(user)
      
         const refreshTokenExpiresIn = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
@@ -54,7 +57,6 @@ export class AuthService {
 
         return { access_token: tokens.access_token, role: user.role };
     }
-
         
       async logout(userId: number, res:Response): Promise<boolean> {
         const user = await this.userRepository.findById(userId);
@@ -66,13 +68,12 @@ export class AuthService {
         user.hashedRt = null; 
 
         user.role = UserRole.guest
-  
+
         await this.userRepository.updateUser(user);
 
         res.clearCookie('access_token');
         res.clearCookie('refresh_token');
         return true;
-  
         
       }
 

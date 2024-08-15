@@ -2,9 +2,9 @@ import { Body, Controller, Delete, Get, Injectable, Param, Post, Put, Res, UseGu
 import { UserService } from './user.service';
 import { CreateDto } from './dto';
 import { Response } from 'express';
-import { PublicRoute } from '../common/decorators/admin.decorator';
+import { PublicRoute } from '../auth/decorators/admin.decorator';
 import { User } from "./entity/user.entity";
-import { CustomBody } from '../common/decorators/body.decorator';
+import { CustomBody } from '../auth/decorators/body.decorator';
 
 
 @Controller('user')

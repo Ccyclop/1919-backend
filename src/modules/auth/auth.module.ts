@@ -16,7 +16,7 @@ import { TokenRepository } from "./repository/token.repository";
 import { RsTokenService } from "./service/RsToken.service";
 import { RsTokenRepository } from "./repository/RsToken.repository";
 import { TokenController } from "./controller/token.controller";
-import { RsTokenController } from "./controller/Rstoken.controller";
+import { RsTokenController } from "./controller/rstoken.controller";
 
 @Module({
     imports: [

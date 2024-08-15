@@ -3,8 +3,9 @@ import { AuthGuard } from '@nestjs/passport';
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
 import { Observable } from 'rxjs';
-import { JwtPayload } from '@src/auth-modules/auth/types';
-import { ROLES_KEY } from '@src/auth-modules/common/decorators/role.decorator';
+import { JwtPayload } from '@src/modules/auth/types';
+import { ROLES_KEY } from '@src/modules/auth/decorators/role.decorator';
+import { RequestInterface } from '../interfaces/request.interface';
 
 @Injectable()
 export class RolesGuard extends AuthGuard('jwt') {
@@ -29,7 +30,7 @@ export class RolesGuard extends AuthGuard('jwt') {
       return true;
     }
 
-    const request = context.switchToHttp().getRequest<Request>();
+    const request = context.switchToHttp().getRequest<RequestInterface>();
     console.log('Request User:', request.user); 
     const user = request.user;
     console.log('user',user)

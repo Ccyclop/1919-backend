@@ -3,6 +3,7 @@ import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
 import { Observable } from 'rxjs';
+import { RequestInterface } from '../interfaces/request.interface';
 
 @Injectable()
 export class AtGuard extends AuthGuard('jwt') {
@@ -29,7 +30,7 @@ export class AtGuard extends AuthGuard('jwt') {
       throw err || new UnauthorizedException('Unauthorized!!!');
     }
 
-    const request = context.switchToHttp().getRequest<Request>();
+    const request = context.switchToHttp().getRequest<RequestInterface>();
     request.user = user;
     return user;
   }
