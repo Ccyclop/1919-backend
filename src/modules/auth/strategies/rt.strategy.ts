@@ -16,8 +16,9 @@ export class RtStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
         }
         console.log('Refresh Token:', token); 
         return token;
+        
       },
-      secretOrKey: configService.get<string>('jwtRT.secret'),
+      secretOrKey: configService.get<string>('jwtSTR.secret'),
       passReqToCallback: true,
     });
   }

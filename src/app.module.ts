@@ -29,7 +29,7 @@ import { AtGuard } from './modules/auth/guards';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>('jwtAT.secret'),
+        secret: configService.get<string>('jwtSTR.secret'),
       }),
       global: true,
       inject: [ConfigService],
