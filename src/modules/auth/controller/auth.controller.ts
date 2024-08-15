@@ -14,7 +14,6 @@ export class AuthController {
         private readonly authService: AuthService,
     ) {}
 
-    // @Roles('admin')
     @PublicRoute()
     @Post('login')
     async login(@CustomBody() dto:AuthDto, @Res({ passthrough: true }) res: Response,@Req() req: Request) {

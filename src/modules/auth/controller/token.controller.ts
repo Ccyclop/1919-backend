@@ -16,7 +16,6 @@ export class TokenController {
     @UseGuards(RtGuard)
     @Post('refresh')
     async refreshTokens( @GetCurrentUser() user: JwtPayloadWithRt, @Res({ passthrough: true }) res: Response) {
-      // console.log('Current User:', user.sub); 
       return await this.tokenService.refreshTokens(user.sub, user.refreshToken,res);
     }
 
