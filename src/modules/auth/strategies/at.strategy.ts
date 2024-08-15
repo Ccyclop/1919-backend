@@ -17,7 +17,7 @@ export class AtStrategy extends PassportStrategy(Strategy, 'jwt') {
         console.log('access Token:', token); 
         return token;
       },
-      secretOrKey: configService.get<string>('jwtAT.secret'), 
+      secretOrKey: configService.get<string>('jwtSTR.secret'), 
       passReqToCallback: false,
       // configService.get<string>('jwtAT.secret')
     });

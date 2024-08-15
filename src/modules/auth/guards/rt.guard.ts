@@ -10,7 +10,6 @@ export class RtGuard extends AuthGuard('jwt-refresh') {
 
   handleRequest(err, user, info, context: ExecutionContext) {
     console.log('Guard Error:', err); 
-    console.log('Guard User:', user); 
 
     if (err || !user) {
       throw err || new UnauthorizedException('error!!!');
@@ -18,6 +17,8 @@ export class RtGuard extends AuthGuard('jwt-refresh') {
     
     const request = context.switchToHttp().getRequest<RequestInterface>();
     request.user = user;
+    console.log('Guard User:', user); 
+
     return user;
   }
 }

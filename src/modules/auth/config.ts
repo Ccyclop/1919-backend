@@ -3,12 +3,12 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 export default () => ({
-    jwtAT: {
-      secret: process.env.AT_SECRET || '',
+    jwtSTR: {
+      secret: process.env.STRATEGY_SECRET || '',
     },
-    jwtRT: {
-      secret: process.env.RT_SECRET || ''
-    },
+    // jwtRT: {
+    //   secret: process.env.RT_SECRET || ''
+    // },
     Email: {
       host: process.env.EMAIL_HOST || '',
     },
