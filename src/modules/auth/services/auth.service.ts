@@ -40,12 +40,12 @@ export class AuthService {
 
         res.cookie('refresh_token', tokens.refresh_token, {
             httpOnly: true,
-            secure: true,
+            secure: false,
             expires: refreshTokenExpiresIn,
         });
         res.cookie('access_token', tokens.access_token, {
             httpOnly: true,
-            secure: true,
+            secure: false,
             expires: accessTokenExpiresIn,
         });
 
