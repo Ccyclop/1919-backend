@@ -39,15 +39,15 @@ export class TokenService {
         const tokens = await this.getTokens(user.id, user.email);
         await this.saveToken(user.id, tokens.refresh_token,refreshTokenExpiresIn);
     
-        res.cookie('refresh_token', tokens.refresh_token, {
-          httpOnly: true,
-          secure: true,
-        });
+        // res.cookie('refresh_token', tokens.refresh_token, {
+        //   httpOnly: true,
+        //   secure: true,
+        // });
 
-        res.cookie('access_token', tokens.access_token, {
-          httpOnly: true,
-          secure: true,
-        });
+        // res.cookie('access_token', tokens.access_token, {
+        //   httpOnly: true,
+        //   secure: true,
+        // });
 
 
         return { access_token: tokens.access_token };    
