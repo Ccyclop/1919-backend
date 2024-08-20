@@ -26,8 +26,6 @@ export class AuthService {
         if(user.role ==='guest'){
           user.role = UserRole.user;
         } 
-
-
         
         await this.userRepository.updateUser(user)
      
@@ -64,6 +62,7 @@ export class AuthService {
         
       async logout(userId: number, res:Response): Promise<boolean> {
         const user = await this.userRepository.findById(userId);
+        console.log(userId)
 
         if (!user) {
           throw new Error(`user with id${userId} not found`);
@@ -75,8 +74,8 @@ export class AuthService {
 
         await this.userRepository.updateUser(user);
 
-        res.clearCookie('access_token');
-        res.clearCookie('refresh_token');
+        // res.clearCookie('access_token');
+        // res.clearCookie('refresh_token');
         return true;
         
       }
