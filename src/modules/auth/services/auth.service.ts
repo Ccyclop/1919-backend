@@ -41,6 +41,7 @@ export class AuthService {
         res.cookie('refresh_token', tokens.refresh_token, {
             expires: refreshTokenExpiresIn,
             secure: false,
+            domain:'tnndshn.ge',
             httpOnly: true,
             sameSite: 'lax'
         });
