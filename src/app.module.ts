@@ -17,6 +17,8 @@ import { AuthorsModule } from './modules/authors/authors.module';
 import { SearchModule } from './modules/search/search.module';
 import { UserGuard } from './modules/auth/guards/user.guard';
 import { AtGuard } from './modules/auth/guards';
+import { PhotoModule } from './modules/photo/photo.module';
+import { AudioModule } from './modules/audio/audio.module';
 
 @Module({
   imports: [
@@ -51,6 +53,8 @@ import { AtGuard } from './modules/auth/guards';
     MusicsModule,
     AuthorsModule,
     SearchModule,
+    PhotoModule,
+    AudioModule
   ],
   providers: [
     {

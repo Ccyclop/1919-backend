@@ -1,7 +1,9 @@
+import { Audio } from "@src/modules/audio/entity/audio.entity";
+import { Photo } from "@src/modules/photo/entity/photo.entity";
 import { Album } from "src/modules/album/entities/album.entity";
 import { Author } from "src/modules/authors/entities/author.entity";
 import { playlistEntity } from "src/modules/playlist/entities/playlist.entity";
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class MusicEntity {
@@ -35,5 +37,13 @@ export class MusicEntity {
 
     @ManyToMany(() => playlistEntity, (playlist) => playlist.musics)
     playlists: playlistEntity[];
+
+    @OneToOne(() => Photo)
+    @JoinColumn()
+    photo: Photo;
+
+    @OneToOne(() => Audio)
+    @JoinColumn()
+    audio: Audio;
 
 }
