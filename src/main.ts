@@ -12,8 +12,8 @@ async function bootstrap() {
   app.use(cookieParser());
 
   app.enableCors({
-    origin: true,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    origin: 'https://www.tnndshn.ge', 
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
 
