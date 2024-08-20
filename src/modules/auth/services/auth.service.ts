@@ -41,14 +41,12 @@ export class AuthService {
         res.cookie('refresh_token', tokens.refresh_token, {
             expires: refreshTokenExpiresIn,
             secure: true,
-            domain: 'localhost',
             httpOnly: true,
             sameSite: 'lax'
         });
         res.cookie('access_token', tokens.access_token, {
             expires: accessTokenExpiresIn,
             secure: true,
-            domain: 'localhost',
             httpOnly: true,
             sameSite: 'lax'
         });
