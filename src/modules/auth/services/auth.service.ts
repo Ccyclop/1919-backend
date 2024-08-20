@@ -40,9 +40,11 @@ export class AuthService {
 
         res.cookie('refresh_token', tokens.refresh_token, {
             expires: refreshTokenExpiresIn,
+            sameSite: 'none'
         });
         res.cookie('access_token', tokens.access_token, {
             expires: accessTokenExpiresIn,
+            sameSite: 'none'
         });
 
         // res.req.session.user = {
