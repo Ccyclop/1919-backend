@@ -40,13 +40,13 @@ export class AuthService {
 
         res.cookie('refresh_token', tokens.refresh_token, {
             expires: refreshTokenExpiresIn,
-            secure: true,
+            secure: false,
             httpOnly: true,
             sameSite: 'lax'
         });
         res.cookie('access_token', tokens.access_token, {
             expires: accessTokenExpiresIn,
-            secure: true,
+            secure: false,
             domain:'https://www.tnndshn.ge',
             httpOnly: true,
             sameSite: 'lax'
