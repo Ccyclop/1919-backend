@@ -38,20 +38,20 @@ export class AuthService {
         const tokens = await this.tokenService.getTokens(user.id, user.email);
         await this.tokenService.saveToken(user.id, tokens.refresh_token,refreshTokenExpiresIn);
 
-        res.cookie('refresh_token', tokens.refresh_token, {
-            expires: refreshTokenExpiresIn,
-            secure: false,
-            domain:'tnndshn.ge',
-            httpOnly: true,
-            sameSite: 'lax'
-        });
-        res.cookie('access_token', tokens.access_token, {
-            expires: accessTokenExpiresIn,
-            secure: false,
-            domain:'tnndshn.ge',
-            httpOnly: true,
-            sameSite: 'lax'
-        });
+        // res.cookie('refresh_token', tokens.refresh_token, {
+        //     expires: refreshTokenExpiresIn,
+        //     secure: false,
+        //     domain:'tnndshn.ge',
+        //     httpOnly: true,
+        //     sameSite: 'lax'
+        // });
+        // res.cookie('access_token', tokens.access_token, {
+        //     expires: accessTokenExpiresIn,
+        //     secure: false,
+        //     domain:'tnndshn.ge',
+        //     httpOnly: true,
+        //     sameSite: 'lax'
+        // });
 
         // res.req.session.user = {
         //   id: user.id,
@@ -59,7 +59,7 @@ export class AuthService {
         //   role: user.role,
         // };
 
-        return { access_token: tokens.access_token, role: user.role };
+        return { access_token: tokens.access_token, reftesh_token:tokens.refresh_token, role: user.role };
     }
         
       async logout(userId: number, res:Response): Promise<boolean> {
