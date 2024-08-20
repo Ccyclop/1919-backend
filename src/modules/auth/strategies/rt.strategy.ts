@@ -1,6 +1,6 @@
 import { Injectable, ForbiddenException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { Strategy } from 'passport-jwt';
+import { Strategy, ExtractJwt } from 'passport-jwt';
 import { Request } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { JwtPayloadWithRt } from '@src/modules/auth/types';
@@ -9,26 +9,20 @@ import { JwtPayloadWithRt } from '@src/modules/auth/types';
 export class RtStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
   constructor(private configService: ConfigService) {
     super({
-      jwtFromRequest: (req: Request) => {
-        let token = null;
-        if (req && req.cookies) {
-          token = req.cookies['refresh_token']; 
-        }
-        console.log('Refresh Token:', token); 
-        return token;
-        
-      },
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: configService.get<string>('jwtSTR.secret'),
       passReqToCallback: true,
     });
   }
 
   async validate(req: Request, payload: JwtPayloadWithRt): Promise<JwtPayloadWithRt> {
-    console.log('In validate method:', payload); 
-    const refreshToken = req.cookies['refresh_token'];
+    console.log('In validate method:', payload);
+
+    const refreshToken = ExtractJwt.fromAuthHeaderAsBearerToken()(req);
     if (!refreshToken) {
-      throw new ForbiddenException('Refresh token not found in cookie');
+      throw new ForbiddenException('Refresh token not found in Authorization header');
     }
+
     return {
       ...payload,
       refreshToken,
