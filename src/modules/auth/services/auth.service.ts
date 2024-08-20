@@ -43,14 +43,14 @@ export class AuthService {
             secure: true,
             domain: 'localhost',
             httpOnly: true,
-            sameSite: 'none'
+            sameSite: 'lax'
         });
         res.cookie('access_token', tokens.access_token, {
             expires: accessTokenExpiresIn,
             secure: true,
             domain: 'localhost',
             httpOnly: true,
-            sameSite: 'none'
+            sameSite: 'lax'
         });
 
         // res.req.session.user = {
