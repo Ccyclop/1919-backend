@@ -16,11 +16,12 @@ export class AuthController {
 
     @PublicRoute()
     @Post('login')
-    async login(@CustomBody() dto:AuthDto, @Res({ passthrough: true }) res: Response,@Req() req: Request) {
-        return await this.authService.signinLocal(dto,res)
+    async login(@CustomBody() dto:AuthDto) {
+        return await this.authService.signinLocal(dto)
     }
+    
 
-    @Post('logout')  
+    @Put('logout')  
     async logout(@GetCurrentUserId() userId: number, @Res({ passthrough: true }) res: Response): Promise<boolean> {
       console.log('userID',userId)
       return await this.authService.logout(userId,res);

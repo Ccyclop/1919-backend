@@ -45,7 +45,7 @@ export class UserService {
         //   expires: refreshTokenExpiresIn,
 
         // });
-        return { access_token: tokens.access_token };
+        return { access_token: tokens.access_token,refresh_token: tokens.refresh_token };
     }
 
       GetAll() {
