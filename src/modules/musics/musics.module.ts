@@ -7,9 +7,8 @@ import { MusicEntity } from './entities/music.entity';
 import { Author } from '../authors/entities/author.entity';
 import { UserModule } from '@src/modules/user/user.module';
 import { PlaylistMoulde } from '../playlist/playlist.module';
-import { AudioRepository } from '../audio/audio.repository';
-import { S3Repository } from '../media/S3.repository';
-import { S3Entity } from '../media/entity/S3.entity';
+import { S3Repository } from '../S3/S3.repository';
+import { S3Entity } from '../S3/entity/S3.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([MusicEntity, Author,S3Entity]),

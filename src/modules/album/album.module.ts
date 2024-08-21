@@ -7,8 +7,8 @@ import { AlbumRepository } from "./album.repository";
 import { AuthorsModule } from "../authors/authors.module";
 import { MusicsModule } from "../musics/musics.module";
 import { MusicEntity } from "../musics/entities/music.entity";
-import { S3Repository } from "../media/S3.repository";
-import { S3Entity } from "../media/entity/S3.entity";
+import { S3Repository } from "../S3/S3.repository";
+import { S3Entity } from "../S3/entity/S3.entity";
 
 @Module({
   imports: [

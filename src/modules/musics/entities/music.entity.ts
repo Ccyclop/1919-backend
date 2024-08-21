@@ -1,5 +1,4 @@
-import { Audio } from "@src/modules/audio/entity/audio.entity";
-import { S3Entity } from "@src/modules/media/entity/S3.entity";
+import { S3Entity } from "@src/modules/S3/entity/S3.entity";
 import { Album } from "src/modules/album/entities/album.entity";
 import { Author } from "src/modules/authors/entities/author.entity";
 import { playlistEntity } from "src/modules/playlist/entities/playlist.entity";

@@ -2,7 +2,7 @@ import { EntityRepository, Repository } from 'typeorm';
 import { S3History } from './entity/S3-history.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { S3Entity } from '../media/entity/S3.entity';
+import { S3Entity } from '../S3/entity/S3.entity';
 
 @Injectable()
 export class S3HistoryRepository {

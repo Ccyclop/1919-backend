@@ -9,7 +9,7 @@ import { AlbumRepository } from './album.repository';
 import { MusicsRepository } from '../musics/musics.repository.js';
 import { CreateMusicDto } from '../musics/dto/create-music.dto.js';
 import { Author } from '../authors/entities/author.entity.js';
-import { S3Repository } from '../media/S3.repository';
+import { S3Repository } from '../S3/S3.repository';
 
 @Injectable()
 export class AlbumService {

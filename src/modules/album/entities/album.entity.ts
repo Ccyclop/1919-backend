@@ -16,8 +16,7 @@ OneToOne,
 
 import { Author } from 'src/modules/authors/entities/author.entity';
 import { MusicEntity } from 'src/modules/musics/entities/music.entity';
-import { Audio } from '@src/modules/audio/entity/audio.entity';
-import { S3Entity } from '@src/modules/media/entity/S3.entity';
+import { S3Entity } from '@src/modules/S3/entity/S3.entity';
   
 @Entity()
 export class Album {
