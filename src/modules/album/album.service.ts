@@ -9,6 +9,7 @@ import { AlbumRepository } from './album.repository';
 import { MusicsRepository } from '../musics/musics.repository.js';
 import { CreateMusicDto } from '../musics/dto/create-music.dto.js';
 import { Author } from '../authors/entities/author.entity.js';
+import { S3Repository } from '../media/S3.repository';
 
 @Injectable()
 export class AlbumService {
@@ -16,10 +17,11 @@ export class AlbumService {
     private readonly albumRepository: AlbumRepository,
     private readonly authorRepository:AuthorRepository,
     private readonly musicRepository: MusicsRepository,
+    private readonly S3Repository : S3Repository
     ){}
 
     async createAlbum(createAlbumDto: CreateAlbumDto): Promise<Album> {
-      const { title, authorId, musics,musicIds } = createAlbumDto;
+      const { title, authorId, musics,musicIds,photoId } = createAlbumDto;
   
       const author = await this.authorRepository.findOne(authorId);
       if (!author) {
@@ -36,7 +38,15 @@ export class AlbumService {
       album.releaseDate = new Date();
       album.author = author;
       album.authorId = authorId
-      album.musics = realMusics
+      album.musics = realMusics 
+
+      if (photoId) {
+        const photo = await this.S3Repository.findOne(photoId);
+        if (!photo) {
+          throw new NotFoundException(`Photo with id ${photoId} not found`);
+        }
+        album.photo = photo; 
+      }
   
       return await this.saveAlbumWithMusics(album, musics, author);
     }
@@ -55,7 +65,7 @@ export class AlbumService {
     }
  
     async updateAlbum(id:number,updateAlbumDto: UpdateAlbumDto): Promise<Album> {
-      const {  title, musicIds, authortId } = updateAlbumDto;
+      const {  title, musicIds, authortId,photoId } = updateAlbumDto;
 
       const album = await this.albumRepository.findAlbumWithArtistAndMusics(id)
 
@@ -86,6 +96,14 @@ export class AlbumService {
           
           album.musics = musics;
       }
+      if (photoId) {
+        const photo = await this.S3Repository.findOne(photoId);
+        if (!photo) {
+          throw new NotFoundException(`Photo with id ${photoId} not found`);
+        }
+        album.photo = photo; 
+      }
+  
 
       return await this.albumRepository.saveAlbum(album);
     }
@@ -110,15 +128,15 @@ export class AlbumService {
       if (!album) {
         throw new NotFoundException(`Album with id ${albumId} not found`);
       }
-
+    
       if (album.musics) {
         for (const music of album.musics) {
           music.deletedAt = new Date();
-          await this.musicRepository.create(music);
+          await this.musicRepository.save(music); 
         }
       }
     
-      await this.albumRepository.softDeleteAlbum(albumId);
+      await this.albumRepository.softDeleteAlbum(albumId); 
     }
 
 }

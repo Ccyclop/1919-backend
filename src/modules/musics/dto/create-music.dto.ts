@@ -1,4 +1,4 @@
-import { IsNumber, IsString, MaxLength } from "class-validator";
+import { IsNumber, IsOptional, IsString, MaxLength } from "class-validator";
 
 export class CreateMusicDto {
 
@@ -10,5 +10,12 @@ export class CreateMusicDto {
     authorId: number;
 
     @IsNumber()
-    duration: number
+    duration: number;
+
+    @IsOptional()
+    @IsNumber()
+    photoId: number;
+
+    @IsNumber()
+    audioId: number;
 }

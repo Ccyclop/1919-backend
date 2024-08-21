@@ -12,4 +12,7 @@ export class UpdateAlbumDto {
 
     @IsNumber()
     authortId?: number;
+
+    @IsNumber()
+    photoId:number
 }

@@ -22,9 +22,13 @@ export class UserService {
 
         if(checkEmail) throw new ForbiddenException('email is already used')
 
-        const user = await this.userRepository.createUser(dto)
+        const user = {
+          ...dto,
+          role: UserRole.user,
+        };
 
-        user.role = UserRole.user
+        const createUser = await this.userRepository.createUser(user)
+
 
         const tokens = await this.tokenService.getTokens(user.id, user.email);
 

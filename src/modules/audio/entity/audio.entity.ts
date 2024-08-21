@@ -20,11 +20,11 @@ export class Audio {
   @DeleteDateColumn({ type: 'timestamp' })
   deletedAt?: Date;
 
-  @OneToOne(() => MusicEntity, music => music.audio)
-  music: MusicEntity;
+//   @OneToOne(() => MusicEntity, music => music.audio)
+//   music: MusicEntity;
 
-  @OneToOne(() => Album, music => music.audio)
+//   @OneToOne(() => Album, music => music.audio)
   
-  album: Album;
+//   album: Album;
 
 }

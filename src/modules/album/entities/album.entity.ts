@@ -16,8 +16,8 @@ OneToOne,
 
 import { Author } from 'src/modules/authors/entities/author.entity';
 import { MusicEntity } from 'src/modules/musics/entities/music.entity';
-import { Photo } from '@src/modules/photo/entity/photo.entity';
 import { Audio } from '@src/modules/audio/entity/audio.entity';
+import { S3Entity } from '@src/modules/media/entity/S3.entity';
   
 @Entity()
 export class Album {
@@ -45,11 +45,7 @@ export class Album {
   @OneToMany(() => MusicEntity, (music) => music.album, { cascade: true })
   musics: MusicEntity[];
 
-  @OneToOne(() => Photo,photo => photo.album)
-  @JoinColumn()
-  photo:Photo
-
-  @OneToOne(() => Audio,Audio => Audio.album)
-  @JoinColumn()
-  audio: Audio
+  @ManyToOne(() => S3Entity, )
+  @JoinColumn({ name: 'photoId' })
+  photo?: S3Entity;
 }

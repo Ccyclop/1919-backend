@@ -3,12 +3,13 @@ import { AlbumService } from './album.service';
 import { CreateAlbumDto } from '../album/dtos/create-album.dto.ts';
 import { Album } from '../album/entities/album.entity';
 import { UpdateAlbumDto } from '../album/dtos/update-album.dto';
+import { PublicRoute } from '../auth/decorators/admin.decorator';
 
 @Controller('album')
 export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
 
-  
+  @PublicRoute()
   @Post()
   async createAlbum(@Body() createAlbumDto: CreateAlbumDto) {
     return await this.albumService.createAlbum(createAlbumDto);

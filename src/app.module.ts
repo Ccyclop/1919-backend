@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import config from './modules/auth/config';
 import { UserModule } from './modules/user/user.module';
 import { AtStrategy, RtStrategy } from './modules/auth/strategies';
-import { APP_GUARD, Reflector } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR, Reflector } from '@nestjs/core';
 import { CookieParserMiddleware } from '@nest-middlewares/cookie-parser';
 import { RolesGuard } from './modules/auth/guards/role.guard';
 import { PassportModule } from '@nestjs/passport';
@@ -17,8 +17,11 @@ import { AuthorsModule } from './modules/authors/authors.module';
 import { SearchModule } from './modules/search/search.module';
 import { UserGuard } from './modules/auth/guards/user.guard';
 import { AtGuard } from './modules/auth/guards';
-import { PhotoModule } from './modules/photo/photo.module';
+import {  S3Module,  } from './modules/media/S3.module';
 import { AudioModule } from './modules/audio/audio.module';
+import { RequestHistoryModule } from './modules/request-history/history.module';
+import { LoggingInterceptor } from './modules/interceptors/history.interseptors';
+import {  S3History } from './modules/media-history/entity/S3-history.entity';
 
 @Module({
   imports: [
@@ -53,8 +56,9 @@ import { AudioModule } from './modules/audio/audio.module';
     MusicsModule,
     AuthorsModule,
     SearchModule,
-    PhotoModule,
-    AudioModule
+    S3Module,
+    RequestHistoryModule,
+    S3History
   ],
   providers: [
     {
@@ -69,6 +73,10 @@ import { AudioModule } from './modules/audio/audio.module';
       provide: APP_GUARD,
       useClass: UserGuard,
     },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
+    },
 
     Reflector,
     AtStrategy,
@@ -79,4 +87,5 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(CookieParserMiddleware).forRoutes('*');
   }
+  
 }

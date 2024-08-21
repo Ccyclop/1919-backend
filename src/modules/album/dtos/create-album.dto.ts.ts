@@ -22,4 +22,8 @@ export class CreateAlbumDto {
 
   @IsNumber()
   authorId: number;
+
+  @IsOptional()
+  @IsNumber()
+  photoId:number
 }

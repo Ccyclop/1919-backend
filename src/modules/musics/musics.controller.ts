@@ -2,11 +2,13 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { MusicsService } from './musics.service';
 import { CreateMusicDto } from './dto/create-music.dto';
 import { UpdateMusicDto } from './dto/update-music.dto';
+import { PublicRoute } from '../auth/decorators/admin.decorator';
 
 @Controller('music')
 export class MusicsController {
   constructor(private readonly musicsService: MusicsService) {}
 
+  @PublicRoute()
   @Post()
   async create(@Body() createMusicDto: CreateMusicDto) {
     return await this.musicsService.create(createMusicDto);
