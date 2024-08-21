@@ -20,7 +20,7 @@ import { AtGuard } from './modules/auth/guards';
 import {  S3Module,  } from './modules/S3/S3.module';
 import { RequestHistoryModule } from './modules/request-history/history.module';
 import { LoggingInterceptor } from './modules/interceptors/history.interseptors';
-import {  S3History } from './modules/media-history/entity/S3-history.entity';
+import {  S3History } from './modules/S3-history/entity/S3-history.entity';
 
 @Module({
   imports: [

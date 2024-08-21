@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { S3Repository } from './S3.repository';
 import { S3Entity } from './entity/S3.entity';
-import { S3HistoryService } from '../media-history/S3-history.service';
+import { S3HistoryService } from '../S3-history/S3-history.service';
 
 @Injectable()
 export class S3Service {

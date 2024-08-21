@@ -4,9 +4,9 @@ import { S3Entity } from "./entity/S3.entity";
 import { S3Controller } from "./S3.controller";
 import { S3Repository } from "./S3.repository";
 import { S3Service } from "./S3.service";
-import { S3History} from "../media-history/entity/S3-history.entity";
-import { S3HistoryService } from "../media-history/S3-history.service";
-import { S3HistoryModule } from "../media-history/S3-history.module";
+import { S3History} from "../S3-history/entity/S3-history.entity";
+import { S3HistoryService } from "../S3-history/S3-history.service";
+import { S3HistoryModule } from "../S3-history/S3-history.module";
 
 
 @Module({
