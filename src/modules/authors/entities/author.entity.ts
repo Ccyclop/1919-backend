@@ -1,7 +1,8 @@
+import { S3Entity } from "@src/modules/S3/entity/S3.entity";
 import { Album } from "src/modules/album/entities/album.entity";
 import { CreateMusicDto } from "src/modules/musics/dto/create-music.dto";
 import { MusicEntity } from "src/modules/musics/entities/music.entity";
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinTable, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, JoinTable, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class Author {
@@ -32,4 +33,8 @@ export class Author {
 
     @DeleteDateColumn()
     deletedAt: Date;
+
+    @ManyToOne(() => S3Entity, )
+    @JoinColumn({ name: 'photoId' })
+    photo?: S3Entity
 }

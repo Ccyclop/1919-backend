@@ -4,40 +4,38 @@ import { UpdateMusicDto } from './dto/update-music.dto';
 import { MusicsRepository } from './musics.repository';
 import { MusicEntity } from './entities/music.entity';
 import { S3Repository } from '../S3/S3.repository';
+import { S3Type } from '../S3/enum/S3.enum';
+import { S3Service } from '../S3/S3.service';
 
 @Injectable()
 export class MusicsService {
 
   constructor(
     private readonly musicRepo: MusicsRepository,
-    private readonly S3Repository : S3Repository
+    private readonly S3Repository : S3Repository,
+    private readonly s3Service : S3Service
     
   ) {}
 
-  async create(createMusicDto: CreateMusicDto): Promise<MusicEntity> {
-    const { name, authorId, duration, photoId, audioId } = createMusicDto;
-
+  async create(
+    createMusicDto: CreateMusicDto,
+    photoFile: Express.Multer.File,
+    audioFile: Express.Multer.File,
+    userId: number
+  ): Promise<MusicEntity> {
+    const { name, authorId, duration } = createMusicDto;
+  
+    const photoUploadResponse = await this.s3Service.saveS3(photoFile.originalname, photoFile.buffer, photoFile.mimetype, S3Type.PHOTO, userId);
+  
+    const audioUploadResponse = await this.s3Service.saveS3(audioFile.originalname, audioFile.buffer, audioFile.mimetype, S3Type.AUDIO, userId);
+  
     const music = new MusicEntity();
     music.name = name;
     music.authorId = authorId;
     music.duration = duration;
-
-    if (photoId) {
-      const photo = await this.S3Repository.findOne(photoId);
-      if (!photo) {
-        throw new NotFoundException(`Photo with id ${photoId} not found`);
-      }
-      music.photo = photo;
-    }
-
-    if (audioId) {
-      const audio = await this.S3Repository.findOne(audioId);
-      if (!audio) {
-        throw new NotFoundException(`Audio with id ${audioId} not found`);
-      }
-      music.audio = audio;
-    }
-
+    music.photo = photoUploadResponse;  
+    music.audio = audioUploadResponse;  
+  
     return await this.musicRepo.save(music);
   }
 

@@ -11,9 +11,8 @@ export class AuthorRepository {
     constructor(@InjectRepository(Author)
                 private readonly authorRepo: Repository<Author>) {}
 
-    async create(data: CreateAuthorDto) {
-        const newAuthor =  this.authorRepo.create(data)
-        return await this.authorRepo.save(newAuthor)
+    async save(author: Author) {
+        return await this.authorRepo.save(author)
     }
 
     async findAll() {
