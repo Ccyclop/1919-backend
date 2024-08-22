@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { S3HistoryRepository } from './S3-history.repository';
 import { S3History } from './entity/S3-history.entity';
+import { User } from '../user/entity/user.entity';
 
 @Injectable()
 export class S3HistoryService {
@@ -10,11 +11,13 @@ export class S3HistoryService {
     S3Url: string,
     bucketUrl: string,
     key: string,
+    user:User,
   ): Promise<S3History> {
     return this.S3HistoryRepository.createHistoryEntry(
       S3Url,
       bucketUrl,
       key,
+      user
     );
   }
 }

@@ -5,6 +5,7 @@ import { S3Repository } from './S3.repository';
 import { S3Entity } from './entity/S3.entity';
 import { S3HistoryService } from '../S3-history/S3-history.service';
 import { S3Type } from './enum/S3.enum';
+import { UserRepository } from '../user/user.repository';
 
 @Injectable()
 export class S3Service {
@@ -13,7 +14,8 @@ export class S3Service {
   constructor(
     private readonly configService: ConfigService,
     private readonly S3Repository: S3Repository,
-    private readonly S3HistoryService : S3HistoryService
+    private readonly S3HistoryService : S3HistoryService,
+    private readonly userRepository : UserRepository
   ) {
     this.s3 = new S3Client({
       region: this.configService.get<string>('region'),
@@ -24,7 +26,7 @@ export class S3Service {
     });
   }
 
-  async saveS3(filename: string, data: Buffer, mimetype: string, type: S3Type): Promise<S3Entity> {
+  async saveS3(filename: string, data: Buffer, mimetype: string, type: S3Type,userId:number): Promise<S3Entity> {
     const keyPrefix = type === 'photo' ? 'photos' : 'audios';
     const uploadParams = {
       Bucket: this.configService.get<string>('bucketName'),
@@ -36,10 +38,12 @@ export class S3Service {
     await this.s3.send(new PutObjectCommand(uploadParams));
     const S3Url = `https://${this.configService.get<string>('bucketName')}.s3.${this.configService.get<string>('region')}.amazonaws.com/${uploadParams.Key}`;
 
+    const user = await this.userRepository.findById(userId)
     await this.S3HistoryService.logAction(
       S3Url, 
       uploadParams.Key, 
-      uploadParams.Bucket
+      uploadParams.Bucket,
+      user
       
     );
 

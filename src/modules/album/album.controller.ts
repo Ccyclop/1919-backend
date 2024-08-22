@@ -35,10 +35,18 @@ export class AlbumController {
     return await this.albumService.getAlbum(parseInt(id, 10));
   }
 
-  @Put(':id')
-  async updateAlbum(@Param('id') albumId: number, @Body() updateAlbumDto: UpdateAlbumDto,): Promise<Album> {
-    console.log(updateAlbumDto)
-      return await this.albumService.updateAlbum(albumId,updateAlbumDto);
+  @PublicRoute()
+  @Put(":id")
+  @UseInterceptors(FileInterceptor('file'))
+  async updateAlbum(
+    @Param('id') id:number,
+    @GetCurrentUserId() userId: number,
+    @Body() updateAlbumDto: UpdateAlbumDto,
+    @UploadedFile() file: Express.Multer.File
+  ) {
+    const { originalname, buffer, mimetype } = file;
+    const type = S3Type.PHOTO
+    return await this.albumService.updateAlbum(id,updateAlbumDto,originalname, buffer, mimetype, type,userId);
   }
 
   @Delete(':id')

@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+import { User } from '@src/modules/user/entity/user.entity';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany, ManyToOne } from 'typeorm';
 
 @Entity()
 export class S3History {
@@ -16,4 +17,7 @@ export class S3History {
 
   @CreateDateColumn()
   createdAt: Date;
+
+  @ManyToOne(() => User,User => User.s3Histories)
+  user:User
 }
