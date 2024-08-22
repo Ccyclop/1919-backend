@@ -13,14 +13,16 @@ export class S3HistoryRepository {
           S3Url: string,
           bucketUrl: string,
           key: string,
-          user: User
+          userId: number,
+          user:User
 
         ): Promise<S3History> {
           const historyEntry = new S3History();
           historyEntry.S3Url = S3Url;
           historyEntry.bucketUrl = bucketUrl;
           historyEntry.key = key;
-          historyEntry.user=user
+          historyEntry.userId=userId
+          historyEntry.user=  user
           return await this.S3HistoryRepo.save(historyEntry);
         }
 }

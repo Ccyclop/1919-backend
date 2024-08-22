@@ -1,5 +1,5 @@
 import { User } from '@src/modules/user/entity/user.entity';
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
 
 @Entity()
 export class S3History {
@@ -18,6 +18,11 @@ export class S3History {
   @CreateDateColumn()
   createdAt: Date;
 
-  @ManyToOne(() => User,User => User.s3Histories)
-  user:User
+  @Column({nullable: true})
+  userId: number;
+
+  @ManyToOne(() => User, user => user.s3Histories)
+  @JoinColumn({ name: 'userId' }) 
+  user: User;
+
 }

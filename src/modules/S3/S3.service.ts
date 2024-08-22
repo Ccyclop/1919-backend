@@ -43,6 +43,7 @@ export class S3Service {
       S3Url, 
       uploadParams.Key, 
       uploadParams.Bucket,
+      userId,
       user
       
     );

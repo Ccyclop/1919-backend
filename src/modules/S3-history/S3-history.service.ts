@@ -11,12 +11,14 @@ export class S3HistoryService {
     S3Url: string,
     bucketUrl: string,
     key: string,
-    user:User,
+    userId:number,
+    user:User
   ): Promise<S3History> {
     return this.S3HistoryRepository.createHistoryEntry(
       S3Url,
       bucketUrl,
       key,
+      userId,
       user
     );
   }
