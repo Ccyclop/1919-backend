@@ -1,6 +1,7 @@
 import { Album } from '@src/modules/album/entities/album.entity';
 import { MusicEntity } from '@src/modules/musics/entities/music.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, ManyToOne, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
+import { S3Type } from '../enum/S3.enum';
 
 @Entity()
 export class S3Entity {
@@ -14,7 +15,7 @@ export class S3Entity {
   mimetype: string;
 
   @Column()
-  type: 'audio' | 'photo'; 
+  type: S3Type; 
 
   @CreateDateColumn({ type: 'timestamp' })
   releaseDate: Date;

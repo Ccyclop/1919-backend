@@ -10,16 +10,16 @@ export class RequestHistoryRepo {
         private readonly requestHistoryRepository: Repository<RequestHistory>
     ) {}
 
-    save(requestHistory : RequestHistory) {
-        return this.requestHistoryRepository.save(requestHistory)
+    async save(requestHistory : RequestHistory) {
+        return await this.requestHistoryRepository.save(requestHistory)
     }
 
     async findAll(): Promise<RequestHistory[]> {
-        return this.requestHistoryRepository.find(); 
+        return await this.requestHistoryRepository.find(); 
       }
     
-    findOne(requestId:number) {
-        return this.requestHistoryRepository
+    async findOne(requestId:number) {
+        return await this.requestHistoryRepository
         .createQueryBuilder('requestHistory')
         .where('requestHistory.id = :id',{requestId})
         .getOne();

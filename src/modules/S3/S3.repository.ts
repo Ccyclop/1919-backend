@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { S3Entity } from './entity/S3.entity';
+import { S3Type } from './enum/S3.enum';
 
 @Injectable()
 export class S3Repository {
@@ -14,7 +15,7 @@ export class S3Repository {
     return await this.S3Repository.save(S3Entity);
   }
 
-  async createS3(url: string, type: 'audio' | 'photo'): Promise<S3Entity> {
+  async createS3(url: string, type: S3Type): Promise<S3Entity> {
     const S3 = this.S3Repository.create({ url, type });
     return await this.S3Repository.save(S3);
   }
@@ -23,7 +24,7 @@ export class S3Repository {
     return this.S3Repository.findOne({ where: { id: S3Id } });
   }
 
-  async findAll(type: 'audio' | 'photo') {
+  async findAll(type: S3Type) {
     return this.S3Repository.find({ where: { type } });
   }
 

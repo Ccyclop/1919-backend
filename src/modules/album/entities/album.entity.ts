@@ -17,6 +17,7 @@ OneToOne,
 import { Author } from 'src/modules/authors/entities/author.entity';
 import { MusicEntity } from 'src/modules/musics/entities/music.entity';
 import { S3Entity } from '@src/modules/S3/entity/S3.entity';
+import { IsNumber } from 'class-validator';
   
 @Entity()
 export class Album {
@@ -34,6 +35,9 @@ export class Album {
 
   @DeleteDateColumn({ type: 'timestamp' })
   deletedAt?: Date;
+
+  @IsNumber()
+  user: number 
 
   @Column()
   authorId: number

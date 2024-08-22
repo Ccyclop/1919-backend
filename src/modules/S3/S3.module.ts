@@ -7,6 +7,7 @@ import { S3Service } from "./S3.service";
 import { S3History} from "../S3-history/entity/S3-history.entity";
 import { S3HistoryService } from "../S3-history/S3-history.service";
 import { S3HistoryModule } from "../S3-history/S3-history.module";
+import { Album } from "../album/entities/album.entity";
 
 
 @Module({

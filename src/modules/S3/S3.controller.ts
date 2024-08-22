@@ -2,6 +2,7 @@ import { Controller, Get, Param, Post, UploadedFile, UseInterceptors } from '@ne
 import { FileInterceptor } from '@nestjs/platform-express';
 import { S3Service } from './S3.service';
 import { PublicRoute } from '../auth/decorators/admin.decorator';
+import { S3Type } from './enum/S3.enum';
 
 @Controller('S3')
 export class S3Controller {
@@ -10,7 +11,7 @@ export class S3Controller {
   @PublicRoute()
   @Post('upload/:type')
   @UseInterceptors(FileInterceptor('file'))
-  async uploadS3(@UploadedFile() file: Express.Multer.File, @Param('type') type: 'audio' | 'photo') {
+  async uploadS3(@UploadedFile() file: Express.Multer.File, @Param('type') type: S3Type) {
     const { originalname, buffer, mimetype } = file;
     return await this.S3Service.saveS3(originalname, buffer, mimetype, type);
   }
@@ -18,13 +19,13 @@ export class S3Controller {
 
   @PublicRoute()
   @Get(':type')
-  async getAllS3(@Param('type') type: 'audio' | 'photo') {
+  async getAllS3(@Param('type') type: S3Type) {
     return this.S3Service.getAll(type);
   }
 
   @PublicRoute()
   @Get(':type/:id')
-  async getS3(@Param('type') type: 'audio' | 'photo', @Param('id') id: number) {
+  async getS3(@Param('type') type: S3Type, @Param('id') id: number) {
     return this.S3Service.getOne(id);
   }
 }

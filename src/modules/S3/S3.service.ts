@@ -4,6 +4,7 @@ import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { S3Repository } from './S3.repository';
 import { S3Entity } from './entity/S3.entity';
 import { S3HistoryService } from '../S3-history/S3-history.service';
+import { S3Type } from './enum/S3.enum';
 
 @Injectable()
 export class S3Service {
@@ -23,7 +24,7 @@ export class S3Service {
     });
   }
 
-  async saveS3(filename: string, data: Buffer, mimetype: string, type: 'audio' | 'photo'): Promise<S3Entity> {
+  async saveS3(filename: string, data: Buffer, mimetype: string, type: S3Type): Promise<S3Entity> {
     const keyPrefix = type === 'photo' ? 'photos' : 'audios';
     const uploadParams = {
       Bucket: this.configService.get<string>('bucketName'),
@@ -46,7 +47,7 @@ export class S3Service {
     return await this.S3Repository.saveS3(s3);
   }
 
-  async getAll(type: 'audio' | 'photo'): Promise<S3Entity[]> {
+  async getAll(type: S3Type): Promise<S3Entity[]> {
     return this.S3Repository.findAll(type);
   }
 

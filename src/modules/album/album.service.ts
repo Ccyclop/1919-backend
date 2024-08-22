@@ -10,6 +10,8 @@ import { MusicsRepository } from '../musics/musics.repository.js';
 import { CreateMusicDto } from '../musics/dto/create-music.dto.js';
 import { Author } from '../authors/entities/author.entity.js';
 import { S3Repository } from '../S3/S3.repository';
+import { S3Service } from '../S3/S3.service';
+import { S3Type } from '../S3/enum/S3.enum';
 
 @Injectable()
 export class AlbumService {
@@ -17,11 +19,12 @@ export class AlbumService {
     private readonly albumRepository: AlbumRepository,
     private readonly authorRepository:AuthorRepository,
     private readonly musicRepository: MusicsRepository,
-    private readonly S3Repository : S3Repository
+    private readonly S3Repository : S3Repository,
+    private readonly s3Service : S3Service
     ){}
 
-    async createAlbum(createAlbumDto: CreateAlbumDto): Promise<Album> {
-      const { title, authorId, musics,musicIds,photoId } = createAlbumDto;
+    async createAlbum(createAlbumDto: CreateAlbumDto,filename: string, data: Buffer, mimetype: string,type: S3Type,userId:number): Promise<Album> {
+      const { title, authorId, musics,musicIds } = createAlbumDto;
   
       const author = await this.authorRepository.findOne(authorId);
       if (!author) {
@@ -33,19 +36,23 @@ export class AlbumService {
         throw new Error('Some of the music IDs were not found');
       }
   
+      const uploadResponse = await this.s3Service.saveS3(filename,data,mimetype,type);
+      const photoId = uploadResponse.id;
+    
       const album = new Album();
       album.title = title;
       album.releaseDate = new Date();
       album.author = author;
-      album.authorId = authorId
-      album.musics = realMusics 
-
+      album.authorId = authorId;
+      album.musics = realMusics;
+      album.user = userId
+    
       if (photoId) {
         const photo = await this.S3Repository.findOne(photoId);
         if (!photo) {
           throw new NotFoundException(`Photo with id ${photoId} not found`);
         }
-        album.photo = photo; 
+        album.photo = photo;
       }
   
       return await this.saveAlbumWithMusics(album, musics, author);

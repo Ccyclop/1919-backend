@@ -24,6 +24,5 @@ export class CreateAlbumDto {
   authorId: number;
 
   @IsOptional()
-  @IsNumber()
-  photoId:number
+  file:Express.Multer.File
 }
