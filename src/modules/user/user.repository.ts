@@ -4,6 +4,7 @@ import { CreateDto } from "./dto";
 import { User } from "./entity/user.entity";
 import { Repository } from "typeorm";
 import * as bcryptjs  from 'bcryptjs';
+import { UserRole } from "../auth/types/role.type";
 
 @Injectable()
 export class UserRepository{
@@ -20,7 +21,8 @@ export class UserRepository{
                 first_name:dto.first_name,
                 email: dto.email,
                 hashP,
-                hashedRt
+                hashedRt,
+                role: UserRole.user
               })
         return await this.userRepository.save(user)
     }

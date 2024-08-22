@@ -15,7 +15,7 @@ export class AuthService {
         private readonly tokenService : TokenService
     ) {}
             
-    async signinLocal(dto: AuthDto,  res:Response){
+    async signinLocal(dto: AuthDto){
         const user = await this.userRepository.findByEmail(dto.email);
 
         if (!user) throw new ForbiddenException('access denied');
@@ -57,7 +57,7 @@ export class AuthService {
         //   role: user.role,
         // };
 
-        return { access_token: tokens.access_token, reftesh_token:tokens.refresh_token, role: user.role };
+        return { access_token: tokens.access_token, refresh_token:tokens.refresh_token, role: user.role };
     }
         
       async logout(userId: number, res:Response): Promise<boolean> {

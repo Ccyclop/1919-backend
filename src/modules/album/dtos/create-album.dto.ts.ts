@@ -22,4 +22,7 @@ export class CreateAlbumDto {
 
   @IsNumber()
   authorId: number;
+
+  @IsOptional()
+  file:Express.Multer.File
 }

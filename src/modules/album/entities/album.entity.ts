@@ -11,10 +11,13 @@ JoinColumn,
 UpdateDateColumn,
 DeleteDateColumn,
 Auth,
+OneToOne,
 } from 'typeorm';
 
 import { Author } from 'src/modules/authors/entities/author.entity';
 import { MusicEntity } from 'src/modules/musics/entities/music.entity';
+import { S3Entity } from '@src/modules/S3/entity/S3.entity';
+import { IsNumber } from 'class-validator';
   
 @Entity()
 export class Album {
@@ -33,6 +36,9 @@ export class Album {
   @DeleteDateColumn({ type: 'timestamp' })
   deletedAt?: Date;
 
+  @IsNumber()
+  user: number 
+
   @Column()
   authorId: number
 
@@ -41,4 +47,8 @@ export class Album {
 
   @OneToMany(() => MusicEntity, (music) => music.album, { cascade: true })
   musics: MusicEntity[];
+
+  @ManyToOne(() => S3Entity, )
+  @JoinColumn({ name: 'photoId' })
+  photo?: S3Entity
 }
