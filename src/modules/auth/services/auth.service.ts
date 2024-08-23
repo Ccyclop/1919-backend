@@ -24,7 +24,7 @@ export class AuthService {
         const passwordMatches = await bcryptjs.compare(dto.password,user.hashP);
         if (!passwordMatches) throw new ForbiddenException('access denied');
 
-        if(user.role !=='guest'){
+        if(user.role === 'guest' ){
           user.role = UserRole.user;
         } 
         
@@ -37,26 +37,7 @@ export class AuthService {
         const tokens = await this.tokenService.getTokens(user.id, user.email);
         await this.tokenService.saveToken(user.id, tokens.refresh_token,refreshTokenExpiresIn);
 
-        // res.cookie('refresh_token', tokens.refresh_token, {
-        //     expires: refreshTokenExpiresIn,
-        //     secure: false,
-        //     domain:'tnndshn.ge',
-        //     httpOnly: true,
-        //     sameSite: 'lax'
-        // });
-        // res.cookie('access_token', tokens.access_token, {
-        //     expires: accessTokenExpiresIn,
-        //     secure: false,
-        //     domain:'tnndshn.ge',
-        //     httpOnly: true,
-        //     sameSite: 'lax'
-        // });
 
-        // res.req.session.user = {
-        //   id: user.id,
-        //   email: user.email,
-        //   role: user.role,
-        // };
 
         return { access_token: tokens.access_token, refresh_token:tokens.refresh_token, role: user.role };
     }
