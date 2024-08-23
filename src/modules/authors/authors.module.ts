@@ -15,10 +15,17 @@ import { S3HistoryRepository } from '../S3-history/S3-history.repository';
 import { S3HistoryService } from '../S3-history/S3-history.service';
 import { User } from '../user/entity/user.entity';
 import { S3History } from '../S3-history/entity/S3-history.entity';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Author, MusicEntity,S3Entity,User,S3History]),
   S3Module,
+  MulterModule.register({
+    limits: {
+      fileSize: 10 * 1024 * 1024, 
+    },
+   
+  }),
   ],
   controllers: [AuthorsController],
   providers: [AuthorsService, AuthorRepository,S3Service,ConfigService,S3Repository,UserRepository,S3HistoryService,S3HistoryRepository],

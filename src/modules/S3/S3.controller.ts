@@ -17,7 +17,6 @@ export class S3Controller {
     return await this.S3Service.saveS3(originalname, buffer, mimetype, type,userId);
   }
 
-
   @PublicRoute()
   @Get(':type')
   async getAllS3(@Param('type') type: S3Type) {
