@@ -16,7 +16,7 @@ export class AuthorsController {
   // @PublicRoute()
   @Roles('admin')
   @Post()
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FileInterceptor('img'))
   async createAlbum(
     @GetCurrentUserId() userId : number,
     @Body() createAuthorDto: CreateAuthorDto,
