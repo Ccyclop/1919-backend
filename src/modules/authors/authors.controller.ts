@@ -22,9 +22,9 @@ export class AuthorsController {
     @Body() createAuthorDto: CreateAuthorDto,
     @UploadedFile() file: Express.Multer.File
   ) {
-    const { originalname, buffer, mimetype } = file;
+    const { filename, buffer, mimetype } = file;
     const type = S3Type.PHOTO
-    return await this.authorsService.create(createAuthorDto,originalname, buffer, mimetype, type,userId);
+    return await this.authorsService.create(createAuthorDto,filename, buffer, mimetype, type,userId);
   }
 
   @PublicRoute()
