@@ -24,6 +24,7 @@ export class AuthorsController {
   ) {
     const { filename, buffer, mimetype } = file;
     const type = S3Type.PHOTO
+    console.log(filename,buffer,mimetype,createAuthorDto)
     return await this.authorsService.create(createAuthorDto,filename, buffer, mimetype, type,userId);
   }
 
