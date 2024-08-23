@@ -19,6 +19,7 @@ export class AuthorRepository {
         return await this.authorRepo
                     .createQueryBuilder('author')
                     .leftJoinAndSelect('author.musics', 'music')
+                    .leftJoinAndSelect('author.albums','album')
                     .getMany()
     }
 

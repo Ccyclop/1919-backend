@@ -12,6 +12,8 @@ import { Roles } from '../auth/decorators/role.decorator';
 export class AuthorsController {
   constructor(private readonly authorsService: AuthorsService) {}
 
+
+  // @PublicRoute()
   @Roles('admin')
   @Post()
   @UseInterceptors(FileInterceptor('file'))
@@ -25,7 +27,7 @@ export class AuthorsController {
     return await this.authorsService.create(createAuthorDto,originalname, buffer, mimetype, type,userId);
   }
 
-
+  @PublicRoute()
   @Get()
   async findAll() {
     return await this.authorsService.findAll();
@@ -40,6 +42,7 @@ export class AuthorsController {
   async update(@Param('id') id: string, @Body() updateAuthorDto: UpdateAuthorDto) {
     return await this.authorsService.update(+id, updateAuthorDto);
   }
+
 
   @Delete(':id')
   async remove(@Param('id') id: string) {

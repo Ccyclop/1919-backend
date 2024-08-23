@@ -9,7 +9,7 @@ import { GetCurrentUserId } from '../auth/decorators';
 export class S3Controller {
   constructor(private readonly S3Service: S3Service) {}
 
-  
+  // @PublicRoute()
   @Post('upload/:type')
   @UseInterceptors(FileInterceptor('file'))
   async uploadS3(@UploadedFile() file: Express.Multer.File,@GetCurrentUserId() userId:number, @Param('type') type: S3Type) {
