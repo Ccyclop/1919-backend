@@ -7,12 +7,13 @@ import { PublicRoute } from '../auth/decorators/admin.decorator';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { GetCurrentUserId } from '../auth/decorators';
 import { S3Type } from '../S3/enum/S3.enum';
+import { Roles } from '../auth/decorators/role.decorator';
 
 @Controller('album')
 export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
 
-  @PublicRoute()
+  @Roles('admin')
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   async createAlbum(
@@ -24,7 +25,7 @@ export class AlbumController {
     const type = S3Type.PHOTO
     return await this.albumService.createAlbum(createAlbumDto,originalname, buffer, mimetype, type,userId);
   }
-
+  
   @Get()
   async getAllAlbums(): Promise<Album[]> {
     return this.albumService.getAllAlbums();

@@ -70,7 +70,9 @@ export class AuthService {
 
         user.hashedRt = null; 
 
-        user.role = UserRole.guest
+        if(user.role === 'user') {
+          user.role = UserRole.guest
+        }
 
         await this.userRepository.updateUser(user);
 

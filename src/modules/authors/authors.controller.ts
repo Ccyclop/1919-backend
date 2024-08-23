@@ -6,12 +6,13 @@ import { PublicRoute } from '../auth/decorators/admin.decorator';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { S3Type } from '../S3/enum/S3.enum';
 import { GetCurrentUserId } from '../auth/decorators';
+import { Roles } from '../auth/decorators/role.decorator';
 
 @Controller('author')
 export class AuthorsController {
   constructor(private readonly authorsService: AuthorsService) {}
 
-  @PublicRoute()
+  @Roles('admin')
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   async createAlbum(

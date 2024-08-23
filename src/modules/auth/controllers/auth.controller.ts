@@ -19,6 +19,12 @@ export class AuthController {
     async login(@CustomBody() dto:AuthDto) {
         return await this.authService.signinLocal(dto)
     }
+
+    @Roles('admin')
+    @Post('admin/login')
+    async loginAdmin(@CustomBody() dto:AuthDto) {
+        return await this.authService.signinLocal(dto)
+    }
     
 
     @Put('logout')  
@@ -26,6 +32,14 @@ export class AuthController {
       console.log('userID',userId)
       return await this.authService.logout(userId,res);
     }
+
+    @Roles('admin')
+    @Put('admin/logout')  
+    async logoutAdmin(@GetCurrentUserId() userId: number, @Res({ passthrough: true }) res: Response): Promise<boolean> {
+      console.log('userID',userId)
+      return await this.authService.logout(userId,res);
+    }
+
 
     // @Roles('admin')
     @Put('change-password')
