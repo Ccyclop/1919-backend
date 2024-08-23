@@ -17,9 +17,9 @@ export class RolesGuard extends AuthGuard('jwt') {
 
     const isPublic = this.reflector.get<boolean>('isPublic', context.getHandler());
 
-    // if (isPublic) {
-    //   return true;
-    // }
+    if (isPublic) {
+      return true;
+    }
 
     return super.canActivate(context) && this.validateRoles(context);
   }
