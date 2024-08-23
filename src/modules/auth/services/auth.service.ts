@@ -24,9 +24,11 @@ export class AuthService {
         const passwordMatches = await bcryptjs.compare(dto.password,user.hashP);
         if (!passwordMatches) throw new ForbiddenException('access denied');
 
-        if(user.role === 'guest' ){
+        if(user.role === 'admin' ){
+          user.role = UserRole.admin;
+        } else{
           user.role = UserRole.user;
-        } 
+        }
         
         await this.userRepository.updateUser(user)
      

@@ -13,7 +13,6 @@ export class AuthorsController {
   constructor(private readonly authorsService: AuthorsService) {}
 
 
-  // @PublicRoute()
   @Roles('admin')
   @Post()
   @UseInterceptors(FileInterceptor('img'))
