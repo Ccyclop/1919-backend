@@ -20,10 +20,10 @@ export class AuthController {
         return await this.authService.signinLocal(dto)
     }
 
-    @Roles('admin')
+    @PublicRoute()
     @Post('admin/login')
     async loginAdmin(@CustomBody() dto:AuthDto) {
-        return await this.authService.signinLocal(dto)
+        return await this.authService.signinAdmin(dto)
     }
     
 
