@@ -7,6 +7,7 @@ import { TokenService } from '../auth/services/token.service';
 import { User } from './entity/user.entity';
 import { TokenRepository } from '../auth/repositories/token.repository';
 import { UserRole } from '../auth/types/role.type';
+import { ChangePasswrodDto } from './dto/change-passwrod.dto';
 
 @Injectable()
 export class UserService {
@@ -51,6 +52,11 @@ export class UserService {
         // });
         return { access_token: tokens.access_token,refresh_token: tokens.refresh_token };
     }
+
+    async changePassword(id:number,dto:ChangePasswrodDto) {
+      return await this.userRepository.changePassword(id,dto)
+    }
+    
 
       GetAll() {
         return this.userRepository.getAllUsers();

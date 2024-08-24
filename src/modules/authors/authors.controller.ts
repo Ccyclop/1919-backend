@@ -43,7 +43,7 @@ export class AuthorsController {
     return await this.authorsService.update(+id, updateAuthorDto);
   }
 
-
+  @Roles('admin')
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.authorsService.remove(+id);

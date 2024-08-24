@@ -50,6 +50,7 @@ export class AlbumController {
     return await this.albumService.updateAlbum(id,updateAlbumDto,originalname, buffer, mimetype, type,userId);
   }
 
+  @Roles('admin')
   @Delete(':id')
     async deleteAlbum(@Param('id') albumId: number): Promise<void> {
         await this.albumService.deleteAlbum(albumId);
