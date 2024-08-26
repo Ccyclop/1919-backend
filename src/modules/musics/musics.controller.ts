@@ -6,14 +6,15 @@ import { PublicRoute } from '../auth/decorators/admin.decorator';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { GetCurrentUserId } from '../auth/decorators';
 import { S3Type } from '../S3/enum/S3.enum';
+import { Roles } from '../auth/decorators/role.decorator';
 
 @Controller('music')
 export class MusicsController {
   constructor(private readonly musicsService: MusicsService) {}
 
-  @PublicRoute()
+  @Roles('admin')
   @Post()
-  @UseInterceptors(FilesInterceptor('files'))  // Handles multiple files
+  @UseInterceptors(FilesInterceptor('files'))  
   async createMusic(
     @GetCurrentUserId() userId: number,
     @Body() createMusicDto: CreateMusicDto,
@@ -45,6 +46,7 @@ export class MusicsController {
     return await this.musicsService.update(+id, updateMusicDto);
   }
 
+  @Roles('admin')
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.musicsService.remove(+id);

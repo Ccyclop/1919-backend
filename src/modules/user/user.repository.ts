@@ -5,6 +5,7 @@ import { User } from "./entity/user.entity";
 import { Repository } from "typeorm";
 import * as bcryptjs  from 'bcryptjs';
 import { UserRole } from "../auth/types/role.type";
+import { ChangePasswrodDto } from "./dto/change-passwrod.dto";
 
 @Injectable()
 export class UserRepository{
@@ -46,6 +47,13 @@ export class UserRepository{
         return await this.userRepository.findOne(
             { where: { id: id } }
         );
+      }
+
+      async changePassword(id:number,dto:ChangePasswrodDto) {
+        const user = await this.userRepository.findOne({where:{id}});
+        const newPassword = await bcryptjs.hash(dto.newPassword,10);
+        user.hashP = newPassword;
+        return await this.userRepository.save(user);
       }
 
       async getAllUsers(): Promise<User[]> {
