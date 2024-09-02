@@ -6,7 +6,7 @@ import { MusicEntity } from './entities/music.entity';
 import { S3Repository } from '../S3/S3.repository';
 import { S3Type } from '../S3/enum/S3.enum';
 import { S3Service } from '../S3/S3.service';
-import { ListenCountersService } from '../listen-counters/listen-counters.service';
+import { ListenCounterRepository } from '../listen-counters/listen-counters.repository';
 
 @Injectable()
 export class MusicsService {
@@ -14,7 +14,7 @@ export class MusicsService {
   constructor(
     private readonly musicRepo: MusicsRepository,
     private readonly s3Service : S3Service,
-    private readonly listenService: ListenCountersService
+    private readonly listenService: ListenCounterRepository
     
   ) {}
 
