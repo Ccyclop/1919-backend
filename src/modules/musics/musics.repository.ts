@@ -24,7 +24,6 @@ export class MusicsRepository{
         return await this.musicRepo
                 .createQueryBuilder('mus')
                 .leftJoinAndSelect('mus.author', 'author')
-                .leftJoinAndSelect('author.musics', 'music')
                 .getMany()
     }
 
@@ -33,7 +32,7 @@ export class MusicsRepository{
                 .createQueryBuilder('mus')
                 .where('mus.id = :id', { id })
                 .leftJoinAndSelect('mus.author', 'author')
-                .leftJoinAndSelect('author.musics', 'music')
+                .leftJoinAndSelect('mus.listens', 'listenCounter')
                 .getOne()
     }
 
@@ -97,7 +96,6 @@ export class MusicsRepository{
                 .createQueryBuilder('mus')
                 .where('mus.id = :id', {id})
                 .leftJoinAndSelect('mus.author', 'author')
-                .leftJoinAndSelect('author.musics', 'music')
                 .getOne()
     }
 
@@ -109,7 +107,6 @@ export class MusicsRepository{
                 .withDeleted()
                 .where('mus.id = :id', {id})
                 .leftJoinAndSelect('mus.author', 'author')
-                .leftJoinAndSelect('author.musics', 'music')
                 .getOne()
 
     }

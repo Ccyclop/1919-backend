@@ -37,8 +37,8 @@ export class MusicsController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return await this.musicsService.findOne(+id);
+  async findOne(@GetCurrentUserId() userId: number, @Param('id') id: number) {
+    return await this.musicsService.findOne(id, userId);
   }
 
   @Patch(':id')

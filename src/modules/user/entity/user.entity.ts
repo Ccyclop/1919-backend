@@ -12,6 +12,7 @@ import {
   import { UserRole } from '../../auth/types/role.type';
 import { playlistEntity } from '../../playlist/entities/playlist.entity';
 import { S3History } from '@src/modules/S3-history/entity/S3-history.entity';
+import { ListenCounterEntity } from '@src/modules/listen-counters/entities/listen-counter.entity';
   
 
 
@@ -59,6 +60,9 @@ export class User {
 
     @OneToMany(() => S3History,S3History => S3History.user)
     s3Histories: S3History[]
+
+    @OneToMany(() => ListenCounterEntity, listenCounter => listenCounter.user)
+    listens: ListenCounterEntity[]
 
 
 
