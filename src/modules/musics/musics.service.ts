@@ -6,14 +6,15 @@ import { MusicEntity } from './entities/music.entity';
 import { S3Repository } from '../S3/S3.repository';
 import { S3Type } from '../S3/enum/S3.enum';
 import { S3Service } from '../S3/S3.service';
+import { ListenCounterRepository } from '../listen-counters/listen-counters.repository';
 
 @Injectable()
 export class MusicsService {
 
   constructor(
     private readonly musicRepo: MusicsRepository,
-    private readonly S3Repository : S3Repository,
-    private readonly s3Service : S3Service
+    private readonly s3Service : S3Service,
+    private readonly listenService: ListenCounterRepository
     
   ) {}
 
@@ -43,8 +44,16 @@ export class MusicsService {
     return await this.musicRepo.findAll();
   }
 
-  async findOne(id: number) {
-    return await this.musicRepo.findOne(id);
+  async findOne(musicId: number, userId: number) {
+    const mus = await this.musicRepo.findOne(musicId)
+
+    if (mus) {
+      await this.listenService.create({musicId, userId})
+
+      return await this.musicRepo.findOne(musicId);
+    } else throw new NotFoundException('Music Not Found')
+
+    
   }
 
   async update(id: number, updateMusicDto: UpdateMusicDto) {

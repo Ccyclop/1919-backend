@@ -1,4 +1,5 @@
 import { S3Entity } from "@src/modules/S3/entity/S3.entity";
+import { ListenCounterEntity } from "@src/modules/listen-counters/entities/listen-counter.entity";
 import { Album } from "src/modules/album/entities/album.entity";
 import { Author } from "src/modules/authors/entities/author.entity";
 import { playlistEntity } from "src/modules/playlist/entities/playlist.entity";
@@ -45,6 +46,7 @@ export class MusicEntity {
     @JoinColumn({ name: 'audioId' })
     audio?: S3Entity;
   
-  
+    @OneToMany(() => ListenCounterEntity, listenCounter => listenCounter.music)
+    listens: ListenCounterEntity[];
 
 }
