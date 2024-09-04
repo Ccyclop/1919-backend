@@ -15,6 +15,7 @@ export class AlbumRepository {
     return await this.albumRepository.createQueryBuilder('album')
       .leftJoinAndSelect('album.author', 'author')
       .leftJoinAndSelect('album.musics', 'music')
+      .leftJoinAndSelect('album.photo','photo')
       .where('album.id = :albumId', { albumId })
       .getOne();
   }

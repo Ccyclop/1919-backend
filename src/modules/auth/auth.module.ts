@@ -17,6 +17,7 @@ import { RsTokenService } from "./services/RsToken.service";
 import { RsTokenRepository } from "./repositories/RsToken.repository";
 import { TokenController } from "./controllers/token.controller";
 import { RsTokenController } from "./controllers/rstoken.controller";
+import { createMailerOptions } from './mailer.config';
 
 @Module({
     imports: [
@@ -27,19 +28,9 @@ import { RsTokenController } from "./controllers/rstoken.controller";
 
         MailerModule.forRootAsync({
             imports: [ConfigModule],
-            useFactory: async (configService: ConfigService) => ({
-                transport: {
-                    host: configService.get<string>('Email.HOST', 'localhost'),
-                    port: configService.get<number>('EmailP.PORT', 1025),
-                    secure: false,
-                    auth: null,
-                },
-                defaults: {
-                    from: configService.get<string>('EmailF.FROM', 'novatori@example.com'),
-                },
-            }),
+            useFactory: async (configService: ConfigService) => await createMailerOptions(configService),
             inject: [ConfigService],
-        }),
+          }),
     ],
     providers: [
         AuthService,

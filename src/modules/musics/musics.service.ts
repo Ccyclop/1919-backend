@@ -53,7 +53,12 @@ export class MusicsService {
       return await this.musicRepo.findOne(musicId);
     } else throw new NotFoundException('Music Not Found')
 
-    
+  }
+
+  async getTop10MusicForLastWeek() {
+    const oneWeek = new Date();
+    oneWeek.setDate(oneWeek.getDate() - 7);
+    return await this.musicRepo.getTop10Music(oneWeek)
   }
 
   async update(id: number, updateMusicDto: UpdateMusicDto) {

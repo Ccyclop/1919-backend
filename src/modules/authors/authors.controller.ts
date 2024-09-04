@@ -27,7 +27,7 @@ export class AuthorsController {
     return await this.authorsService.create(createAuthorDto,filename, buffer, mimetype, type,userId);
   }
 
-  @PublicRoute()
+  // @PublicRoute()
   @Get()
   async findAll() {
     return await this.authorsService.findAll();

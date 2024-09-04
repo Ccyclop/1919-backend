@@ -14,7 +14,6 @@ export class RsTokenController {
     constructor(private rsTokenService: RsTokenService) {}
 
     
-    @Roles('user')
     @Post('forgot-password')
     async forgotPasswrod(@CustomBody() dto:forgotPDto){
       return await this.rsTokenService.forgotPassword(dto.email)
