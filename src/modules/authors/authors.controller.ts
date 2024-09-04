@@ -7,7 +7,6 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { S3Type } from '../S3/enum/S3.enum';
 import { GetCurrentUserId } from '../auth/decorators';
 import { Roles } from '../auth/decorators/role.decorator';
-import { UpdateAlbumDto } from '../album/dtos/update-album.dto';
 
 @Controller('author')
 export class AuthorsController {
@@ -17,7 +16,7 @@ export class AuthorsController {
   @Roles('admin')
   @Post()
   @UseInterceptors(FileInterceptor('img'))
-  async createAlbum(
+  async createArtist(
     @GetCurrentUserId() userId : number,
     @Body() createAuthorDto: CreateAuthorDto,
     @UploadedFile() file: Express.Multer.File
@@ -36,13 +35,13 @@ export class AuthorsController {
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return await this.authorsService.findOne(+id);
+    return await this.authorsService.findAuthor(+id);
   }
 
   @Roles('admin')
   @Put(':id')
   @UseInterceptors(FileInterceptor('img'))
-  async updateAlbum(
+  async updateArtist(
     @GetCurrentUserId() userId : number,
     @Body() updateAuthorDto: UpdateAuthorDto,
     @Param('id') id: number,

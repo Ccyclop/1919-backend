@@ -11,7 +11,7 @@ export class AuthorRepository {
     constructor(@InjectRepository(Author)
                 private readonly authorRepo: Repository<Author>) {}
 
-    async save(author: Author) {
+    async saveAuthor(author: Author) {
         return await this.authorRepo.save(author)
     }
 
