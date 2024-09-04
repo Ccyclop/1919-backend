@@ -19,12 +19,14 @@ export class AuthorsController {
   async createArtist(
     @GetCurrentUserId() userId : number,
     @Body() createAuthorDto: CreateAuthorDto,
-    @UploadedFile() file?: Express.Multer.File
+    @UploadedFile() file: Express.Multer.File
   ) {
+
     const { filename, buffer, mimetype } = file;
     const type = S3Type.PHOTO
     console.log(filename,buffer,mimetype,createAuthorDto)
     return await this.authorsService.create(createAuthorDto,filename, buffer, mimetype, type,userId);
+
   }
 
   // @PublicRoute()
@@ -47,14 +49,18 @@ export class AuthorsController {
     @Param('id') id: number,
     @UploadedFile() file?: Express.Multer.File
   ) {
-    let filename, buffer, mimetype, type;
+    
+  let filename: string | undefined;
+  let buffer: Buffer | undefined;
+  let mimetype: string | undefined;
+  let type: S3Type | undefined;
 
-    if (file) {
-      filename = file.filename;
-      buffer = file.buffer;
-      mimetype = file.mimetype;
-      type = S3Type.PHOTO;
-    }
+  if (file) {
+    filename = file.originalname; 
+    buffer = file.buffer;
+    mimetype = file.mimetype;
+    type = S3Type.PHOTO;
+  }
    
     console.log(filename,buffer,mimetype,updateAuthorDto)
     return await this.authorsService.updateArtist(id,updateAuthorDto,filename, buffer, mimetype, type,userId);
