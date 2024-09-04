@@ -17,7 +17,7 @@ import { RsTokenService } from "./services/RsToken.service";
 import { RsTokenRepository } from "./repositories/RsToken.repository";
 import { TokenController } from "./controllers/token.controller";
 import { RsTokenController } from "./controllers/rstoken.controller";
-import { createMailerOptions } from './mailer.config';
+// import { createMailerOptions } from './mailer.config';
 
 @Module({
     imports: [
@@ -28,7 +28,7 @@ import { createMailerOptions } from './mailer.config';
 
         MailerModule.forRootAsync({
             imports: [ConfigModule],
-            useFactory: async (configService: ConfigService) => await createMailerOptions(configService),
+            // useFactory: async (configService: ConfigService) => await createMailerOptions(configService),
             inject: [ConfigService],
           }),
     ],
