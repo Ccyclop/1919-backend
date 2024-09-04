@@ -5,7 +5,6 @@ import { resetPDto } from "../dto/reset-password.dto";
 import { RsTokenRepository } from "../repositories/RsToken.repository";
 import { v4 } from "uuid";
 import { ResetToken } from "../entity/reset-token.entity";
-import { EmailService } from "./email.service";
 
 
 
@@ -14,7 +13,6 @@ export class RsTokenService {
     constructor(       
         private readonly userRepository: UserRepository,
         private readonly rsTokenRepository: RsTokenRepository,
-        private readonly emailService : EmailService
     ) {}
 
     
@@ -42,7 +40,7 @@ export class RsTokenService {
           await this.rsTokenRepository.saveRsToken(rsTokenEntity);
         }
     
-        await this.emailService.sendResetPasswordEmail(user.email, resetToken);
+        // await this.emailService.sendResetPasswordEmail(user.email, resetToken);
 
         return 'send email'
       }

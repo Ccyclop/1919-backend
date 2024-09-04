@@ -1,12 +1,10 @@
 import { Module, forwardRef } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule, ConfigService } from "@nestjs/config";
-import { MailerModule } from "@nestjs-modules/mailer";
 import { AuthService } from "./services/auth.service";
 import { AuthController } from "./controllers/auth.controller";
 import { AuthRepository } from "./repositories/auth.repository";
 import { TokenService } from "./services/token.service";
-import { EmailService } from "./services/email.service";
 import { User } from "../user/entity/user.entity";
 import { Token } from "./entity/token.entity";
 import { ResetToken } from "./entity/reset-token.entity";
@@ -26,17 +24,12 @@ import { RsTokenController } from "./controllers/rstoken.controller";
 
         forwardRef(() => UserModule),
 
-        MailerModule.forRootAsync({
-            imports: [ConfigModule],
-            // useFactory: async (configService: ConfigService) => await createMailerOptions(configService),
-            inject: [ConfigService],
-          }),
+
     ],
     providers: [
         AuthService,
         AuthRepository,
         TokenService,
-        EmailService,
         UserRepository,
         TokenRepository,
         RsTokenService,
@@ -45,7 +38,6 @@ import { RsTokenController } from "./controllers/rstoken.controller";
     controllers: [AuthController, TokenController, RsTokenController],
     exports: [
         AuthService,
-        EmailService,
         TokenService,
         RsTokenService,
         TokenRepository
