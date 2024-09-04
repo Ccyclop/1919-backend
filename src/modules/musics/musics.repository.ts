@@ -36,6 +36,18 @@ export class MusicsRepository{
                 .getOne()
     }
 
+    async getTop10Music(date:Date) {
+        return await this.musicRepo
+          .createQueryBuilder('music')
+          .leftJoinAndSelect('music.listens', 'listenCounter')
+          .where('listenCounter.createdAt >= :oneWeekAgo', { date }) 
+          .groupBy('music.id')
+          .orderBy('COUNT(listenCounter.id)', 'DESC') 
+          .limit(10)
+          .getMany();
+      }
+      
+
 
     async saveMusics(musicDto: CreateMusicDto[]): Promise<MusicEntity[]> {
         

@@ -1,4 +1,4 @@
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import { IsArray, IsDate, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { CreateMusicDto } from 'src/modules/musics/dto/create-music.dto';
 
@@ -21,6 +21,7 @@ export class CreateAlbumDto {
   musics: CreateMusicDto[];
 
   @IsNumber()
+  @Transform(({ value }) => parseInt(value, 10))
   authorId: number;
 
   @IsOptional()

@@ -33,7 +33,12 @@ export class MusicsController {
 
   @Get()
   async findAll() {
-    return await this.musicsService.findAll();
+    return await this.musicsService.findAll()
+  }
+
+  @Get('top')
+  async getTop10() {
+    return await this.musicsService.getTop10MusicForLastWeek();
   }
 
   @Get(':id')
@@ -51,4 +56,7 @@ export class MusicsController {
   async remove(@Param('id') id: string) {
     return await this.musicsService.remove(+id);
   }
+
+
+  
 }

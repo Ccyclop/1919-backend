@@ -15,6 +15,10 @@ export class AuthorRepository {
         return await this.authorRepo.save(author)
     }
 
+    async findAuthor(id:number){
+        return await this.authorRepo.findOne({where:{id}})
+    }
+
     async findAll() {
         return await this.authorRepo
                     .createQueryBuilder('author')

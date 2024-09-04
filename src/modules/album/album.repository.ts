@@ -15,8 +15,20 @@ export class AlbumRepository {
     return await this.albumRepository.createQueryBuilder('album')
       .leftJoinAndSelect('album.author', 'author')
       .leftJoinAndSelect('album.musics', 'music')
+      .leftJoinAndSelect('album.photo','photo')
       .where('album.id = :albumId', { albumId })
       .getOne();
+  }
+
+  async findTop10AlbumsByListeners(): Promise<Album[]> {
+    return this.albumRepository.createQueryBuilder('album')
+      .leftJoinAndSelect('album.musics', 'music')
+      .leftJoinAndSelect('music.listens', 'listenerCounter')
+      .addSelect('SUM(listenerCounter.count)', 'totalListeners')
+      .groupBy('album.id')
+      .orderBy('totalListeners', 'DESC')
+      .limit(10)
+      .getMany();
   }
 
   async findAlbumById(albumId: number): Promise<Album> {

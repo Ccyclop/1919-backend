@@ -14,14 +14,12 @@ export class RsTokenController {
     constructor(private rsTokenService: RsTokenService) {}
 
     
-    @Roles('user')
     @Post('forgot-password')
     async forgotPasswrod(@CustomBody() dto:forgotPDto){
       return await this.rsTokenService.forgotPassword(dto.email)
     }
 
     // @UseGuards(RtGuard)
-    @Roles('user')
     @Put('reset-password/:resettoken')
     async resetPassword( @CustomBody() dto:resetPDto, @Param('resettoken') RsToken:string){
         console.log(RsToken)
