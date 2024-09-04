@@ -41,8 +41,8 @@ export class AuthorsService {
 
     const author = await this.authorRepo.findOne(id)
     if(!author) throw new NotFoundException(`author with id${id} not found`)
-
-    if (filename && data && mimetype && type) {
+      
+    if (data && mimetype && type) {
       const uploadResponse = await this.s3Service.saveS3(filename, data, mimetype, type,userId);
       author.photo = uploadResponse; 
 
