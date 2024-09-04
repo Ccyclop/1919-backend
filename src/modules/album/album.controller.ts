@@ -37,7 +37,7 @@ export class AlbumController {
   }
 
   @PublicRoute()
-  @Put(":id")
+  @Put(':id')
   @UseInterceptors(FileInterceptor('file'))
   async updateAlbum(
     @Param('id') id:number,

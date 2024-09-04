@@ -25,7 +25,7 @@ export class AuthorsService {
     author.biography = biography;
     author.photo = uploadResponse; 
   
-    return await this.authorRepo.save(author);
+    return await this.authorRepo.saveAuthor(author);
   }
 
   async findAll() {
@@ -49,7 +49,7 @@ export class AuthorsService {
     author.biography = biography;
     author.photo = uploadResponse; 
   
-    return await this.authorRepo.save(author);
+    return await this.authorRepo.saveAuthor(author);
 
 
   }
