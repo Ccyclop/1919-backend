@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, Put } from '@nestjs/common';
 import { AuthorsService } from './authors.service';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
@@ -7,6 +7,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { S3Type } from '../S3/enum/S3.enum';
 import { GetCurrentUserId } from '../auth/decorators';
 import { Roles } from '../auth/decorators/role.decorator';
+import { UpdateAlbumDto } from '../album/dtos/update-album.dto';
 
 @Controller('author')
 export class AuthorsController {
@@ -38,10 +39,21 @@ export class AuthorsController {
     return await this.authorsService.findOne(+id);
   }
 
-  @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateAuthorDto: UpdateAuthorDto) {
-    return await this.authorsService.update(+id, updateAuthorDto);
+  @Roles('admin')
+  @Put(':id')
+  @UseInterceptors(FileInterceptor('img'))
+  async updateAlbum(
+    @GetCurrentUserId() userId : number,
+    @Body() updateAuthorDto: UpdateAuthorDto,
+    @Param('id') id: number,
+    @UploadedFile() file: Express.Multer.File
+  ) {
+    const { filename, buffer, mimetype } = file;
+    const type = S3Type.PHOTO
+    console.log(filename,buffer,mimetype,updateAuthorDto)
+    return await this.authorsService.updateAlbum(id,updateAuthorDto,filename, buffer, mimetype, type,userId);
   }
+
 
   @Roles('admin')
   @Delete(':id')

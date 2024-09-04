@@ -56,4 +56,10 @@ export class AlbumController {
         await this.albumService.deleteAlbum(albumId);
     }
 
+    @Get('top')
+    topAlbums() {
+      return this.albumService.getTopAlbums();
+    }
+
+
 }

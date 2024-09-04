@@ -20,7 +20,6 @@ export class RsTokenController {
     }
 
     // @UseGuards(RtGuard)
-    @Roles('user')
     @Put('reset-password/:resettoken')
     async resetPassword( @CustomBody() dto:resetPDto, @Param('resettoken') RsToken:string){
         console.log(RsToken)

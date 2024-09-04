@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
 import { AuthorRepository } from './authors.repository';
@@ -36,8 +36,22 @@ export class AuthorsService {
     return await this.authorRepo.findOne(id)
   }
 
-  async update(id: number, updateAuthorDto: UpdateAuthorDto) {
-    return await this.authorRepo.update(id, updateAuthorDto)
+  async updateAlbum(id:number,updateAuthorDto: UpdateAuthorDto, filename: string, data: Buffer, mimetype: string, type: S3Type,userId:number) {
+    const { firstName,lastName, biography } = updateAuthorDto;
+
+    const author = await this.authorRepo.findAuthor(id)
+    if(!author) throw new NotFoundException(`author with id${id} not found`)
+
+    const uploadResponse = await this.s3Service.saveS3(filename, data, mimetype, type,userId);
+
+    author.firstName = firstName;
+    author.lastName = lastName
+    author.biography = biography;
+    author.photo = uploadResponse; 
+  
+    return await this.authorRepo.save(author);
+
+
   }
 
   async remove(id: number) {
