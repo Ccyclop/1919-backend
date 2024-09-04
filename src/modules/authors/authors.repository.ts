@@ -20,6 +20,7 @@ export class AuthorRepository {
                     .createQueryBuilder('author')
                     .leftJoinAndSelect('author.musics', 'music')
                     .leftJoinAndSelect('author.albums','album')
+                    .leftJoinAndSelect('author.photo','photo')
                     .getMany()
     }
 
@@ -28,6 +29,7 @@ export class AuthorRepository {
                     .createQueryBuilder('author')
                     .where('author.id = :id', { id })
                     .leftJoinAndSelect('author.musics', 'music')
+                    .leftJoinAndSelect('author.photo','photo')
                     .getOne()
     }
 
