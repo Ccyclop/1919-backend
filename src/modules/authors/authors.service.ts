@@ -32,7 +32,7 @@ export class AuthorsService {
     return await this.authorRepo.findAll()
   }
 
-  async findOne(id: number) {
+  async findAuthor(id: number) {
     return await this.authorRepo.findOne(id)
   }
 

@@ -35,7 +35,7 @@ export class AuthorsController {
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return await this.authorsService.findOne(+id);
+    return await this.authorsService.findAuthor(+id);
   }
 
   @Roles('admin')
