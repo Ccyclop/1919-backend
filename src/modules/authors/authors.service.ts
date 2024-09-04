@@ -36,7 +36,7 @@ export class AuthorsService {
     return await this.authorRepo.findOne(id)
   }
 
-  async updateAlbum(id:number,updateAuthorDto: UpdateAuthorDto, filename: string, data: Buffer, mimetype: string, type: S3Type,userId:number) {
+  async updateArtist(id:number,updateAuthorDto: UpdateAuthorDto, filename: string, data: Buffer, mimetype: string, type: S3Type,userId:number) {
     const { firstName,lastName, biography } = updateAuthorDto;
 
     const author = await this.authorRepo.findOne(id)

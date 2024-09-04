@@ -51,7 +51,7 @@ export class AuthorsController {
     const { filename, buffer, mimetype } = file;
     const type = S3Type.PHOTO
     console.log(filename,buffer,mimetype,updateAuthorDto)
-    return await this.authorsService.updateAlbum(id,updateAuthorDto,filename, buffer, mimetype, type,userId);
+    return await this.authorsService.updateArtist(id,updateAuthorDto,filename, buffer, mimetype, type,userId);
   }
 
 
