@@ -20,6 +20,9 @@ export class MusicEntity {
     @ManyToOne(() => Author, (author) => author.musics)
     author: Author;
 
+    @Column()
+    authorName: string
+
     @ManyToOne(() => Album, (album) => album.musics)
     album: Album;
     
