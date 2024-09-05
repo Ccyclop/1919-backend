@@ -96,6 +96,7 @@ export class AuthService {
         const user = await this.userRepository.findById(id)
         if (!user) throw new NotFoundException(`user with id ${id} not found `) 
         user.blocked = true
+        await this.userRepository.updateUser(user)
         return 'user blocked'
       }
 

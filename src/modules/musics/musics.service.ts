@@ -66,6 +66,13 @@ export class MusicsService {
     return await this.musicRepo.getTop10Music(month)
   }
 
+  async getTop10MusicForlastDay() {
+    const oneDay = new Date();
+    oneDay.setMonth((oneDay).getDate() - 1);
+    return await this.musicRepo.getTop10Music(oneDay)
+
+  }
+
   async updateMusic(
     id:number,
     updateMusicDto: UpdateMusicDto,
