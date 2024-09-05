@@ -23,7 +23,7 @@ export class MusicsService {
     audioFile: Express.Multer.File,
     userId: number
   ): Promise<MusicEntity> {
-    const { name, authorId, duration } = createMusicDto;
+    const { name, authorId,  } = createMusicDto;
   
     const photoUploadResponse = await this.s3Service.saveS3(photoFile.originalname, photoFile.buffer, photoFile.mimetype, S3Type.PHOTO, userId);
   
@@ -32,7 +32,6 @@ export class MusicsService {
     const music = new MusicEntity();
     music.name = name;
     music.authorId = authorId;
-    music.duration = duration;
     music.photo = photoUploadResponse;  
     music.audio = audioUploadResponse;  
   
@@ -80,7 +79,7 @@ export class MusicsService {
     audioFile?: Express.Multer.File,
     userId?: number
   ): Promise<MusicEntity> {
-    const { name, authorId, duration } = updateMusicDto;
+    const { name, authorId } = updateMusicDto;
     const music = await this.musicRepo.findOne(id)
   
     if(photoFile) {
@@ -96,7 +95,6 @@ export class MusicsService {
   
     music.name = name;
     music.authorId = authorId;
-    music.duration = duration;
   
     return await this.musicRepo.save(music);
   }
