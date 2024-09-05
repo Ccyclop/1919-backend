@@ -34,6 +34,13 @@ export class AuthorRepository {
                     .getOne()
     }
 
+    async getAuthorByName(name:string) {
+        return await this.authorRepo
+        .createQueryBuilder('author')
+        .where('author.firstName = :name', {name})
+        .getOne()
+    }
+
     async update(id: number, data: UpdateAuthorDto) {
         await this.authorRepo
                 .createQueryBuilder('author')
