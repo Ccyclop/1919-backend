@@ -7,10 +7,6 @@ export class CreateMusicDto {
     @MaxLength(255)
     name: string;
 
-    @IsNumber()
-    @Transform(({ value }) => parseInt(value, 10))
-    authorId: number;
-
     @IsString()
     authorName:string
 

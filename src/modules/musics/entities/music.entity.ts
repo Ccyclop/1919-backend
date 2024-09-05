@@ -14,9 +14,6 @@ export class MusicEntity {
     @Column({type: 'varchar'})
     name: string
 
-    @Column({type: 'int', nullable: true})
-    authorId: number;
-
     @ManyToOne(() => Author, (author) => author.musics)
     author: Author;
 
