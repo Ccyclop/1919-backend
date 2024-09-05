@@ -3,7 +3,6 @@ import { CreateMusicDto } from './dto/create-music.dto';
 import { UpdateMusicDto } from './dto/update-music.dto';
 import { MusicsRepository } from './musics.repository';
 import { MusicEntity } from './entities/music.entity';
-import { S3Repository } from '../S3/S3.repository';
 import { S3Type } from '../S3/enum/S3.enum';
 import { S3Service } from '../S3/S3.service';
 import { ListenCounterRepository } from '../listen-counters/listen-counters.repository';
@@ -61,8 +60,38 @@ export class MusicsService {
     return await this.musicRepo.getTop10Music(oneWeek)
   }
 
-  async update(id: number, updateMusicDto: UpdateMusicDto) {
-    return await this.musicRepo.update(id, updateMusicDto);
+  async getTop10MusicForLastMonth() {
+    const month = new Date();
+    month.setMonth(month.getMonth() - 1);
+    return await this.musicRepo.getTop10Music(month)
+  }
+
+  async updateMusic(
+    id:number,
+    updateMusicDto: UpdateMusicDto,
+    photoFile?: Express.Multer.File,
+    audioFile?: Express.Multer.File,
+    userId?: number
+  ): Promise<MusicEntity> {
+    const { name, authorId, duration } = updateMusicDto;
+    const music = await this.musicRepo.findOne(id)
+  
+    if(photoFile) {
+      const photoUploadResponse = await this.s3Service.saveS3(photoFile.originalname, photoFile.buffer, photoFile.mimetype, S3Type.PHOTO, userId);
+      music.photo = photoUploadResponse;  
+
+    }
+    if(audioFile) {
+       const audioUploadResponse = await this.s3Service.saveS3(audioFile.originalname, audioFile.buffer, audioFile.mimetype, S3Type.AUDIO, userId);
+       music.audio = audioUploadResponse;  
+
+    }
+  
+    music.name = name;
+    music.authorId = authorId;
+    music.duration = duration;
+  
+    return await this.musicRepo.save(music);
   }
 
   async remove(id: number) {

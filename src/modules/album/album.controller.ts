@@ -31,23 +31,37 @@ export class AlbumController {
     return this.albumService.getAllAlbums();
   }
 
+  @Get('top')
+  async getTopAlbums(): Promise<Album[]> {
+    return this.albumService.getTopAlbums();
+  }
+
   @Get(':id')
   async getAlbumById(@Param('id') id: string) {
     return await this.albumService.getAlbum(parseInt(id, 10));
   }
 
-  @PublicRoute()
   @Put(':id')
   @UseInterceptors(FileInterceptor('file'))
   async updateAlbum(
     @Param('id') id:number,
     @GetCurrentUserId() userId: number,
     @Body() updateAlbumDto: UpdateAlbumDto,
-    @UploadedFile() file: Express.Multer.File
+    @UploadedFile() file?: Express.Multer.File
   ) {
-    const { originalname, buffer, mimetype } = file;
-    const type = S3Type.PHOTO
-    return await this.albumService.updateAlbum(id,updateAlbumDto,originalname, buffer, mimetype, type,userId);
+
+    let filename: string | undefined;
+    let buffer: Buffer | undefined;
+    let mimetype: string | undefined;
+    let type: S3Type | undefined;
+  
+    if (file) {
+      filename = file.originalname; 
+      buffer = file.buffer;
+      mimetype = file.mimetype;
+      type = S3Type.PHOTO;
+    }
+    return await this.albumService.updateAlbum(id,updateAlbumDto,filename, buffer, mimetype, type,userId);
   }
 
   @Roles('admin')

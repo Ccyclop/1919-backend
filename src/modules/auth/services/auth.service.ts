@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, UnauthorizedException } from "@nestjs/common";
+import { ForbiddenException, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { AuthDto,ChangePDto } from "../../user/dto";
 import { UserRepository } from "../../user/user.repository";
 import * as bcryptjs from 'bcryptjs'
@@ -6,6 +6,7 @@ import { TokenService } from "./token.service";
 import { Response } from "express";
 import * as session from 'express-session';
 import { UserRole } from "../types/role.type";
+import { User } from "@src/modules/user/entity/user.entity";
 
 
 @Injectable()
@@ -18,7 +19,7 @@ export class AuthService {
     async signinLocal(dto: AuthDto){
         const user = await this.userRepository.findByEmail(dto.email);
 
-        if (!user) throw new ForbiddenException('access denied');
+        if (!user || user.blocked) throw new ForbiddenException('access denied');
 
 
         const passwordMatches = await bcryptjs.compare(dto.password,user.hashP);
@@ -89,6 +90,13 @@ export class AuthService {
         // res.clearCookie('refresh_token');
         return true;
         
+      }
+
+      async blockUser(id:number):Promise<String> {
+        const user = await this.userRepository.findById(id)
+        if (!user) throw new NotFoundException(`user with id ${id} not found `) 
+        user.blocked = true
+        return 'user blocked'
       }
 
       

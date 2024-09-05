@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, UploadedFiles, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, UploadedFiles, BadRequestException, Put } from '@nestjs/common';
 import { MusicsService } from './musics.service';
 import { CreateMusicDto } from './dto/create-music.dto';
 import { UpdateMusicDto } from './dto/update-music.dto';
@@ -36,9 +36,14 @@ export class MusicsController {
     return await this.musicsService.findAll()
   }
 
-  @Get('top')
-  async getTop10() {
+  @Get('week')
+  async getTopWeek() {
     return await this.musicsService.getTop10MusicForLastWeek();
+  }
+
+  @Get('month')
+  async getTopMonth() {
+    return await this.musicsService.getTop10MusicForLastMonth()
   }
 
   @Get(':id')
@@ -46,10 +51,23 @@ export class MusicsController {
     return await this.musicsService.findOne(id, userId);
   }
 
-  @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateMusicDto: UpdateMusicDto) {
-    return await this.musicsService.update(+id, updateMusicDto);
+  @Roles('admin')
+  @Put(':id')
+  @UseInterceptors(FilesInterceptor('files'))  
+  async updateMusic(
+    @Param('id') id:number,
+    @GetCurrentUserId() userId: number,
+    @Body() createMusicDto: CreateMusicDto,
+    @UploadedFiles() files?: Express.Multer.File[]
+  ) {
+
+    const photoFile = files.find(file => file.mimetype.startsWith('image/'));
+    const audioFile = files.find(file => file.mimetype.startsWith('audio/'));
+  
+  
+    return await this.musicsService.updateMusic(id,createMusicDto, photoFile, audioFile, userId);
   }
+
 
   @Roles('admin')
   @Delete(':id')

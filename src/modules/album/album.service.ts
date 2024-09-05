@@ -64,9 +64,14 @@ export class AlbumService {
   
       return savedAlbum;
     }
+
+
+    async getTopAlbums() {
+      return await this.albumRepository.findTop10AlbumsByMusic()
+    }
  
-    async updateAlbum(id:number,updateAlbumDto: UpdateAlbumDto,filename: string, data: Buffer, mimetype: string,type: S3Type,userId:number): Promise<Album> {
-      const {  title, musicIds, authortId,photoId } = updateAlbumDto;
+    async updateAlbum(id:number,updateAlbumDto: UpdateAlbumDto,filename?: string, data?: Buffer, mimetype?: string,type?: S3Type,userId?:number): Promise<Album> {
+      const {  title, musicIds, authorId,file } = updateAlbumDto;
 
       const album = await this.albumRepository.findAlbumWithArtistAndMusics(id)
 
@@ -78,11 +83,11 @@ export class AlbumService {
           album.title = title;
       }
 
-      if (authortId) {
-          const artist = await this.authorRepository.findOne(authortId);
+      if (authorId) {
+          const artist = await this.authorRepository.findOne(authorId);
 
           if (!artist) {
-              throw new NotFoundException(`Artist with id ${authortId} not found`);
+              throw new NotFoundException(`Artist with id ${authorId} not found`);
           }
 
           album.author = artist;
@@ -97,12 +102,9 @@ export class AlbumService {
           
           album.musics = musics;
       }
-      if (photoId) {
-        const photo = await this.S3Repository.findOne(photoId);
-        if (!photo) {
-          throw new NotFoundException(`Photo with id ${photoId} not found`);
-        }
-        album.photo = photo; 
+      if (file) {
+        const uploadPhoto = await this.s3Service.saveS3(filename,data,mimetype,type,userId);
+        album.photo= uploadPhoto;
       }
 
       const uploadResponse = await this.s3Service.saveS3(filename,data,mimetype,type,userId);
