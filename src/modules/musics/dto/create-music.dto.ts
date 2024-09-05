@@ -11,6 +11,9 @@ export class CreateMusicDto {
     @Transform(({ value }) => parseInt(value, 10))
     authorId: number;
 
+    @IsString()
+    authorName:string
+
 
 
 }
