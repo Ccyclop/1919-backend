@@ -23,9 +23,6 @@ export class MusicEntity {
     @ManyToOne(() => Album, (album) => album.musics)
     album: Album;
     
-    @Column({type: 'int'})
-    duration: number;
-
     @CreateDateColumn()
     createdAt: Date;
 
