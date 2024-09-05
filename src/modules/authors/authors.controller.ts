@@ -38,6 +38,8 @@ export class AuthorsController {
   async findOne(@Param('id') id: string) {
     return await this.authorsService.findAuthor(+id);
   }
+  
+  
 
   @Roles('admin')
   @Put(':id')

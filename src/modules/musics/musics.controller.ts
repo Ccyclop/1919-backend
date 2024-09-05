@@ -36,6 +36,11 @@ export class MusicsController {
     return await this.musicsService.findAll()
   }
 
+  @Get('day')
+  async getTopDayMusic() {
+    return this.musicsService.getTop10MusicForlastDay()
+  }
+
   @Get('week')
   async getTopWeek() {
     return await this.musicsService.getTop10MusicForLastWeek();
