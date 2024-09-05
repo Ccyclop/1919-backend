@@ -110,8 +110,8 @@ export class TokenService {
         };
     
         const [at, rt] = await Promise.all([
-          this.jwtService.signAsync(jwtPayload, { expiresIn: '1w' }),
-          this.jwtService.signAsync(JwtPayloadWithRt, { expiresIn: '2w' }),
+           this.jwtService.signAsync(jwtPayload, { expiresIn: '1w' }),
+           this.jwtService.signAsync(JwtPayloadWithRt, { expiresIn: '2w' }),
         ]);
 
         return {
