@@ -15,12 +15,5 @@ export class CreateMusicDto {
     @Transform(({ value }) => parseInt(value, 10))
     duration: number;
 
-    @IsOptional()
-    @IsNumber()
-    @Transform(({ value }) => parseInt(value, 10))
-    photoId: number;
 
-    @IsNumber()
-    @Transform(({ value }) => parseInt(value, 10))
-    audioId: number;
 }
