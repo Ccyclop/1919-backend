@@ -20,6 +20,19 @@ export class AlbumRepository {
       .getOne();
   }
 
+  async findTop10AlbumsByMusic(): Promise<Album[]> {
+    return this.albumRepository.createQueryBuilder('album')
+      .leftJoinAndSelect('album.musics', 'music')
+      .leftJoinAndSelect('music.listens', 'listenerCounter')
+      .addSelect('SUM(listenerCounter.id)', 'totalListeners')
+      .groupBy('album.id')
+      .orderBy('totalListeners', 'DESC')
+      .limit(10)
+      .getMany();
+  }
+  
+
+
 
 
   async findAlbumById(albumId: number): Promise<Album> {

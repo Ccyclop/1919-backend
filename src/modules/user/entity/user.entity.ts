@@ -49,6 +49,9 @@ export class User {
     @DeleteDateColumn()
     deleted_at : Date
 
+    @Column({ default: false })
+    blocked: boolean;
+
     @OneToMany(() => Token, token => token.user)
     tokens: Token[];
 

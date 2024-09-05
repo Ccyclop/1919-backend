@@ -29,7 +29,6 @@ export class AuthorsController {
 
   }
 
-  // @PublicRoute()
   @Get()
   async findAll() {
     return await this.authorsService.findAll();
@@ -49,7 +48,7 @@ export class AuthorsController {
     @Param('id') id: number,
     @UploadedFile() file?: Express.Multer.File
   ) {
-    
+
   let filename: string | undefined;
   let buffer: Buffer | undefined;
   let mimetype: string | undefined;
@@ -65,7 +64,6 @@ export class AuthorsController {
     console.log(filename,buffer,mimetype,updateAuthorDto)
     return await this.authorsService.updateArtist(id,updateAuthorDto,filename, buffer, mimetype, type,userId);
   }
-
 
   @Roles('admin')
   @Delete(':id')

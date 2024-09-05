@@ -36,16 +36,16 @@ export class MusicsRepository{
                 .getOne()
     }
 
-    async getTop10Music(date:Date) {
+    async getTop10Music(date: Date) {
         return await this.musicRepo
           .createQueryBuilder('music')
           .leftJoinAndSelect('music.listens', 'listenCounter')
-          .where('listenCounter.createdAt >= :oneWeekAgo', { date }) 
+          .where('listenCounter.createdAt >= :date', { date })  
           .groupBy('music.id')
-          .orderBy('COUNT(listenCounter.id)', 'DESC') 
+          .orderBy('COUNT(listenCounter.id)', 'DESC')
           .limit(10)
           .getMany();
-      }
+    }
       
 
 

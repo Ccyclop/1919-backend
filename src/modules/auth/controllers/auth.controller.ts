@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Put, Req, Res, UseGuards } from "@nestjs/common";
+import { Body, Controller, Param, Post, Put, Req, Res, UseGuards } from "@nestjs/common";
 import { AuthService } from "../services/auth.service";
 import { PublicRoute } from "../decorators/admin.decorator";
 import { AuthDto,ChangePDto } from "../../user/dto";
@@ -38,6 +38,12 @@ export class AuthController {
     async logoutAdmin(@GetCurrentUserId() userId: number, @Res({ passthrough: true }) res: Response): Promise<boolean> {
       console.log('userID',userId)
       return await this.authService.logout(userId,res);
+    }
+
+    @Roles('admin')
+    @Put('block/:id')
+    async blockUser(@Param('id') id:number) {
+      return await this.authService.blockUser(id);
     }
 
 
