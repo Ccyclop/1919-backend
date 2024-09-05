@@ -97,12 +97,12 @@ export class AuthService {
         if (!user) throw new NotFoundException(`user with id ${id} not found `) 
         user.blocked = true
         await this.userRepository.updateUser(user)
-        return 'user blocked'
+        return 'user blocked'  
       }
 
       
-      async changePassword( userId:number, dto:ChangePDto ): Promise<boolean>{
-        const user = await this.userRepository.findById(userId);
+      async changePassword( id:number,userId:number, dto:ChangePDto ): Promise<boolean>{
+        const user = await this.userRepository.findById(id);
         if (!user) throw new ForbiddenException('access denied');
 
         // const matchPassword = await bcryptjs.compare(dto.oldPassword, user.hashP)
