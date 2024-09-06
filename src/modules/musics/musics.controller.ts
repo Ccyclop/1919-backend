@@ -5,7 +5,6 @@ import { UpdateMusicDto } from './dto/update-music.dto';
 import { PublicRoute } from '../auth/decorators/admin.decorator';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { GetCurrentUserId } from '../auth/decorators';
-import { S3Type } from '../S3/enum/S3.enum';
 import { Roles } from '../auth/decorators/role.decorator';
 
 @Controller('music')
