@@ -14,18 +14,15 @@ export class MusicEntity {
     @Column({type: 'varchar'})
     name: string
 
-    @Column({type: 'int', nullable: true})
-    authorId: number;
-
     @ManyToOne(() => Author, (author) => author.musics)
     author: Author;
+
+    @Column()
+    authorName: string
 
     @ManyToOne(() => Album, (album) => album.musics)
     album: Album;
     
-    @Column({type: 'int'})
-    duration: number;
-
     @CreateDateColumn()
     createdAt: Date;
 

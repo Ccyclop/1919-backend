@@ -25,10 +25,14 @@ export class MusicsService {
     audioFile: Express.Multer.File,
     userId: number
   ): Promise<MusicEntity> {
+
     const { name, authorName } = createMusicDto;
     
     const author = await this.authorRepository.getAuthorByName(authorName)
     if(!author) throw new NotFoundException(`author with name ${ authorName} not found`)
+
+
+
 
     const photoUploadResponse = await this.s3Service.saveS3(photoFile.originalname, photoFile.buffer, photoFile.mimetype, S3Type.PHOTO, userId);
   
@@ -37,6 +41,7 @@ export class MusicsService {
     const music = new MusicEntity();
     music.name = name;
     music.author = author
+
     music.photo = photoUploadResponse;  
     music.audio = audioUploadResponse;  
   
@@ -84,11 +89,19 @@ export class MusicsService {
     audioFile?: Express.Multer.File,
     userId?: number
   ): Promise<MusicEntity> {
+
     const { name, authorName } = updateMusicDto;
     const music = await this.musicRepo.findOne(id)
         
     const author = await this.authorRepository.getAuthorByName(authorName)
     if(!author) throw new NotFoundException(`author with name ${ authorName} not found`)
+
+
+
+
+  
+
+
   
     if(photoFile) {
       const photoUploadResponse = await this.s3Service.saveS3(photoFile.originalname, photoFile.buffer, photoFile.mimetype, S3Type.PHOTO, userId);
@@ -102,7 +115,12 @@ export class MusicsService {
     }
   
     music.name = name;
+
     music.author = author  
+
+
+  
+
     return await this.musicRepo.save(music);
   }
 
