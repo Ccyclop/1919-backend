@@ -22,6 +22,7 @@ import { ListenCounterEntity } from '../listen-counters/entities/listen-counter.
 import { S3Module } from '../S3/S3.module';
 import { S3HistoryModule } from '../S3-history/S3-history.module';
 import { ListenCountersModule } from '../listen-counters/listen-counters.module';
+import { AuthorRepository } from '../authors/authors.repository';
 
 @Module({
   imports: [TypeOrmModule.forFeature([MusicEntity, Author,S3Entity,User,S3History, ListenCounterEntity]),
@@ -29,7 +30,7 @@ import { ListenCountersModule } from '../listen-counters/listen-counters.module'
 
 ],
   controllers: [MusicsController],
-  providers: [MusicsService, MusicsRepository, ListenCounterRepository],
+  providers: [MusicsService, MusicsRepository, ListenCounterRepository,AuthorRepository],
   exports:[MusicsRepository]
 })
 export class MusicsModule {}

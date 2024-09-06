@@ -6,6 +6,7 @@ import { MusicEntity } from './entities/music.entity';
 import { S3Type } from '../S3/enum/S3.enum';
 import { S3Service } from '../S3/S3.service';
 import { ListenCounterRepository } from '../listen-counters/listen-counters.repository';
+import { AuthorRepository } from '../authors/authors.repository';
 
 @Injectable()
 export class MusicsService {
@@ -13,7 +14,8 @@ export class MusicsService {
   constructor(
     private readonly musicRepo: MusicsRepository,
     private readonly s3Service : S3Service,
-    private readonly listenService: ListenCounterRepository
+    private readonly listenService: ListenCounterRepository,
+    private readonly authorRepository : AuthorRepository
     
   ) {}
 
@@ -23,16 +25,18 @@ export class MusicsService {
     audioFile: Express.Multer.File,
     userId: number
   ): Promise<MusicEntity> {
-    const { name, authorId, duration } = createMusicDto;
-  
+    const { name, authorName } = createMusicDto;
+    
+    const author = await this.authorRepository.getAuthorByName(authorName)
+    if(!author) throw new NotFoundException(`author with name ${ authorName} not found`)
+
     const photoUploadResponse = await this.s3Service.saveS3(photoFile.originalname, photoFile.buffer, photoFile.mimetype, S3Type.PHOTO, userId);
   
     const audioUploadResponse = await this.s3Service.saveS3(audioFile.originalname, audioFile.buffer, audioFile.mimetype, S3Type.AUDIO, userId);
   
     const music = new MusicEntity();
     music.name = name;
-    music.authorId = authorId;
-    music.duration = duration;
+    music.author = author
     music.photo = photoUploadResponse;  
     music.audio = audioUploadResponse;  
   
@@ -80,8 +84,11 @@ export class MusicsService {
     audioFile?: Express.Multer.File,
     userId?: number
   ): Promise<MusicEntity> {
-    const { name, authorId, duration } = updateMusicDto;
+    const { name, authorName } = updateMusicDto;
     const music = await this.musicRepo.findOne(id)
+        
+    const author = await this.authorRepository.getAuthorByName(authorName)
+    if(!author) throw new NotFoundException(`author with name ${ authorName} not found`)
   
     if(photoFile) {
       const photoUploadResponse = await this.s3Service.saveS3(photoFile.originalname, photoFile.buffer, photoFile.mimetype, S3Type.PHOTO, userId);
@@ -95,9 +102,7 @@ export class MusicsService {
     }
   
     music.name = name;
-    music.authorId = authorId;
-    music.duration = duration;
-  
+    music.author = author  
     return await this.musicRepo.save(music);
   }
 

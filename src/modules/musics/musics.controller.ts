@@ -11,14 +11,14 @@ import { Roles } from '../auth/decorators/role.decorator';
 @Controller('music')
 export class MusicsController {
   constructor(private readonly musicsService: MusicsService) {}
-
+  
   @Roles('admin')
   @Post()
   @UseInterceptors(FilesInterceptor('files'))  
   async createMusic(
     @GetCurrentUserId() userId: number,
     @Body() createMusicDto: CreateMusicDto,
-    @UploadedFiles() files: Express.Multer.File[]
+    @UploadedFiles() files: Express.Multer.File[],
   ) {
 
     const photoFile = files.find(file => file.mimetype.startsWith('image/'));
