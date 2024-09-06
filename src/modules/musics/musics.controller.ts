@@ -64,7 +64,6 @@ export class MusicsController {
     @Body() createMusicDto: CreateMusicDto,
     @UploadedFiles() files?: Express.Multer.File[]
   ) {
-    
 
     const photoFile = files.find(file => file.mimetype.startsWith('image/'));
     const audioFile = files.find(file => file.mimetype.startsWith('audio/'));

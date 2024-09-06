@@ -42,7 +42,7 @@ export class MusicsService {
     const music = new MusicEntity();
     music.name = name;
     music.author = author
-
+    music.authorName = authorName
     music.photo = photoUploadResponse;  
     music.audio = audioUploadResponse;  
   
@@ -97,12 +97,6 @@ export class MusicsService {
     const author = await this.authorRepository.getAuthorByName(authorName)
     if(!author) throw new NotFoundException(`author with name ${ authorName} not found`)
 
-
-
-
-  
-
-
   
     if(photoFile) {
       const photoUploadResponse = await this.s3Service.saveS3(photoFile.originalname, photoFile.buffer, photoFile.mimetype, S3Type.PHOTO, userId);
@@ -116,7 +110,7 @@ export class MusicsService {
     }
   
     music.name = name;
-
+    music.authorName = authorName
     music.author = author  
 
 
