@@ -29,7 +29,7 @@ export class MusicsService {
     const { name, authorName } = createMusicDto;
     
     const author = await this.authorRepository.getAuthorByName(authorName)
-    if(!author) throw new NotFoundException(`author with name ${ authorName} not found`)
+    // if(!author) throw new NotFoundException(`author with name ${ authorName} not found`)
 
 
 
@@ -41,7 +41,7 @@ export class MusicsService {
     const music = new MusicEntity();
     music.name = name;
     music.author = author
-
+    music.authorName = authorName
     music.photo = photoUploadResponse;  
     music.audio = audioUploadResponse;  
   
@@ -115,7 +115,7 @@ export class MusicsService {
     }
   
     music.name = name;
-
+    music.authorName = authorName
     music.author = author  
 
 
