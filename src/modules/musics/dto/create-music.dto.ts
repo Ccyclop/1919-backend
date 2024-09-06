@@ -8,7 +8,12 @@ export class CreateMusicDto {
     name: string;
 
     @IsString()
-    authorName:string
+    authorName: string;
+
+
+
+
+
 
 
 

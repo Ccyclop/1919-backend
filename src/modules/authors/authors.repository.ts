@@ -41,6 +41,9 @@ export class AuthorRepository {
         .getOne()
     }
 
+
+
+
     async update(id: number, data: UpdateAuthorDto) {
         await this.authorRepo
                 .createQueryBuilder('author')
