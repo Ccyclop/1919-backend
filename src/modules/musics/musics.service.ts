@@ -29,7 +29,7 @@ export class MusicsService {
     const { name, authorName } = createMusicDto;
     
     const author = await this.authorRepository.getAuthorByName(authorName)
-    if(!author) throw new NotFoundException(`author with name ${ authorName} not found`)
+    // if(!author) throw new NotFoundException(`author with name ${ authorName} not found`)
 
 
 
@@ -97,7 +97,6 @@ export class MusicsService {
     const author = await this.authorRepository.getAuthorByName(authorName)
     if(!author) throw new NotFoundException(`author with name ${ authorName} not found`)
 
-  
     if(photoFile) {
       const photoUploadResponse = await this.s3Service.saveS3(photoFile.originalname, photoFile.buffer, photoFile.mimetype, S3Type.PHOTO, userId);
       music.photo = photoUploadResponse;  
