@@ -24,6 +24,8 @@ export class MusicsRepository{
         return await this.musicRepo
                 .createQueryBuilder('mus')
                 .leftJoinAndSelect('mus.author', 'author')
+                .leftJoinAndSelect('mus.photo', 'photo')
+                .leftJoinAndSelect('mus.audio', 'audio')
                 .getMany()
     }
 
