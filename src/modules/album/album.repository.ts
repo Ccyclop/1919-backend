@@ -38,7 +38,7 @@ export class AlbumRepository {
   }
   
   async findAllAlbums(): Promise<Album[]> {
-    return this.albumRepository.find({ where: { deletedAt: null }, relations: ['author', 'musics'] });
+    return this.albumRepository.find({ where: { deletedAt: null }, relations: ['author', 'musics','photo'] });
   }
 
   async getMusicForAlbum(albumId: number): Promise<MusicEntity[]> {
