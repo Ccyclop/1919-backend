@@ -8,6 +8,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { GetCurrentUserId } from '../auth/decorators';
 import { S3Type } from '../S3/enum/S3.enum';
 import { Roles } from '../auth/decorators/role.decorator';
+import { CustomBody } from '../auth/decorators/body.decorator';
 
 @Controller('album')
 export class AlbumController {
@@ -39,6 +40,14 @@ export class AlbumController {
   @Get(':id')
   async getAlbumById(@Param('id') id: string) {
     return await this.albumService.getAlbum(parseInt(id, 10));
+  }
+
+  @Put('addMusic/:id')
+  async addMusicToAlbum(
+    @Param('id') id: number,
+    @CustomBody() updateAlbumDto: UpdateAlbumDto
+) {
+     return await this.albumService.addMusicToAlbum(id,updateAlbumDto.musicIds)
   }
 
   @Put(':id')

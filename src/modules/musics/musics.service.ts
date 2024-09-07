@@ -7,6 +7,7 @@ import { S3Type } from '../S3/enum/S3.enum';
 import { S3Service } from '../S3/S3.service';
 import { ListenCounterRepository } from '../listen-counters/listen-counters.repository';
 import { AuthorRepository } from '../authors/authors.repository';
+import { AlbumRepository } from '../album/album.repository';
 
 @Injectable()
 export class MusicsService {
@@ -15,7 +16,8 @@ export class MusicsService {
     private readonly musicRepo: MusicsRepository,
     private readonly s3Service : S3Service,
     private readonly listenService: ListenCounterRepository,
-    private readonly authorRepository : AuthorRepository
+    private readonly authorRepository : AuthorRepository,
+    private readonly albumRepo : AlbumRepository
     
   ) {}
 
@@ -62,6 +64,18 @@ export class MusicsService {
       return await this.musicRepo.findOne(musicId);
     } else throw new NotFoundException('Music Not Found')
 
+  }
+
+  async getMusicNotInAlbum(albumId: number): Promise<MusicEntity[]> {
+    const allMusic = await this.musicRepo.findAll();
+
+    const musicInAlbum = await this.albumRepo.getMusicForAlbum(albumId);
+
+    const musicNotInAlbum = allMusic.filter(
+      music => !musicInAlbum.some(albumMusic => albumMusic.id === music.id),
+    );
+
+    return musicNotInAlbum;
   }
 
   async getTop10MusicForLastWeek() {

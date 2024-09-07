@@ -23,14 +23,16 @@ import { S3Module } from '../S3/S3.module';
 import { S3HistoryModule } from '../S3-history/S3-history.module';
 import { ListenCountersModule } from '../listen-counters/listen-counters.module';
 import { AuthorRepository } from '../authors/authors.repository';
+import { AlbumRepository } from '../album/album.repository';
+import { Album } from '../album/entities/album.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([MusicEntity, Author,S3Entity,User,S3History, ListenCounterEntity]),
+  imports: [TypeOrmModule.forFeature([MusicEntity, Author,S3Entity,User,S3History, ListenCounterEntity,Album]),
     UserModule, S3Module, S3HistoryModule
 
 ],
   controllers: [MusicsController],
-  providers: [MusicsService, MusicsRepository, ListenCounterRepository,AuthorRepository],
+  providers: [MusicsService, MusicsRepository, ListenCounterRepository,AuthorRepository,AlbumRepository],
   exports:[MusicsRepository]
 })
 export class MusicsModule {}

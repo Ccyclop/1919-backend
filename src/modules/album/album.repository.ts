@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Album } from './entities/album.entity';
 import { CreateMusicDto } from '../musics/dto/create-music.dto';
+import { MusicEntity } from '../musics/entities/music.entity';
 
 @Injectable()
 export class AlbumRepository {
@@ -32,15 +33,21 @@ export class AlbumRepository {
   }
   
 
-
-
-
   async findAlbumById(albumId: number): Promise<Album> {
     return this.albumRepository.findOne({ where: { id: albumId, deletedAt: null }, relations: ['author', 'musics'] });
   }
   
   async findAllAlbums(): Promise<Album[]> {
     return this.albumRepository.find({ where: { deletedAt: null }, relations: ['author', 'musics'] });
+  }
+
+  async getMusicForAlbum(albumId: number): Promise<MusicEntity[]> {
+    const album = await this.albumRepository.findOne({
+      where: { id: albumId },
+      relations: ['musics'], 
+    });
+
+    return album.musics;
   }
 
   async saveAlbum(album: Album): Promise<Album> {
