@@ -24,17 +24,17 @@ export class AlbumService {
     ){}
 
     async createAlbum(createAlbumDto: CreateAlbumDto,filename: string, data: Buffer, mimetype: string,type: S3Type,userId:number): Promise<Album> {
-      const { title, authorName, musics,musicIds } = createAlbumDto;
+      const { title, authorName, musics } = createAlbumDto;
   
       const author = await this.authorRepository.getAuthorByName(authorName);
       if (!author) {
         throw new NotFoundException(`Author with name ${authorName} not found`);
       }
 
-      const realMusics = await this.musicRepository.findMusicsByIds(musicIds);
-      if (realMusics.length !== musicIds.length) {
-        throw new Error('Some of the music IDs were not found');
-      }
+      // const realMusics = await this.musicRepository.findMusicsByIds(musicIds);
+      // if (realMusics.length !== musicIds.length) {
+      //   throw new Error('Some of the music IDs were not found');
+      // }
   
       const uploadResponse = await this.s3Service.saveS3(filename,data,mimetype,type,userId);
     
@@ -43,7 +43,7 @@ export class AlbumService {
       album.releaseDate = new Date();
       album.author = author;
       album.authorName = authorName;
-      album.musics = realMusics;
+      // album.musics = realMusics;
       album.user = userId
     
       album.photo = uploadResponse;
