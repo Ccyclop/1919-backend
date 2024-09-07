@@ -7,6 +7,7 @@ import { S3Type } from '../S3/enum/S3.enum';
 import { S3Service } from '../S3/S3.service';
 import { ListenCounterRepository } from '../listen-counters/listen-counters.repository';
 import { AuthorRepository } from '../authors/authors.repository';
+import { AlbumRepository } from '../album/album.repository';
 
 @Injectable()
 export class MusicsService {
@@ -15,7 +16,8 @@ export class MusicsService {
     private readonly musicRepo: MusicsRepository,
     private readonly s3Service : S3Service,
     private readonly listenService: ListenCounterRepository,
-    private readonly authorRepository : AuthorRepository
+    private readonly authorRepository : AuthorRepository,
+    private readonly albumRepo : AlbumRepository
     
   ) {}
 
@@ -29,10 +31,7 @@ export class MusicsService {
     const { name, authorName } = createMusicDto;
     
     const author = await this.authorRepository.getAuthorByName(authorName)
-    // if(!author) throw new NotFoundException(`author with name ${ authorName} not found`)
-
-
-
+    if(!author) throw new NotFoundException(`author with name ${ authorName} not found`)
 
 
     const photoUploadResponse = await this.s3Service.saveS3(photoFile.originalname, photoFile.buffer, photoFile.mimetype, S3Type.PHOTO, userId);
@@ -64,6 +63,18 @@ export class MusicsService {
 
   }
 
+  async getMusicNotInAlbum(albumId: number): Promise<MusicEntity[]> {
+    const allMusic = await this.musicRepo.findAll();
+
+    const musicInAlbum = await this.albumRepo.getMusicForAlbum(albumId);
+
+    const musicNotInAlbum = allMusic.filter(
+      music => !musicInAlbum.some(albumMusic => albumMusic.id === music.id),
+    );
+
+    return musicNotInAlbum;
+  }
+
   async getTop10MusicForLastWeek() {
     const oneWeek = new Date();
     oneWeek.setDate(oneWeek.getDate() - 7);
@@ -92,7 +103,9 @@ export class MusicsService {
   ): Promise<MusicEntity> {
 
     const { name, authorName } = updateMusicDto;
+
     const music = await this.musicRepo.findOne(id)
+    if(!music) throw new NotFoundException(`music with id ${id} not found`)
         
     const author = await this.authorRepository.getAuthorByName(authorName)
     if(!author) throw new NotFoundException(`author with name ${ authorName} not found`)

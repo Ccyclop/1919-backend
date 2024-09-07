@@ -65,6 +65,24 @@ export class AlbumService {
       return savedAlbum;
     }
 
+    async addMusicToAlbum(albumId:number,musicIds:number[]) {
+      const album = await this.albumRepository.findAlbumById(albumId)
+      if (!album) throw new NotFoundException(`album with id ${albumId} not found`)
+
+      const realMusics = await this.musicRepository.findMusicsByIds(musicIds);
+      if (realMusics.length !== musicIds.length) {
+        throw new Error('Some of the music IDs were not found');
+      }
+
+      for(let i = 0;i<realMusics.length;i++) {
+        album.musics.push(realMusics[i])
+      }
+
+      return this.albumRepository.saveAlbum(album)
+
+      
+    }
+
 
     async getTopAlbums() {
       return await this.albumRepository.findTop10AlbumsByMusic()
