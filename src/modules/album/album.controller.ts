@@ -9,6 +9,7 @@ import { GetCurrentUserId } from '../auth/decorators';
 import { S3Type } from '../S3/enum/S3.enum';
 import { Roles } from '../auth/decorators/role.decorator';
 import { CustomBody } from '../auth/decorators/body.decorator';
+import { AddMusicToAlbumDto } from './dtos/addMusicToAlbum.dto';
 
 @Controller('album')
 export class AlbumController {
@@ -45,9 +46,9 @@ export class AlbumController {
   @Put('addMusic/:id')
   async addMusicToAlbum(
     @Param('id') id: number,
-    @CustomBody() updateAlbumDto: UpdateAlbumDto
+    @CustomBody() addMusicToAlbumDto: AddMusicToAlbumDto
 ) {
-     return await this.albumService.addMusicToAlbum(id,updateAlbumDto.musicIds)
+     return await this.albumService.addMusicToAlbum(id,addMusicToAlbumDto.musicIds)
   }
 
   @Put(':id')
