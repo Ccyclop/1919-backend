@@ -10,13 +10,13 @@ export class CreateAlbumDto {
   @IsString()
   releaseDate?: string;  
 
-  @IsArray()
-  @IsNumber({}, { each: true })
-  @Transform(({ value }) => {
-    if (typeof value === 'string') {
-      return value.split(',').map(item => parseInt(item.trim(), 10));
-    }})
-  musicIds: number[];
+  // @IsArray()
+  // @IsNumber({}, { each: true })
+  // @Transform(({ value }) => {
+  //   if (typeof value === 'string') {
+  //     return value.split(',').map(item => parseInt(item.trim(), 10));
+  //   }})
+  // musicIds: number[];
 
   @IsArray()
   @ValidateNested({ each: true })
