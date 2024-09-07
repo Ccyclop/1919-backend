@@ -31,10 +31,7 @@ export class MusicsService {
     const { name, authorName } = createMusicDto;
     
     const author = await this.authorRepository.getAuthorByName(authorName)
-    // if(!author) throw new NotFoundException(`author with name ${ authorName} not found`)
-
-
-
+    if(!author) throw new NotFoundException(`author with name ${ authorName} not found`)
 
 
     const photoUploadResponse = await this.s3Service.saveS3(photoFile.originalname, photoFile.buffer, photoFile.mimetype, S3Type.PHOTO, userId);
@@ -106,7 +103,9 @@ export class MusicsService {
   ): Promise<MusicEntity> {
 
     const { name, authorName } = updateMusicDto;
+
     const music = await this.musicRepo.findOne(id)
+    if(!music) throw new NotFoundException(`music with id ${id} not found`)
         
     const author = await this.authorRepository.getAuthorByName(authorName)
     if(!author) throw new NotFoundException(`author with name ${ authorName} not found`)
