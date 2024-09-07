@@ -102,6 +102,7 @@ export class AlbumService {
         throw new NotFoundException(`Author with name ${authorName} not found`);
       }else {
         album.author = author
+        album.authorName = authorName
       }
 
       if (title) {
