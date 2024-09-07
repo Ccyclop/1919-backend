@@ -15,9 +15,8 @@ export class UpdateAlbumDto {
         }})
     musicIds?: number[];
 
-    @IsNumber()
-    @Transform(({ value }) => parseInt(value, 10))
-    authorId?: number;
+    @IsString()
+    authorName?: string;
 
     @IsOptional()
     file:Express.Multer.File
