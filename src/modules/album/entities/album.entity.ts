@@ -40,7 +40,7 @@ export class Album {
   user: number 
 
   @Column()
-  authorId: number
+  authorName: string
 
   @ManyToOne(() => Author, (author) => author.albums)
   author: Author; 

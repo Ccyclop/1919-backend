@@ -24,11 +24,11 @@ export class AlbumService {
     ){}
 
     async createAlbum(createAlbumDto: CreateAlbumDto,filename: string, data: Buffer, mimetype: string,type: S3Type,userId:number): Promise<Album> {
-      const { title, authorId, musics,musicIds } = createAlbumDto;
+      const { title, authorName, musics,musicIds } = createAlbumDto;
   
-      const author = await this.authorRepository.findOne(authorId);
+      const author = await this.authorRepository.getAuthorByName(authorName);
       if (!author) {
-        throw new NotFoundException(`Author with id ${authorId} not found`);
+        throw new NotFoundException(`Author with name ${authorName} not found`);
       }
 
       const realMusics = await this.musicRepository.findMusicsByIds(musicIds);
@@ -42,7 +42,7 @@ export class AlbumService {
       album.title = title;
       album.releaseDate = new Date();
       album.author = author;
-      album.authorId = authorId;
+      album.authorName = authorName;
       album.musics = realMusics;
       album.user = userId
     
@@ -89,7 +89,7 @@ export class AlbumService {
     }
  
     async updateAlbum(id:number,updateAlbumDto: UpdateAlbumDto,filename?: string, data?: Buffer, mimetype?: string,type?: S3Type,userId?:number): Promise<Album> {
-      const {  title, musicIds, authorId,file } = updateAlbumDto;
+      const {  title, musicIds, authorName,file } = updateAlbumDto;
 
       const album = await this.albumRepository.findAlbumWithArtistAndMusics(id)
 
@@ -97,19 +97,18 @@ export class AlbumService {
           throw new NotFoundException(`Album with id ${id} not found`);
       }
 
+      const author = await this.authorRepository.getAuthorByName(authorName);
+      if (!author) {
+        throw new NotFoundException(`Author with name ${authorName} not found`);
+      }else {
+        album.author = author
+      }
+
       if (title) {
           album.title = title;
       }
 
-      if (authorId) {
-          const artist = await this.authorRepository.findOne(authorId);
-
-          if (!artist) {
-              throw new NotFoundException(`Artist with id ${authorId} not found`);
-          }
-
-          album.author = artist;
-      }
+    
 
       if (musicIds) {
           const musics = await this.musicRepository.findMusicsByIds(musicIds)
