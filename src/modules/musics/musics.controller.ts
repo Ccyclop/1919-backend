@@ -35,8 +35,8 @@ export class MusicsController {
     return await this.musicsService.findAll()
   }
 
-  @Get('notInAlbum/:albumId')
-  async getMusicNotInAlbum(@Param('albumId') albumId: number) {
+  @Get('notInAlbum/:id')
+  async getMusicNotInAlbum(@Param('id') albumId: number) {
     return this.musicsService.getMusicNotInAlbum(albumId);
   }
 
