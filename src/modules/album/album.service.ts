@@ -9,6 +9,7 @@ import { CreateMusicDto } from '../musics/dto/create-music.dto.js';
 import { Author } from '../authors/entities/author.entity.js';
 import { S3Service } from '../S3/S3.service';
 import { S3Type } from '../S3/enum/S3.enum';
+import { DeleteMusicFromAlbumDto } from './dtos/deleteMusicFromAlbum.dto.js';
 
 @Injectable()
 export class AlbumService {
@@ -60,22 +61,29 @@ export class AlbumService {
       return savedAlbum;
     }
 
-    async addMusicToAlbum(albumId:number,musicIds:number[]) {
+    async addMusicToAlbum(albumId:number,musicId:number) {
       const album = await this.albumRepository.findAlbumById(albumId)
       if (!album) throw new NotFoundException(`album with id ${albumId} not found`)
 
-      const realMusics = await this.musicRepository.findMusicsByIds(musicIds);
-      if (realMusics.length !== musicIds.length) {
-        throw new NotFoundException('Some of the music IDs were not found');
-      }
+      const music = await this.musicRepository.findOne(musicId)
 
-      for(let i = 0;i<realMusics.length;i++) {
-        album.musics.push(realMusics[i])
-      }
+      album.musics.push(music)
+
+      return this.albumRepository.saveAlbum(album)
+      
+    }
+
+    async deleteMusicFromAlbum(albumId:number,musicId:number) {
+      const album = await this.albumRepository.findAlbumById(albumId)
+
+      const music = await this.musicRepository.findOne(musicId)
+
+
+      album.musics = album.musics.filter(music => music.id !==music.id);
+
 
       return this.albumRepository.saveAlbum(album)
 
-      
     }
 
 

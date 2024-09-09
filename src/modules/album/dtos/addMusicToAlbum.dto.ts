@@ -3,8 +3,8 @@ import { IsArray, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class AddMusicToAlbumDto {
 
-    @IsArray()
-    @IsNumber({}, { each: true })
-    musicIds?: number[];
+
+    @IsNumber()
+    musicId: number;
 
 }

@@ -10,6 +10,7 @@ import { S3Type } from '../S3/enum/S3.enum';
 import { Roles } from '../auth/decorators/role.decorator';
 import { CustomBody } from '../auth/decorators/body.decorator';
 import { AddMusicToAlbumDto } from './dtos/addMusicToAlbum.dto';
+import { DeleteMusicFromAlbumDto } from './dtos/deleteMusicFromAlbum.dto';
 
 @Controller('album')
 export class AlbumController {
@@ -61,7 +62,16 @@ export class AlbumController {
     @Param('id') id: number,
     @CustomBody() addMusicToAlbumDto: AddMusicToAlbumDto
 ) {
-     return await this.albumService.addMusicToAlbum(id,addMusicToAlbumDto.musicIds)
+     return await this.albumService.addMusicToAlbum(id,addMusicToAlbumDto.musicId)
+  }
+
+  @Roles('admin')
+  @Delete('deleteMusic/:id')
+  async deleteMusicFromAlbum(
+    @Param('id') albumId:number,
+    @CustomBody() deleteMusicfromAlbum: DeleteMusicFromAlbumDto
+  ) {
+    return await this.albumService.deleteMusicFromAlbum(albumId,deleteMusicfromAlbum.musicId)
   }
 
   @Roles('admin')
