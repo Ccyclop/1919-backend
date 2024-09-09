@@ -28,21 +28,34 @@ export class AlbumController {
     return await this.albumService.createAlbum(createAlbumDto,originalname, buffer, mimetype, type,userId);
   }
   
+  @Roles('admin')
   @Get()
   async getAllAlbums(): Promise<Album[]> {
     return this.albumService.getAllAlbums();
   }
 
-  @Get('top')
-  async getTopAlbums(): Promise<Album[]> {
-    return this.albumService.getTopAlbums();
+  @Get('topLastMonth')
+  async getTopAlbumsForLastMonth(): Promise<Album[]> {
+    return this.albumService.getTopAlbumsForLastMonth();
   }
 
+  @Get('topLastWeek')
+  async getTopAlbumsForLastWeek(): Promise<Album[]> {
+    return this.albumService.getTopAlbumsForLastWeek();
+  }
+
+  @Get('topLastDay')
+  async getTopAlbumsForLastDay(): Promise<Album[]> {
+    return this.albumService.getTopAlbumsForLastDay();
+  }
+
+  @Roles('admin')
   @Get(':id')
   async getAlbumById(@Param('id') id: string) {
     return await this.albumService.getAlbum(parseInt(id, 10));
   }
 
+  @Roles('admin')
   @Put('addMusic/:id')
   async addMusicToAlbum(
     @Param('id') id: number,
@@ -51,6 +64,7 @@ export class AlbumController {
      return await this.albumService.addMusicToAlbum(id,addMusicToAlbumDto.musicIds)
   }
 
+  @Roles('admin')
   @Put(':id')
   @UseInterceptors(FileInterceptor('file'))
   async updateAlbum(
