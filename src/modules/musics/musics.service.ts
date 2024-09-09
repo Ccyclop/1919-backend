@@ -66,7 +66,7 @@ export class MusicsService {
   async getMusicNotInAlbum(albumId: number): Promise<MusicEntity[]> {
     const allMusic = await this.musicRepo.findAll();
 
-    const musicInAlbum = await this.albumRepo.getMusicForAlbum(albumId);
+    const musicInAlbum = await this.albumRepo.getMusicsForAlbum(albumId);
 
     const musicNotInAlbum = allMusic.filter(
       music => !musicInAlbum.some(albumMusic => albumMusic.id === music.id),
@@ -77,7 +77,7 @@ export class MusicsService {
 
   async getMusicInAlbum(albumId: number): Promise<MusicEntity[]> {
 
-    const musicInAlbum = await this.albumRepo.getMusicForAlbum(albumId);
+    const musicInAlbum = await this.albumRepo.getMusicsForAlbum(albumId);
 
     return musicInAlbum;
   }
