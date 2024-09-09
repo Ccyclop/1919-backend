@@ -79,7 +79,7 @@ export class AlbumService {
       const music = await this.musicRepository.findOne(musicId)
 
 
-      album.musics = album.musics.filter(music => music.id !==music.id);
+      album.musics = album.musics.filter(m => m.id !==music.id);
 
 
       return this.albumRepository.saveAlbum(album)
