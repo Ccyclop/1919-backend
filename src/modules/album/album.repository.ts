@@ -21,10 +21,11 @@ export class AlbumRepository {
       .getOne();
   }
 
-  async findTop10AlbumsByMusic(): Promise<Album[]> {
+  async findTop10AlbumsByMusic(date:Date): Promise<Album[]> {
     return this.albumRepository.createQueryBuilder('album')
       .leftJoinAndSelect('album.musics', 'music')
       .leftJoinAndSelect('music.listens', 'listenerCounter')
+      .where('listenerCounter.createdAt >= :date', { date })  
       .addSelect('SUM(listenerCounter.id)', 'totalListeners')
       .groupBy('album.id')
       .orderBy('totalListeners', 'DESC')
