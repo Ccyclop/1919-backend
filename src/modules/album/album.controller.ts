@@ -66,12 +66,12 @@ export class AlbumController {
   }
 
   @Roles('admin')
-  @Delete('deleteMusic/:id')
+  @Delete(':albumId/music/:musicId')
   async deleteMusicFromAlbum(
-    @Param('id') albumId:number,
-    @CustomBody() deleteMusicfromAlbum: DeleteMusicFromAlbumDto
+    @Param('albumId') albumId:number,
+    @Param('musicId') musicId:number,
   ) {
-    return await this.albumService.deleteMusicFromAlbum(albumId,deleteMusicfromAlbum.musicId)
+    return await this.albumService.deleteMusicFromAlbum(albumId,musicId)
   }
 
   @Roles('admin')
