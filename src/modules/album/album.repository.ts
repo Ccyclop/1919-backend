@@ -42,12 +42,15 @@ export class AlbumRepository {
     return this.albumRepository.find({ where: { deletedAt: null }, relations: ['author', 'musics','photo'] });
   }
 
-  async getMusicForAlbum(albumId: number): Promise<MusicEntity[]> {
-    const album = await this.albumRepository.findOne({
-      where: { id: albumId },
-      relations: ['musics'], 
-    });
-
+  async getMusicsForAlbum(albumId: number): Promise<MusicEntity[]> {
+    const album = await this.albumRepository
+      .createQueryBuilder('album')
+      .leftJoinAndSelect('album.musics', 'music')
+      .leftJoinAndSelect('music.photo', 'photo')
+      .where('album.id = :albumId', { albumId })
+      .getOne();
+  
+  
     return album.musics;
   }
 
