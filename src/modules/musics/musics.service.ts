@@ -75,6 +75,14 @@ export class MusicsService {
     return musicNotInAlbum;
   }
 
+  async getMusicInAlbum(albumId: number): Promise<MusicEntity[]> {
+
+    const musicInAlbum = await this.albumRepo.getMusicForAlbum(albumId);
+
+    return musicInAlbum;
+  }
+
+
   async getTop10MusicForLastWeek() {
     const oneWeek = new Date();
     oneWeek.setDate(oneWeek.getDate() - 7);

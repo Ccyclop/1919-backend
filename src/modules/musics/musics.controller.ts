@@ -40,6 +40,11 @@ export class MusicsController {
     return this.musicsService.getMusicNotInAlbum(albumId);
   }
 
+  @Get('inAlbum/:id')
+  async getMusicInAlbum(@Param('id') albumId: number) {
+    return this.musicsService.getMusicInAlbum(albumId);
+  }
+
   @Get('day')
   async getTopDayMusic() {
     return this.musicsService.getTop10MusicForlastDay()
