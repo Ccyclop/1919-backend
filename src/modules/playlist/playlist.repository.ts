@@ -23,7 +23,7 @@ export class PlaylistRepository {
 
 
     async getPlaylistById(id:number) {
-        return this.playlistRepo.findOne({where: {id:id}, relations: ['musics']});
+        return this.playlistRepo.findOne({where: {id:id}, relations: ['musics','photo']});
     }
 
     async getPLaylistByName(name:string) {
