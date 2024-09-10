@@ -144,8 +144,6 @@ export class AlbumService {
       return await this.albumRepository.findAllAlbums();
     }
 
-
-
     async getAlbum(albumId: number): Promise<Album> {
       const album = await this.albumRepository.findAlbumById(albumId);
   

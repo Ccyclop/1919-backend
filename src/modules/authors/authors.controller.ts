@@ -7,6 +7,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { S3Type } from '../S3/enum/S3.enum';
 import { GetCurrentUserId } from '../auth/decorators';
 import { Roles } from '../auth/decorators/role.decorator';
+import { Author } from './entities/author.entity';
 
 @Controller('author')
 export class AuthorsController {
@@ -27,6 +28,21 @@ export class AuthorsController {
     console.log(filename,buffer,mimetype,createAuthorDto)
     return await this.authorsService.create(createAuthorDto,filename, buffer, mimetype, type,userId);
 
+  }
+
+  @Get('topLastMonth')
+  async getTopAuthorsForLastMonth(): Promise<Author[]> {
+    return this.authorsService.getTopAuthorsForLastMonth();
+  }
+
+  @Get('topLastWeek')
+  async getTopAuthorsForLastWeek(): Promise<Author[]> {
+    return this.authorsService.getTopAuthorsForLastWeek();
+  }
+
+  @Get('topLastDay')
+  async getTopAuthorsForLastDay(): Promise<Author[]> {
+    return this.authorsService.getTopAuthorsForLastDay();
   }
 
   @Get()

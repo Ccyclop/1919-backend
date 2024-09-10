@@ -5,7 +5,5 @@ export class CreatePlaylistDto {
   @IsNotEmpty()
   name!: string;
 
-  @IsArray()
-  @IsNumber({}, {each: true })
-  musicTracks!: number[];
+  
 }

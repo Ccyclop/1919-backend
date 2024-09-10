@@ -4,29 +4,33 @@ import { playlistEntity } from "./entities/playlist.entity";
 import { PlaylistRepository } from "./playlist.repository";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { MusicEntity } from "../musics/entities/music.entity";
+import { S3Service } from "../S3/S3.service";
+import { S3Type } from "../S3/enum/S3.enum";
 
 @Injectable()
 export class PlaylistService {
     constructor( 
         private readonly playlistRepository : PlaylistRepository,
         private readonly musciRepository : MusicsRepository,
+        private readonly s3Service : S3Service
 
     ) {}
 
 
-    async CreatePlaylist(dto: CreatePlaylistDto) {
-        const {name,musicTracks} = dto
+    async CreatePlaylist(createPlaylistDto: CreatePlaylistDto, filename: string, data: Buffer, mimetype: string, type: S3Type, userId: number) {
+        const {name} = createPlaylistDto
 
-        const existingPlaylist = await this.playlistRepository.getPLaylistByName(name) 
-        if(!existingPlaylist) throw new NotFoundException(`playlist with name ${dto.name} not found`)
+        const uploadResponse = await this.s3Service.saveS3(filename, data, mimetype, type, userId);
+
+        const playlist = new playlistEntity()
+        playlist.name = name
+        playlist.photo = uploadResponse
+        playlist.userId = userId
+        playlist.count = 0
 
 
-        const checkedMusics = await this.musciRepository.findMusicsByIds(musicTracks)
-        if(checkedMusics.length !== musicTracks.length){
-            throw new NotFoundException('Some of the music IDs were not found')
-        }
-        console.log(checkedMusics , 'check')
-        return this.playlistRepository.createPlaylist(dto.name,checkedMusics)
+
+        return this.playlistRepository.savePlaylist(playlist)
     }
 
 
