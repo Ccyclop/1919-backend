@@ -1,9 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { PlaylistService } from "./playlist.service";
 import { playlistEntity } from "./entities/playlist.entity";
 import { CreatePlaylistDto } from "./dto/create-playlist.dto";
 import { addMusicToPlaylistDto } from "./dto/add-music.dto";
 import { removeMusicfromPlaylistDto } from "./dto/delete-music.dto";
+import { FileInterceptor } from "@nestjs/platform-express";
+import { GetCurrentUserId } from "../auth/decorators";
+import { S3Type } from "../S3/enum/S3.enum";
 
 @Controller('playlist')
 export class PlaylistController {
@@ -20,9 +23,19 @@ export class PlaylistController {
     }
 
     @Post()
-    async createPlaylist(@Body() dto:CreatePlaylistDto) {
-        return this.playlsitService.CreatePlaylist(dto)
-    }
+    @UseInterceptors(FileInterceptor('img'))
+    async createArtist(
+        @GetCurrentUserId() userId : number,
+        @Body() createPlaylistDto: CreatePlaylistDto,
+        @UploadedFile() file: Express.Multer.File
+    ) {
+
+    const { filename, buffer, mimetype } = file;
+    const type = S3Type.PHOTO
+    console.log(filename,buffer,mimetype,createPlaylistDto)
+    return await this.playlsitService.CreatePlaylist(createPlaylistDto,filename, buffer, mimetype, type,userId);
+
+  }
 
     @Put()
     async addMusicToPlaylist(@Body() dto: addMusicToPlaylistDto) {
