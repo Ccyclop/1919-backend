@@ -31,7 +31,7 @@ export class PlaylistRepository {
     }
 
     async getAllPlaylist() {
-        return this.playlistRepo.find({relations: ['musics']})
+        return this.playlistRepo.find({relations: ['musics','photo']})
     }
 
     async savePlaylist(playlist:playlistEntity): Promise<playlistEntity> {
@@ -57,7 +57,7 @@ export class PlaylistRepository {
     }
 
     async deletePlaylist(id:number) {
-        return this.playlistRepo.delete(id);
+        return this.playlistRepo.softDelete(id);
     }
 
 

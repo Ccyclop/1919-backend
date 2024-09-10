@@ -6,6 +6,8 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { MusicEntity } from "../musics/entities/music.entity";
 import { S3Service } from "../S3/S3.service";
 import { S3Type } from "../S3/enum/S3.enum";
+import { UpdatePlaylistDto } from "./dto/update.playlist.dto";
+import { UploadPartCommand } from "@aws-sdk/client-s3";
 
 @Injectable()
 export class PlaylistService {
@@ -33,6 +35,24 @@ export class PlaylistService {
         return this.playlistRepository.savePlaylist(playlist)
     }
 
+    async updatePlaylist(id:number,updatePlaylistDto: UpdatePlaylistDto, filename?: string, data?: Buffer, mimetype?: string, type?: S3Type,userId?:number) {
+        const { name } = updatePlaylistDto;
+    
+        const playlist = await this.playlistRepository.getPlaylistById(id)
+        if(!playlist) throw new NotFoundException(`playlist with id${id} not found`)
+          
+        if (data && mimetype && type) {
+          const uploadResponse = await this.s3Service.saveS3(filename, data, mimetype, type,userId);
+          playlist.photo = uploadResponse; 
+        }
+    
+        playlist.name = name;
+      
+        return await this.playlistRepository.savePlaylist(playlist);
+    
+    
+      }
+
 
     async addMusicToPlaylist(playlistId:number,musicId:number) {
         const playlist = await this.playlistRepository.getPlaylistById(playlistId)
@@ -41,8 +61,9 @@ export class PlaylistService {
         const music = await this.musciRepository.findOne(musicId)
         if(!music) throw new NotFoundException(`music with id ${musicId} not found`)
 
+        playlist.count++
         playlist.musics.push(music)
-        return this.playlistRepository.addMusicToPlaylist(playlistId,music)
+        return this.playlistRepository.savePlaylist(playlist)
     }
 
     async removeMusicFromPLaylsit(playlistId:number,musicId:number): Promise<playlistEntity> {
@@ -51,6 +72,8 @@ export class PlaylistService {
 
         const music = await this.musciRepository.findOne(musicId)
         if(!music) throw new NotFoundException(`music with given id ${musicId} not found`)
+
+        playlist.count--
 
         return this.playlistRepository.removeMusicFromPlaylist(playlistId,musicId)
     }
