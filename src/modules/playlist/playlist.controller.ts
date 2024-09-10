@@ -22,7 +22,7 @@ export class PlaylistController {
     }
 
     @Post()
-    @UseInterceptors(FileInterceptor('img'))
+    @UseInterceptors(FileInterceptor('photo'))
     async createArtist(
         @GetCurrentUserId() userId : number,
         @Body() createPlaylistDto: CreatePlaylistDto,
@@ -46,7 +46,7 @@ export class PlaylistController {
 
 
     @Put(':id')
-    @UseInterceptors(FileInterceptor('img'))
+    @UseInterceptors(FileInterceptor('photo'))
     async updatePlaylist(
         @GetCurrentUserId() userId : number,
         @Body() updatePlaylistDto: UpdatePlaylistDto,
