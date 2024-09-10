@@ -30,17 +30,17 @@ export class AuthorsController {
 
   }
 
-  @Get('topLastMonth')
+  @Get('month')
   async getTopAuthorsForLastMonth(): Promise<Author[]> {
     return this.authorsService.getTopAuthorsForLastMonth();
   }
 
-  @Get('topLastWeek')
+  @Get('week')
   async getTopAuthorsForLastWeek(): Promise<Author[]> {
     return this.authorsService.getTopAuthorsForLastWeek();
   }
 
-  @Get('topLastDay')
+  @Get('day')
   async getTopAuthorsForLastDay(): Promise<Author[]> {
     return this.authorsService.getTopAuthorsForLastDay();
   }

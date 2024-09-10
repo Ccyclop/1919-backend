@@ -60,6 +60,11 @@ export class MusicsController {
     return await this.musicsService.getTop10MusicForLastMonth()
   }
 
+  @Get('hits')
+  async getHits()  {
+    return await this.musicsService.getHits()
+  }
+
   @Get(':id')
   async findOne(@GetCurrentUserId() userId: number, @Param('id') id: number) {
     return await this.musicsService.findOne(id, userId);

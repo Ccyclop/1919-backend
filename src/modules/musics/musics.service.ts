@@ -55,6 +55,9 @@ export class MusicsService {
   async findOne(musicId: number, userId: number) {
     const mus = await this.musicRepo.findOne(musicId)
 
+    mus.views++
+    
+    await this.musicRepo.save(mus)
     if (mus) {
       await this.listenService.create({musicId, userId})
 
@@ -80,6 +83,10 @@ export class MusicsService {
     const musicInAlbum = await this.albumRepo.getMusicsForAlbum(albumId);
 
     return musicInAlbum;
+  }
+
+  getHits() {
+    return this.musicRepo.getHits();
   }
 
 
@@ -132,9 +139,6 @@ export class MusicsService {
     music.name = name;
     music.authorName = authorName
     music.author = author  
-
-
-  
 
     return await this.musicRepo.save(music);
   }

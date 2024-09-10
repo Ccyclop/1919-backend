@@ -1,5 +1,6 @@
 import { S3Entity } from "@src/modules/S3/entity/S3.entity";
 import { ListenCounterEntity } from "@src/modules/listen-counters/entities/listen-counter.entity";
+import { IsNumber } from "class-validator";
 import { Album } from "src/modules/album/entities/album.entity";
 import { Author } from "src/modules/authors/entities/author.entity";
 import { playlistEntity } from "src/modules/playlist/entities/playlist.entity";
@@ -45,5 +46,9 @@ export class MusicEntity {
   
     @OneToMany(() => ListenCounterEntity, listenCounter => listenCounter.music)
     listens: ListenCounterEntity[];
+
+    @Column({ type: 'int', default: 0 })
+    @IsNumber()
+    views: number;
 
 }

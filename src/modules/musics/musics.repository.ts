@@ -17,7 +17,8 @@ export class MusicsRepository{
     }
 
     async save(music: MusicEntity) {
-        return await this.musicRepo.save(music)
+         return await this.musicRepo.save(music);
+      
     }
    
     async findAll() {
@@ -50,7 +51,13 @@ export class MusicsRepository{
     }
 
  
-      
+    async getHits() {
+        return await this.musicRepo
+        .createQueryBuilder('music')
+        .orderBy('RAND()')
+        .limit(10)
+        .getMany()
+    } 
 
 
     async saveMusics(musicDto: CreateMusicDto[]): Promise<MusicEntity[]> {
