@@ -2,11 +2,10 @@ import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseInter
 import { PlaylistService } from "./playlist.service";
 import { playlistEntity } from "./entities/playlist.entity";
 import { CreatePlaylistDto } from "./dto/create-playlist.dto";
-import { addMusicToPlaylistDto } from "./dto/add-music.dto";
-import { removeMusicfromPlaylistDto } from "./dto/delete-music.dto";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { GetCurrentUserId } from "../auth/decorators";
 import { S3Type } from "../S3/enum/S3.enum";
+import { UpdatePlaylistDto } from "./dto/update.playlist.dto";
 
 @Controller('playlist')
 export class PlaylistController {
@@ -35,20 +34,52 @@ export class PlaylistController {
     console.log(filename,buffer,mimetype,createPlaylistDto)
     return await this.playlsitService.CreatePlaylist(createPlaylistDto,filename, buffer, mimetype, type,userId);
 
-  }
+    }
 
-    @Put()
-    async addMusicToPlaylist(@Body() dto: addMusicToPlaylistDto) {
-        return this.playlsitService.addMusicToPlaylist(dto.playlistId,dto.musicId);
+    @Put(':playlistId/music/:musicId')
+    async addMusic(
+        @Param('playlistId') playlistId: number,
+        @Param('musicId') musicId: number
+    ) {
+        return this.playlsitService.addMusicToPlaylist(playlistId,musicId)
+    }
+
+
+    @Put(':id')
+    @UseInterceptors(FileInterceptor('img'))
+    async updatePlaylist(
+        @GetCurrentUserId() userId : number,
+        @Body() updatePlaylistDto: UpdatePlaylistDto,
+        @Param('id') id: number,
+        @UploadedFile() file?: Express.Multer.File
+    ) {
+
+    let filename: string | undefined;
+    let buffer: Buffer | undefined;
+    let mimetype: string | undefined;
+    let type: S3Type | undefined;
+
+    if (file) {
+        filename = file.originalname; 
+        buffer = file.buffer;
+        mimetype = file.mimetype;
+        type = S3Type.PHOTO;
+    }
+    
+        console.log(filename,buffer,mimetype,updatePlaylistDto)
+        return await this.playlsitService.updatePlaylist(id,updatePlaylistDto,filename, buffer, mimetype, type,userId);
+    }
+
+    @Delete(':playlistId/music/:musicId')
+    async removeMusicFromPlaylist(
+        @Param('playlistId') playlistId:number,
+        @Param('musicId') musicId:number
+    ) {
+        return this.playlsitService.removeMusicFromPLaylsit(playlistId,musicId)
     }
 
     @Delete(':id')
     async deletePlaylist(@Param('id') id:number) {
-        return this.playlsitService.deletePlaylist(id)
-    }
-
-    @Delete()
-    async removeMusicFromPlaylist(@Body() dto:removeMusicfromPlaylistDto) {
-        return await this.playlsitService.removeMusicFromPLaylsit(dto.playlistId,dto.musicId)
+        return await this.playlsitService.deletePlaylist(id)
     }
 }
