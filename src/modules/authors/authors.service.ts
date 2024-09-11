@@ -59,23 +59,11 @@ export class AuthorsService {
   }
 
   
-  async getTopAuthorsForLastMonth() {
-    const month = new Date();
-    month.setMonth(month.getMonth() - 1);
-    return await this.authorRepo.findTop10AuthorsByMusic(month)
+  async getTopAuthors() {
+    return await this.authorRepo.findTop10AuthorsByMusic()
   }
 
-  async getTopAuthorsForLastWeek() {
-    const month = new Date();
-    month.setMonth(month.getDate() - 7);
-    return await this.authorRepo.findTop10AuthorsByMusic(month)
-  }
 
-  async getTopAuthorsForLastDay() {
-    const month = new Date();
-    month.setMonth(month.getDate() - 1);
-    return await this.authorRepo.findTop10AuthorsByMusic(month)
-  }
 
   async remove(id: number) {
     return await this.authorRepo.remove(id)

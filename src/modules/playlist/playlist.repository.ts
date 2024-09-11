@@ -72,5 +72,12 @@ export class PlaylistRepository {
         return this.playlistRepo.softDelete(id);
     }
 
+    async searchPlaylists(searchString: string): Promise<playlistEntity[]> {
+        const lowerCaseSearchString = `%${String(searchString).toLowerCase()}%`;
+        return await this.playlistRepo.createQueryBuilder('playlist')
+          .where('LOWER(playlist.name) LIKE :searchString', { searchString: lowerCaseSearchString })
+          .getMany();
+      }
+
 
 }
