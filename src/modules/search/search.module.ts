@@ -10,12 +10,13 @@ import { SearchRepository } from "./search.repository";
 import { AuthorsModule } from "../authors/authors.module";
 import { MustBeEntityError } from "typeorm";
 import { AlbumModule } from "../album/album.module";
+import { PlaylistMoulde } from "../playlist/playlist.module";
 
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([]),
-    AuthorsModule,MusicsModule,AlbumModule,
+    AuthorsModule,MusicsModule,AlbumModule,PlaylistMoulde
   ],
   controllers: [SearchController],
   providers: [SearchService,SearchRepository],

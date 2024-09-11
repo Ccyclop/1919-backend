@@ -87,24 +87,11 @@ export class AlbumService {
     }
 
 
-    async getTopAlbumsForLastMonth() {
-      const month = new Date();
-      month.setMonth(month.getMonth() - 1);
-      return await this.albumRepository.findTop10AlbumsByMusic(month)
+    async getTopAlbums() {
+      return await this.albumRepository.findTop10AlbumsByMusic()
     }
 
-    async getTopAlbumsForLastWeek() {
-      const month = new Date();
-      month.setMonth(month.getDate() - 7);
-      return await this.albumRepository.findTop10AlbumsByMusic(month)
-    }
 
-    async getTopAlbumsForLastDay() {
-      const month = new Date();
-      month.setMonth(month.getDate() - 1);
-      return await this.albumRepository.findTop10AlbumsByMusic(month)
-    }
- 
     async updateAlbum(id:number,updateAlbumDto: UpdateAlbumDto,filename?: string, data?: Buffer, mimetype?: string,type?: S3Type,userId?:number): Promise<Album> {
       const {  title, authorName,file } = updateAlbumDto;
 

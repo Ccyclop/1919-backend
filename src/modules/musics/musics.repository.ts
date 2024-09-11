@@ -54,6 +54,7 @@ export class MusicsRepository{
     async getHits() {
         return await this.musicRepo
         .createQueryBuilder('music')
+        .leftJoinAndSelect('music.photo','photo')
         .orderBy('RAND()')
         .limit(10)
         .getMany()

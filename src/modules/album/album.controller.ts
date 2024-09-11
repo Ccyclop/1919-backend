@@ -35,20 +35,12 @@ export class AlbumController {
     return this.albumService.getAllAlbums();
   }
 
-  @Get('topLastMonth')
-  async getTopAlbumsForLastMonth(): Promise<Album[]> {
-    return this.albumService.getTopAlbumsForLastMonth();
+  @Get('top')
+  async getTopAlbums(): Promise<Album[]> {
+    return this.albumService.getTopAlbums();
   }
 
-  @Get('topLastWeek')
-  async getTopAlbumsForLastWeek(): Promise<Album[]> {
-    return this.albumService.getTopAlbumsForLastWeek();
-  }
 
-  @Get('topLastDay')
-  async getTopAlbumsForLastDay(): Promise<Album[]> {
-    return this.albumService.getTopAlbumsForLastDay();
-  }
 
   @Roles('admin')
   @Get(':id')
