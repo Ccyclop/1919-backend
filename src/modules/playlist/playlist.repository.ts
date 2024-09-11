@@ -21,6 +21,18 @@ export class PlaylistRepository {
         return this.playlistRepo.save(playlist);
       }
 
+      async getMusicsForPLaylist(playlistId: number): Promise<MusicEntity[]> {
+        const album = await this.playlistRepo
+          .createQueryBuilder('playlist')
+          .leftJoinAndSelect('playlist.musics', 'music')
+          .leftJoinAndSelect('music.photo', 'photo')
+          .where('playlist.id = :playlistId', { playlistId })
+          .getOne();
+      
+      
+        return album.musics;
+      }
+
 
     async getPlaylistById(id:number) {
         return this.playlistRepo.findOne({where: {id:id}, relations: ['musics','photo']});
