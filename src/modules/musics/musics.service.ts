@@ -8,6 +8,7 @@ import { S3Service } from '../S3/S3.service';
 import { ListenCounterRepository } from '../listen-counters/listen-counters.repository';
 import { AuthorRepository } from '../authors/authors.repository';
 import { AlbumRepository } from '../album/album.repository';
+import { PlaylistRepository } from '../playlist/playlist.repository';
 
 @Injectable()
 export class MusicsService {
@@ -17,7 +18,8 @@ export class MusicsService {
     private readonly s3Service : S3Service,
     private readonly listenService: ListenCounterRepository,
     private readonly authorRepository : AuthorRepository,
-    private readonly albumRepo : AlbumRepository
+    private readonly albumRepo : AlbumRepository,
+    private readonly playlistRepositoty : PlaylistRepository
     
   ) {}
 
@@ -78,11 +80,29 @@ export class MusicsService {
     return musicNotInAlbum;
   }
 
+  async getMusicNotInPlaylist(playlistId: number): Promise<MusicEntity[]> {
+    const allMusic = await this.musicRepo.findAll();
+
+    const musicInPlaylist = await this.playlistRepositoty.getMusicsForPLaylist(playlistId);
+
+    const musicNotInPlaylist = allMusic.filter(
+      music => !musicInPlaylist.some(playlistMusic => playlistMusic.id === music.id),
+    );
+
+    return musicNotInPlaylist;
+  }
+
   async getMusicInAlbum(albumId: number): Promise<MusicEntity[]> {
 
     const musicInAlbum = await this.albumRepo.getMusicsForAlbum(albumId);
 
     return musicInAlbum;
+  }
+
+  async getMusicInPlaylist(playlistId: number): Promise<MusicEntity[]> {
+    const musicInPLaylist = await this.playlistRepositoty.getMusicsForPLaylist(playlistId);
+
+    return musicInPLaylist;
   }
 
   getHits() {

@@ -41,8 +41,18 @@ export class MusicsController {
   }
 
   @Get('inAlbum/:id')
-  async getMusicInAlbum(@Param('id') albumId: number) {
-    return this.musicsService.getMusicInAlbum(albumId);
+  async getMusicInPLaylist(@Param('id') PLaylistId: number) {
+    return this.musicsService.getMusicInPlaylist(PLaylistId);
+  }
+
+  @Get('notInPlaylist/:id')
+  async getMusicNotInPlaylist(@Param('id') playlistId: number) {
+    return this.musicsService. getMusicNotInPlaylist(playlistId);
+  }
+
+  @Get('inPLaylist/:id')
+  async getMusicInPlaylist(@Param('id') playlistId: number) {
+    return this.musicsService.getMusicInPlaylist(playlistId);
   }
 
   @Get('day')

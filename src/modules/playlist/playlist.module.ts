@@ -13,14 +13,15 @@ import { S3Entity } from "../S3/entity/S3.entity";
 import { S3HistoryService } from "../S3-history/S3-history.service";
 import { S3HistoryRepository } from "../S3-history/S3-history.repository";
 import { S3History } from "../S3-history/entity/S3-history.entity";
+import { S3Module } from "../S3/S3.module";
 
 @Module({
     imports: [
      TypeOrmModule.forFeature([playlistEntity,MusicEntity,S3Entity,S3History]),
-     MusicsModule,UserModule
+     MusicsModule,UserModule,S3Module,
     ],
     controllers: [PlaylistController],
-    providers: [PlaylistRepository,PlaylistService,S3Service,S3Repository,S3HistoryService,S3HistoryRepository],
+    providers: [PlaylistRepository,PlaylistService,S3HistoryService,S3HistoryRepository],
     exports: [PlaylistService,PlaylistRepository]
 })
 export class PlaylistMoulde {}
