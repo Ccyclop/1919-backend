@@ -44,6 +44,7 @@ export class AuthorRepository {
     async findTop10AuthorsByMusic(): Promise<Author[]> {
         return this.authorRepo.createQueryBuilder('author')
           .leftJoinAndSelect('author.musics', 'music')
+          .leftJoinAndSelect('author.photo', 'photo')
           .leftJoinAndSelect('music.listens', 'listenerCounter')
           .addSelect('SUM(listenerCounter.id)', 'totalListeners')
           .groupBy('author.id')

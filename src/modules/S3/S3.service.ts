@@ -48,7 +48,7 @@ export class S3Service {
       
     );
 
-    const s3 = await this.S3Repository.createS3(S3Url, type);
+    const s3 = await this.S3Repository.createS3(S3Url, type,mimetype);
     return await this.S3Repository.saveS3(s3);
   }
 
