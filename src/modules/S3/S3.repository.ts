@@ -15,8 +15,8 @@ export class S3Repository {
     return await this.S3Repository.save(S3Entity);
   }
 
-  async createS3(url: string, type: S3Type): Promise<S3Entity> {
-    const S3 = this.S3Repository.create({ url, type });
+  async createS3(url: string, type: S3Type,mimetype:string): Promise<S3Entity> {
+    const S3 = this.S3Repository.create({ url, type,mimetype });
     return await this.S3Repository.save(S3);
   }
 

@@ -20,7 +20,7 @@ export class AlbumRepository {
       .where('album.id = :albumId', { albumId })
       .getOne();
   }
-
+ 
   async findTop10AlbumsByMusic(): Promise<Album[]> {
     return this.albumRepository.createQueryBuilder('album')
       .leftJoinAndSelect('album.musics', 'music')
