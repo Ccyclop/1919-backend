@@ -12,12 +12,11 @@ import { Roles } from "@src/modules/auth/decorators/role.decorator";
 export class TokenController {
     constructor(private readonly tokenService: TokenService) {}
 
-    // @Roles('user')
     @PublicRoute()
     @UseGuards(RtGuard)
     @Post('refresh')
-    async refreshTokens( @GetCurrentUser() user: JwtPayloadWithRt, @Res({ passthrough: true }) res: Response) {
-      return await this.tokenService.refreshTokens(user.sub, user.refreshToken,res);
+    async refreshTokens( @GetCurrentUser() user: JwtPayloadWithRt) {
+      return await this.tokenService.refreshTokens(user.sub, user.refreshToken);
     }
 
     @Roles('user')

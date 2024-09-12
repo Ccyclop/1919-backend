@@ -19,7 +19,6 @@ export class RsTokenController {
       return await this.rsTokenService.forgotPassword(dto.email)
     }
 
-    // @UseGuards(RtGuard)
     @Put('reset-password/:resettoken')
     async resetPassword( @CustomBody() dto:resetPDto, @Param('resettoken') RsToken:string){
         console.log(RsToken)
