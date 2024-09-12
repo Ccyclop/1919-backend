@@ -9,7 +9,6 @@ import { CreateMusicDto } from '../musics/dto/create-music.dto.js';
 import { Author } from '../authors/entities/author.entity.js';
 import { S3Service } from '../S3/S3.service';
 import { S3Type } from '../S3/enum/S3.enum';
-import { DeleteMusicFromAlbumDto } from './dtos/deleteMusicFromAlbum.dto.js';
 
 @Injectable()
 export class AlbumService {
@@ -27,11 +26,6 @@ export class AlbumService {
       if (!author) {
         throw new NotFoundException(`Author with name ${authorName} not found`);
       }
-
-      // const realMusics = await this.musicRepository.findMusicsByIds(musicIds);
-      // if (realMusics.length !== musicIds.length) {
-      //   throw new Error('Some of the music IDs were not found');
-      // }
   
       const uploadResponse = await this.s3Service.saveS3(filename,data,mimetype,type,userId);
     
@@ -78,14 +72,11 @@ export class AlbumService {
 
       const music = await this.musicRepository.findOne(musicId)
 
-
       album.musics = album.musics.filter(m => m.id !==music.id);
-
 
       return this.albumRepository.saveAlbum(album)
 
     }
-
 
     async getTopAlbums() {
       return await this.albumRepository.findTop10AlbumsByMusic()

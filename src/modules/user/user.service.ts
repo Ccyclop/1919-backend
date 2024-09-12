@@ -1,5 +1,4 @@
 import { ForbiddenException, Injectable, Res, UnauthorizedException } from '@nestjs/common';
-import * as bcryptjs  from 'bcryptjs';
 import { CreateDto } from './dto';
 import { Response } from 'express';
 import { UserRepository } from './user.repository';
@@ -31,7 +30,7 @@ export class UserService {
         const createUser = await this.userRepository.createUser(user)
 
 
-        const tokens = await this.tokenService.getTokens(user.id, user.email);
+        const tokens = await this.tokenService.getTokens(createUser.id, createUser.email);
 
         const refreshTokenExpiresIn = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000); 
         

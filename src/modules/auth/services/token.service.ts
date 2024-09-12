@@ -16,7 +16,7 @@ export class TokenService {
         private tokenRepository : TokenRepository
     ) {}
 
-    async refreshTokens(userId: number, rt: string, @Res() res:Response){
+    async refreshTokens(userId: number, rt: string){
 
         const user = await this.userRepository.findById(userId);
         if (!user || !user.hashedRt) throw new ForbiddenException('user not found, access Denied!!!');

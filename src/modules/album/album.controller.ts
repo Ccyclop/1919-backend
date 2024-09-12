@@ -40,8 +40,6 @@ export class AlbumController {
     return this.albumService.getTopAlbums();
   }
 
-
-
   @Roles('admin')
   @Get(':id')
   async getAlbumById(@Param('id') id: string) {

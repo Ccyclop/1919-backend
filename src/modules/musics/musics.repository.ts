@@ -4,7 +4,6 @@ import { MusicEntity } from "./entities/music.entity";
 import { Repository } from "typeorm";
 import { CreateMusicDto } from "./dto/create-music.dto";
 import { UpdateMusicDto } from "./dto/update-music.dto";
-import { Author } from "../authors/entities/author.entity";
 
 @Injectable()
 export class MusicsRepository{
@@ -36,12 +35,14 @@ export class MusicsRepository{
                 .where('mus.id = :id', { id })
                 .leftJoinAndSelect('mus.author', 'author')
                 .leftJoinAndSelect('mus.listens', 'listenCounter')
+                .leftJoinAndSelect('mus.photo', 'photo')
                 .getOne()
     }
 
     async getTop10Music(date: Date) {
         return await this.musicRepo
           .createQueryBuilder('music')
+          .leftJoinAndSelect('music.photo', 'photo')
           .leftJoinAndSelect('music.listens', 'listenCounter')
           .where('listenCounter.createdAt >= :date', { date })  
           .groupBy('music.id')

@@ -23,9 +23,7 @@ export class AtGuard extends AuthGuard('jwt') {
   }
 
   handleRequest(err, user, info, context: ExecutionContext) {
-    console.log('User:', user);
-    console.log('Error:', err);
-    console.log('Info:', info);
+
     if (err || !user) {
       throw err || new UnauthorizedException('Unauthorized!!!');
     }

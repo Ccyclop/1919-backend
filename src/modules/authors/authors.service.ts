@@ -45,8 +45,6 @@ export class AuthorsService {
     if (data && mimetype && type) {
       const uploadResponse = await this.s3Service.saveS3(filename, data, mimetype, type,userId);
       author.photo = uploadResponse; 
-
-
     }
 
     author.firstName = firstName;
@@ -54,16 +52,11 @@ export class AuthorsService {
     author.biography = biography;
   
     return await this.authorRepo.saveAuthor(author);
-
-
   }
 
-  
   async getTopAuthors() {
     return await this.authorRepo.findTop10AuthorsByMusic()
   }
-
-
 
   async remove(id: number) {
     return await this.authorRepo.remove(id)

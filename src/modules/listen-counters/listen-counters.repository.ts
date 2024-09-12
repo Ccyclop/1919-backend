@@ -13,6 +13,6 @@ export class ListenCounterRepository {
     async create(data: CreateListenCounterDto) {
         const listenCounter = this.listenCounterRepo.create(data)
         return await this.listenCounterRepo.save(listenCounter)
-    }w
+    } 
 
 }

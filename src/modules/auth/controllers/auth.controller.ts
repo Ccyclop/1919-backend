@@ -47,7 +47,6 @@ export class AuthController {
     }
 
 
-    // @Roles('admin')
     @Put('change-password/:id')
     async changePassword(@Param('id') id:number,@GetCurrentUserId() userId: number, @Body() dto:ChangePDto, @Res({ passthrough: true }) res: Response){
       return await this.authService.changePassword(id,userId,dto)
