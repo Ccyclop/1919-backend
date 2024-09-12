@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Album } from './entities/album.entity';
-import { CreateMusicDto } from '../musics/dto/create-music.dto';
 import { MusicEntity } from '../musics/entities/music.entity';
 
 @Injectable()
@@ -24,6 +23,7 @@ export class AlbumRepository {
   async findTop10AlbumsByMusic(): Promise<Album[]> {
     return this.albumRepository.createQueryBuilder('album')
       .leftJoinAndSelect('album.musics', 'music')
+      .leftJoinAndSelect('album.photo', 'photo')
       .leftJoinAndSelect('music.listens', 'listenerCounter')
       .addSelect('SUM(listenerCounter.id)', 'totalListeners')
       .groupBy('album.id')
@@ -34,7 +34,7 @@ export class AlbumRepository {
   
 
   async findAlbumById(albumId: number): Promise<Album> {
-    return this.albumRepository.findOne({ where: { id: albumId, deletedAt: null }, relations: ['author', 'musics'] });
+    return this.albumRepository.findOne({ where: { id: albumId, deletedAt: null }, relations: ['author', 'musics','photo'] });
   }
   
   async findAllAlbums(): Promise<Album[]> {
