@@ -34,7 +34,14 @@ export class AlbumRepository {
   
 
   async findAlbumById(albumId: number): Promise<Album> {
-    return this.albumRepository.findOne({ where: { id: albumId, deletedAt: null }, relations: ['author', 'musics','photo'] });
+    return this.albumRepository
+              .createQueryBuilder('album')
+              .where('album.id = :albumId', { albumId })
+              .leftJoinAndSelect('album.author', 'author')
+              .leftJoinAndSelect('album.musics','music')
+              .leftJoinAndSelect('music.audio','audio')
+              .leftJoinAndSelect('music.photo','phoro')
+              .getOne();
   }
   
   async findAllAlbums(): Promise<Album[]> {

@@ -35,7 +35,8 @@ export class MusicsRepository{
                 .where('mus.id = :id', { id })
                 .leftJoinAndSelect('mus.author', 'author')
                 .leftJoinAndSelect('mus.listens', 'listenCounter')
-                .leftJoinAndSelect('mus.photo', 'photo')
+                .leftJoinAndSelect('mus.audio','audio')
+                .leftJoinAndSelect('mus.photo','photoId')
                 .getOne()
     }
 
