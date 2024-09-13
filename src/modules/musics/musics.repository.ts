@@ -52,7 +52,7 @@ export class MusicsRepository{
     }
 
  
-    async getHits() {
+    async getCharts() {
         return await this.musicRepo
         .createQueryBuilder('music')
         .leftJoinAndSelect('music.photo','photo')
