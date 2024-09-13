@@ -34,7 +34,7 @@ export class AuthorsController {
   async getTopAuthors(): Promise<Author[]> {
     return this.authorsService.getTopAuthors();
   }
-
+  
   @Get()
   async findAll() {
     return await this.authorsService.findAll();

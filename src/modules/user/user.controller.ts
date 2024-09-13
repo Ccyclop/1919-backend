@@ -15,7 +15,7 @@ export class UserController {
 
     @PublicRoute()
     @Post('signup')
-    signUp(@CustomBody() dto:CreateDto, @Res({ passthrough: true }) res: Response) {
+    signUp(@CustomBody() dto:CreateDto, @Res({ passthrough: true }) res: Response): Promise<Object> {
       return this.userService.signupLocal(dto,res) 
     }
 
@@ -32,13 +32,13 @@ export class UserController {
 
     @Roles('admin')
     @Put(':id')
-    async update(@Param('id') id: number, @CustomBody() dto: ChangePasswrodDto) {
+    async update(@Param('id') id: number, @CustomBody() dto: ChangePasswrodDto): Promise<User> {
       return this.userService.changePassword(id, dto);
     }
 
     @Roles('admin')
     @Delete(':id')
-    DeleteUser(@Param('id') userId : number) {
+    DeleteUser(@Param('id') userId : number): Promise<void> {
       return this.userService.deleteUser(userId)
     }
 

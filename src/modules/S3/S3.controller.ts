@@ -4,6 +4,7 @@ import { S3Service } from './S3.service';
 import { PublicRoute } from '../auth/decorators/admin.decorator';
 import { S3Type } from './enum/S3.enum';
 import { GetCurrentUserId } from '../auth/decorators';
+import { S3Entity } from './entity/S3.entity';
 
 @Controller('S3')
 export class S3Controller {
@@ -11,20 +12,20 @@ export class S3Controller {
 
   @Post('upload/:type')
   @UseInterceptors(FileInterceptor('file'))
-  async uploadS3(@UploadedFile() file: Express.Multer.File,@GetCurrentUserId() userId:number, @Param('type') type: S3Type) {
+  async uploadS3(@UploadedFile() file: Express.Multer.File,@GetCurrentUserId() userId:number, @Param('type') type: S3Type): Promise<S3Entity> {
     const { originalname, buffer, mimetype } = file;
     return await this.S3Service.saveS3(originalname, buffer, mimetype, type,userId);
   }
 
   @PublicRoute()
   @Get(':type')
-  async getAllS3(@Param('type') type: S3Type) {
+  async getAllS3(@Param('type') type: S3Type): Promise<S3Entity[]> {
     return this.S3Service.getAll(type);
   }
 
   @PublicRoute()
   @Get(':type/:id')
-  async getS3(@Param('type') type: S3Type, @Param('id') id: number) {
+  async getS3(@Param('type') type: S3Type, @Param('id') id: number): Promise<S3Entity> {
     return this.S3Service.getOne(id);
   }
 }

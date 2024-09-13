@@ -6,6 +6,7 @@ import { GetCurrentUser } from "../decorators";
 import { JwtPayloadWithRt } from "../types";
 import { Response } from "express";
 import { Roles } from "@src/modules/auth/decorators/role.decorator";
+import { Token } from "../entity/token.entity";
 
 @Injectable()
 @Controller('token')
@@ -15,13 +16,13 @@ export class TokenController {
     @PublicRoute()
     @UseGuards(RtGuard)
     @Post('refresh')
-    async refreshTokens( @GetCurrentUser() user: JwtPayloadWithRt) {
+    async refreshTokens( @GetCurrentUser() user: JwtPayloadWithRt): Promise<Object> {
       return await this.tokenService.refreshTokens(user.sub, user.refreshToken);
     }
 
     @Roles('user')
     @Get()
-    async getAllTokens() {
+    async getAllTokens(): Promise<Token[]> {
       return this.tokenService.AllTokens();
     }
   
