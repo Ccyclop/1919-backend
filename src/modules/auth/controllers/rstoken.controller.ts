@@ -13,15 +13,14 @@ import { Roles } from "@src/modules/auth/decorators/role.decorator";
 export class RsTokenController {
     constructor(private rsTokenService: RsTokenService) {}
 
-    
+
     @Post('forgot-password')
-    async forgotPasswrod(@CustomBody() dto:forgotPDto){
+    async forgotPasswrod(@CustomBody() dto:forgotPDto): Promise<String>{
       return await this.rsTokenService.forgotPassword(dto.email)
     }
 
     @Put('reset-password/:resettoken')
-    async resetPassword( @CustomBody() dto:resetPDto, @Param('resettoken') RsToken:string){
-        console.log(RsToken)
+    async resetPassword( @CustomBody() dto:resetPDto, @Param('resettoken') RsToken:string): Promise<String>{
         return await this.rsTokenService.resetPassword( RsToken,dto)
     }
 

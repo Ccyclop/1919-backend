@@ -6,7 +6,7 @@ export class SearchController{
     constructor(private readonly searchService:SearchService) {}
 
     @Get()
-    async searchMusic(@Query('q') searchString: string) {
+    async searchMusic(@Query('q') searchString: string): Promise<Object> {
       return await this.searchService.searchInfo(searchString);
     }
 }

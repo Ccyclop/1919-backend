@@ -6,6 +6,7 @@ import { PublicRoute } from '../auth/decorators/admin.decorator';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { GetCurrentUserId } from '../auth/decorators';
 import { Roles } from '../auth/decorators/role.decorator';
+import { MusicEntity } from './entities/music.entity';
 
 @Controller('music')
 export class MusicsController {
@@ -18,7 +19,7 @@ export class MusicsController {
     @GetCurrentUserId() userId: number,
     @Body() createMusicDto: CreateMusicDto,
     @UploadedFiles() files: Express.Multer.File[],
-  ) {
+  ): Promise<MusicEntity> {
 
     const photoFile = files.find(file => file.mimetype.startsWith('image/'));
     const audioFile = files.find(file => file.mimetype.startsWith('audio/'));
@@ -31,52 +32,52 @@ export class MusicsController {
   }
 
   @Get()
-  async findAll() {
+  async findAll(): Promise<MusicEntity[]> {
     return await this.musicsService.findAll()
   }
 
   @Get('notInAlbum/:id')
-  async getMusicNotInAlbum(@Param('id') albumId: number) {
+  async getMusicNotInAlbum(@Param('id') albumId: number): Promise<MusicEntity[]> {
     return this.musicsService.getMusicNotInAlbum(albumId);
   }
 
   @Get('inAlbum/:id')
-  async getMusicInPLaylist(@Param('id') PLaylistId: number) {
+  async getMusicInPLaylist(@Param('id') PLaylistId: number): Promise<MusicEntity[]> {
     return this.musicsService.getMusicInPlaylist(PLaylistId);
   }
 
   @Get('notInPlaylist/:id')
-  async getMusicNotInPlaylist(@Param('id') playlistId: number) {
+  async getMusicNotInPlaylist(@Param('id') playlistId: number): Promise<MusicEntity[]> {
     return this.musicsService. getMusicNotInPlaylist(playlistId);
   }
 
   @Get('inPLaylist/:id')
-  async getMusicInPlaylist(@Param('id') playlistId: number) {
+  async getMusicInPlaylist(@Param('id') playlistId: number): Promise<MusicEntity[]> {
     return this.musicsService.getMusicInPlaylist(playlistId);
   }
 
   @Get('day')
-  async getTopDayMusic() {
+  async getTopDayMusic(): Promise<MusicEntity[]> {
     return this.musicsService.getTop10MusicForlastDay()
   }
 
   @Get('week')
-  async getTopWeek() {
+  async getTopWeek(): Promise<MusicEntity[]> {
     return await this.musicsService.getTop10MusicForLastWeek();
   }
 
   @Get('month')
-  async getTopMonth() {
+  async getTopMonth(): Promise<MusicEntity[]> {
     return await this.musicsService.getTop10MusicForLastMonth()
   }
 
   @Get('charts')
-  async getCharts()  {
+  async getCharts(): Promise<MusicEntity[]>  {
     return await this.musicsService.getCharts()
   }
 
   @Get(':id')
-  async findOne(@GetCurrentUserId() userId: number, @Param('id') id: number) {
+  async findOne(@GetCurrentUserId() userId: number, @Param('id') id: number): Promise<MusicEntity> {
     return await this.musicsService.findOne(id, userId);
   }
 
@@ -88,7 +89,7 @@ export class MusicsController {
     @GetCurrentUserId() userId: number,
     @Body() createMusicDto: CreateMusicDto,
     @UploadedFiles() files?: Express.Multer.File[]
-  ) {
+  ): Promise<MusicEntity> {
 
     const photoFile = files.find(file => file.mimetype.startsWith('image/'));
     const audioFile = files.find(file => file.mimetype.startsWith('audio/'));
@@ -100,7 +101,7 @@ export class MusicsController {
 
   @Roles('admin')
   @Delete(':id')
-  async remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string): Promise<MusicEntity> {
     return await this.musicsService.remove(+id);
   }
 

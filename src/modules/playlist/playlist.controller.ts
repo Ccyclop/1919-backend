@@ -27,7 +27,7 @@ export class PlaylistController {
         @GetCurrentUserId() userId : number,
         @Body() createPlaylistDto: CreatePlaylistDto,
         @UploadedFile() file: Express.Multer.File
-    ) {
+    ): Promise<playlistEntity>{
 
     const { filename, buffer, mimetype } = file;
     const type = S3Type.PHOTO
@@ -40,7 +40,7 @@ export class PlaylistController {
     async addMusic(
         @Param('playlistId') playlistId: number,
         @Param('musicId') musicId: number
-    ) {
+    ): Promise<playlistEntity> {
         return this.playlsitService.addMusicToPlaylist(playlistId,musicId)
     }
 
@@ -52,7 +52,7 @@ export class PlaylistController {
         @Body() updatePlaylistDto: UpdatePlaylistDto,
         @Param('id') id: number,
         @UploadedFile() file?: Express.Multer.File
-    ) {
+    ): Promise<playlistEntity> {
 
     let filename: string | undefined;
     let buffer: Buffer | undefined;
@@ -74,7 +74,7 @@ export class PlaylistController {
     async removeMusicFromPlaylist(
         @Param('playlistId') playlistId:number,
         @Param('musicId') musicId:number
-    ) {
+    ): Promise<playlistEntity>{
         return this.playlsitService.removeMusicFromPLaylsit(playlistId,musicId)
     }
 

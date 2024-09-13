@@ -16,13 +16,13 @@ export class AuthController {
 
     @PublicRoute()
     @Post('login')
-    async login(@CustomBody() dto:AuthDto) {
+    async login(@CustomBody() dto:AuthDto): Promise<Object> {
         return await this.authService.signinLocal(dto)
     }
 
     @PublicRoute()
     @Post('admin/login')
-    async loginAdmin(@CustomBody() dto:AuthDto) {
+    async loginAdmin(@CustomBody() dto:AuthDto): Promise<Object> {
         return await this.authService.signinAdmin(dto)
     }
     
@@ -42,13 +42,15 @@ export class AuthController {
 
     @Roles('admin')
     @Put('block/:id')
-    async blockUser(@Param('id') id:number) {
+    async blockUser(@Param('id') id:number): Promise<String> {
       return await this.authService.blockUser(id);
     }
 
 
     @Put('change-password/:id')
-    async changePassword(@Param('id') id:number,@GetCurrentUserId() userId: number, @Body() dto:ChangePDto, @Res({ passthrough: true }) res: Response){
-      return await this.authService.changePassword(id,userId,dto)
+    async changePassword(
+      @Param('id') id:number,@GetCurrentUserId() userId: number,
+      @Body() dto:ChangePDto, @Res({ passthrough: true }) res: Response): Promise<boolean> {
+        return await this.authService.changePassword(id,userId,dto)
     }
 }
