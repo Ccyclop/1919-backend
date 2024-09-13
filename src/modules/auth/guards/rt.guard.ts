@@ -17,7 +17,6 @@ export class RtGuard extends AuthGuard('jwt-refresh') {
     
     const request = context.switchToHttp().getRequest<RequestInterface>();
     request.user = user;
-    console.log('Guard User:', user); 
 
     return user;
   }

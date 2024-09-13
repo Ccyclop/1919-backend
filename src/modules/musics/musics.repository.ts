@@ -43,6 +43,7 @@ export class MusicsRepository{
         return await this.musicRepo
           .createQueryBuilder('music')
           .leftJoinAndSelect('music.photo', 'photo')
+          .leftJoinAndSelect('music.audio', 'audio')
           .leftJoinAndSelect('music.listens', 'listenCounter')
           .where('listenCounter.createdAt >= :date', { date })  
           .groupBy('music.id')

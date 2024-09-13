@@ -42,7 +42,7 @@ export class AlbumController {
 
   @Roles('admin')
   @Get(':id')
-  async getAlbumById(@Param('id') id: string) {
+  async getAlbumById(@Param('id') id: string): Promise<Album> {
     return await this.albumService.getAlbum(parseInt(id, 10));
   }
 
@@ -51,7 +51,7 @@ export class AlbumController {
   async addMusicToAlbum(
     @Param('id') id: number,
     @CustomBody() addMusicToAlbumDto: AddMusicToAlbumDto
-) {
+): Promise<Album> {
      return await this.albumService.addMusicToAlbum(id,addMusicToAlbumDto.musicId)
   }
 
@@ -60,7 +60,7 @@ export class AlbumController {
   async deleteMusicFromAlbum(
     @Param('albumId') albumId:number,
     @Param('musicId') musicId:number,
-  ) {
+  ): Promise<Album> {
     return await this.albumService.deleteMusicFromAlbum(albumId,musicId)
   }
 
@@ -72,7 +72,7 @@ export class AlbumController {
     @GetCurrentUserId() userId: number,
     @Body() updateAlbumDto: UpdateAlbumDto,
     @UploadedFile() file?: Express.Multer.File
-  ) {
+  ): Promise<Album> {
 
     let filename: string | undefined;
     let buffer: Buffer | undefined;
