@@ -105,8 +105,8 @@ export class MusicsService {
     return musicInPLaylist;
   }
 
-  getHits() {
-    return this.musicRepo.getHits();
+  getCharts() {
+    return this.musicRepo.getCharts();
   }
 
 

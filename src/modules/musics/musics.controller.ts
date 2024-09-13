@@ -70,9 +70,9 @@ export class MusicsController {
     return await this.musicsService.getTop10MusicForLastMonth()
   }
 
-  @Get('hits')
-  async getHits()  {
-    return await this.musicsService.getHits()
+  @Get('charts')
+  async getCharts()  {
+    return await this.musicsService.getCharts()
   }
 
   @Get(':id')
