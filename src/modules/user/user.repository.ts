@@ -45,7 +45,10 @@ export class UserRepository{
     
       async findById(id: number): Promise<User | undefined> {
         return await this.userRepository.findOne(
-            { where: { id: id } }
+            { 
+              where: { id: id },
+              relations: ['favorites']
+           }
         );
       }
 

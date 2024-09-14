@@ -18,6 +18,7 @@ import { UserGuard } from './modules/auth/guards/user.guard';
 import { AtGuard } from './modules/auth/guards';
 import {  S3Module,  } from './modules/S3/S3.module';
 import {  S3History } from './modules/S3-history/entity/S3-history.entity';
+import { FavoritesModule } from './modules/favorite/favorite.module';
 
 @Module({
   imports: [
@@ -53,7 +54,8 @@ import {  S3History } from './modules/S3-history/entity/S3-history.entity';
     AuthorsModule,
     SearchModule,
     S3Module,
-    S3History
+    S3History,
+    FavoritesModule
   ],
   providers: [
     {
