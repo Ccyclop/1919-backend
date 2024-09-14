@@ -1,4 +1,5 @@
 import { S3Entity } from "@src/modules/S3/entity/S3.entity";
+import { FavoriteEntity } from "@src/modules/favorite/entities/favorite.entity";
 import { ListenCounterEntity } from "@src/modules/listen-counters/entities/listen-counter.entity";
 import { IsNumber } from "class-validator";
 import { Album } from "src/modules/album/entities/album.entity";
@@ -43,6 +44,9 @@ export class MusicEntity {
     @ManyToOne(() => S3Entity, )
     @JoinColumn({ name: 'audioId' })
     audio?: S3Entity;
+
+    @OneToMany(() => FavoriteEntity, favorite => favorite.music)
+    favorites: FavoriteEntity[];
   
     @OneToMany(() => ListenCounterEntity, listenCounter => listenCounter.music)
     listens: ListenCounterEntity[];

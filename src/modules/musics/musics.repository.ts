@@ -37,6 +37,7 @@ export class MusicsRepository{
                 .leftJoinAndSelect('mus.listens', 'listenCounter')
                 .leftJoinAndSelect('mus.audio','audio')
                 .leftJoinAndSelect('mus.photo','photoId')
+                .leftJoinAndSelect('mus.favorites','favorites')
                 .getOne()
     }
 
@@ -111,6 +112,7 @@ export class MusicsRepository{
     
           return realMusics
       }
+
 
     async update(id: number, data: UpdateMusicDto) {
         await this.musicRepo

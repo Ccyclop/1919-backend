@@ -55,7 +55,7 @@ export class AlbumService {
       return savedAlbum;
     }
 
-    async addMusicToAlbum(albumId:number,musicId:number) {
+    async addMusicToAlbum(albumId:number,musicId:number): Promise<Album> {
       const album = await this.albumRepository.findAlbumById(albumId)
       if (!album) throw new NotFoundException(`album with id ${albumId} not found`)
 
@@ -67,7 +67,7 @@ export class AlbumService {
       
     }
 
-    async deleteMusicFromAlbum(albumId:number,musicId:number) {
+    async deleteMusicFromAlbum(albumId:number,musicId:number): Promise<Album> {
       const album = await this.albumRepository.findAlbumById(albumId)
 
       const music = await this.musicRepository.findOne(musicId)
@@ -78,7 +78,7 @@ export class AlbumService {
 
     }
 
-    async getTopAlbums() {
+    async getTopAlbums(): Promise<Album[]> {
       return await this.albumRepository.findTop10AlbumsByMusic()
     }
 
