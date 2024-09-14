@@ -16,27 +16,24 @@ export class FavoriteService {
     const user = await this.userRepository.findById(userId)
     const music = await this.musicRepository.findOne(musicId);
 
-    console.log('Fetched User:', user);
-    console.log('Fetched Music:', music);
-  
+
     if (!user) {
-      throw new NotFoundException(`User with ID ${userId} not found`);
+      throw new NotFoundException(`user with id ${userId} not found`);
     }
     if (!music) {
-      throw new NotFoundException(`Music with ID ${musicId} not found`);
+      throw new NotFoundException(`music with id ${musicId} not found`);
     }
   
-    // Check if music is already in user's favorites
     const isAlreadyFavorite = user.favorites.some(fav => fav.music?.id === musicId);
   
     if (isAlreadyFavorite) {
-      throw new BadRequestException('Music is already in favorites');
+      throw new BadRequestException('music is already in favorites');
     }
   
     const favorite = new FavoriteEntity();
     favorite.user = user;
     favorite.music = music;
-  
+    
     return this.favoriteRepository.save(favorite);
   }
 

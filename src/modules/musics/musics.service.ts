@@ -80,17 +80,30 @@ export class MusicsService {
     return musicNotInAlbum;
   }
 
-  async getMusicNotInPlaylist(playlistId: number): Promise<MusicEntity[]> {
-    const allMusic = await this.musicRepo.findAll();
+  async recommended(playlistId:number): Promise<MusicEntity[]> {
+    const musics = await this.musicRepo.recommendMusicByPlaylist(playlistId)
 
     const musicInPlaylist = await this.playlistRepositoty.getMusicsForPLaylist(playlistId);
 
-    const musicNotInPlaylist = allMusic.filter(
+    const musicNotInPlaylist = musics.filter(
       music => !musicInPlaylist.some(playlistMusic => playlistMusic.id === music.id),
     );
 
-    return musicNotInPlaylist;
+    return musicNotInPlaylist
+    
   }
+
+  // async getMusicNotInPlaylist(playlistId: number): Promise<MusicEntity[]> {
+  //   const allMusic = await this.musicRepo.findAll();
+
+  //   const musicInPlaylist = await this.playlistRepositoty.getMusicsForPLaylist(playlistId);
+
+  //   const musicNotInPlaylist = allMusic.filter(
+  //     music => !musicInPlaylist.some(playlistMusic => playlistMusic.id === music.id),
+  //   );
+
+  //   return musicNotInPlaylist;
+  // }
 
   async getMusicInAlbum(albumId: number): Promise<MusicEntity[]> {
 
@@ -105,10 +118,13 @@ export class MusicsService {
     return musicInPLaylist;
   }
 
-  getCharts() {
-    return this.musicRepo.getCharts();
+  async getHits() {
+    return this.musicRepo.getTopHits();
   }
 
+  async getCharts() {
+    return await this.musicRepo.getTopCharts()
+  }
 
   async getTop10MusicForLastWeek() {
     const oneWeek = new Date();
