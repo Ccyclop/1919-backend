@@ -54,7 +54,7 @@ export class S3Service {
 
   async getAll(type: S3Type): Promise<S3Entity[]> {
     return this.S3Repository.findAll(type);
-  }
+  } 
 
   async getOne(id: number): Promise<S3Entity> {
     return this.S3Repository.findOne(id);
