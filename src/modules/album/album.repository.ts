@@ -37,6 +37,7 @@ export class AlbumRepository {
     return this.albumRepository
               .createQueryBuilder('album')
               .where('album.id = :albumId', { albumId })
+              .leftJoinAndSelect('album.photo','photo')
               .leftJoinAndSelect('album.author', 'author')
               .leftJoinAndSelect('album.musics','music')
               .leftJoinAndSelect('music.audio','audio')

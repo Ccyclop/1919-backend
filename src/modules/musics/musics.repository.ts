@@ -58,6 +58,7 @@ export class MusicsRepository{
         return await this.musicRepo
         .createQueryBuilder('music')
         .leftJoinAndSelect('music.photo','photo')
+        .leftJoinAndSelect('music.audio','audio')
         .orderBy('RAND()')
         .limit(10)
         .getMany()
