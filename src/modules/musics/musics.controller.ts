@@ -48,7 +48,7 @@ export class MusicsController {
 
   @Get('notInPlaylist/:id')
   async getMusicNotInPlaylist(@Param('id') playlistId: number): Promise<MusicEntity[]> {
-    return this.musicsService. getMusicNotInPlaylist(playlistId);
+    return this.musicsService.recommended(playlistId);
   }
 
   @Get('inPLaylist/:id')
@@ -71,10 +71,17 @@ export class MusicsController {
     return await this.musicsService.getTop10MusicForLastMonth()
   }
 
+  @Get('hits')
+  async getHits(): Promise<MusicEntity[]>  {
+    return await this.musicsService.getHits()
+  }
+
   @Get('charts')
   async getCharts(): Promise<MusicEntity[]>  {
     return await this.musicsService.getCharts()
   }
+
+
 
   @Get(':id')
   async findOne(@GetCurrentUserId() userId: number, @Param('id') id: number): Promise<MusicEntity> {

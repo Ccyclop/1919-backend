@@ -54,16 +54,62 @@ export class MusicsRepository{
           .getMany();
     }
 
- 
-    async getCharts() {
+
+    async getTopHits(): Promise<MusicEntity[]> {
         return await this.musicRepo
-        .createQueryBuilder('music')
-        .leftJoinAndSelect('music.photo','photo')
-        .leftJoinAndSelect('music.audio','audio')
-        .orderBy('RAND()')
-        .limit(10)
-        .getMany()
-    } 
+          .createQueryBuilder('music')
+          .leftJoin('music.favorites', 'favorites')
+          .addSelect( `((music.views * 0.6) + (COUNT(favorites.id) * 0.4))`,'score')
+          .groupBy('music.id')
+          .orderBy('score', 'DESC')
+          .limit(10)
+          .getMany();
+      }
+
+      async getTopCharts(): Promise<MusicEntity[]> {
+        return await this.musicRepo
+          .createQueryBuilder('music')
+          .leftJoin('music.favorites', 'favorites')
+          .addSelect(`((music.views * 0.7) + (COUNT(favorites.id) * 0.3) )`, 'score')
+          .where('music.createdAt >= :date', { date: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) }) 
+          .groupBy('music.id')
+          .orderBy('score', 'DESC')
+          .limit(10)
+          .getMany();
+      }
+
+
+      async recommendMusicByPlaylist(playlistId: number): Promise<MusicEntity[]> {
+        const musicInPlaylist = await this.musicRepo
+          .createQueryBuilder('music')
+          .leftJoin('music.playlists', 'playlist')
+          .leftJoinAndSelect('music.author', 'author') 
+          .where('playlist.id = :playlistId', { playlistId })
+          .getMany();
+    
+
+        const artistIds = musicInPlaylist.map((item) => item.author.id);
+      
+        if (artistIds.length === 0) {
+          return await this.musicRepo
+          .createQueryBuilder('music')
+          .leftJoin('music.favorites', 'favorites')
+          .addSelect( `((music.views * 0.6) + (COUNT(favorites.id) * 0.4))`,'score')
+          .groupBy('music.id')
+          .orderBy('score', 'DESC')
+          .limit(10)
+          .getMany();
+        }
+      
+        return await this.musicRepo
+          .createQueryBuilder('music')
+          .leftJoin('music.favorites', 'favorites')
+          .orWhere('music.authorId IN (:...artistIds)', { artistIds })
+          .orWhere('music.views > 0')
+          .groupBy('music.id') 
+          .getMany();
+      }
+      
 
 
     async saveMusics(musicDto: CreateMusicDto[]): Promise<MusicEntity[]> {
@@ -88,21 +134,6 @@ export class MusicsRepository{
           .getMany();
       }
     
-
-    // async saveMusics(musicDto: CreateMusicDto[], author: Author) {
-    //     const musics= await this.musicRepo.createQueryBuilder().insert().values(musicDto).execute()
-    //     console.log(musics)
-
-      
-    //     return musics
-    // }
-        // const musics= await this.musicRepo.createQueryBuilder().insert().values(musicDto).execute()
-          // const music = new Music();
-        // music.name = musicDto.name;
-        // music.author = author;
-        // music.duration = musicDto.duration;
-    
-        // return await this.musicRepo.save(music);
 
     async findMusicsByIds(musicIds: number[]): Promise<MusicEntity[]> {
         const realMusics = await this.musicRepo
