@@ -59,6 +59,8 @@ export class MusicsRepository{
         return await this.musicRepo
           .createQueryBuilder('music')
           .leftJoin('music.favorites', 'favorites')
+          .leftJoinAndSelect('music.photo','photo')
+          .leftJoinAndSelect('music.audio', 'audio')
           .addSelect( `((music.views * 0.6) + (COUNT(favorites.id) * 0.4))`,'score')
           .groupBy('music.id')
           .orderBy('score', 'DESC')
@@ -70,6 +72,8 @@ export class MusicsRepository{
         return await this.musicRepo
           .createQueryBuilder('music')
           .leftJoin('music.favorites', 'favorites')
+          .leftJoinAndSelect('music.photo','photo')
+          .leftJoinAndSelect('music.audio', 'audio')
           .addSelect(`((music.views * 0.7) + (COUNT(favorites.id) * 0.3) )`, 'score')
           .where('music.createdAt >= :date', { date: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) }) 
           .groupBy('music.id')
@@ -94,6 +98,8 @@ export class MusicsRepository{
           return await this.musicRepo
           .createQueryBuilder('music')
           .leftJoin('music.favorites', 'favorites')
+          .leftJoinAndSelect('music.photo','photo')
+          .leftJoinAndSelect('music.audio', 'audio')
           .addSelect( `((music.views * 0.6) + (COUNT(favorites.id) * 0.4))`,'score')
           .groupBy('music.id')
           .orderBy('score', 'DESC')
@@ -104,6 +110,8 @@ export class MusicsRepository{
         return await this.musicRepo
           .createQueryBuilder('music')
           .leftJoin('music.favorites', 'favorites')
+          .leftJoinAndSelect('music.photo','photo')
+          .leftJoinAndSelect('music.audio', 'audio')
           .orWhere('music.authorId IN (:...artistIds)', { artistIds })
           .orWhere('music.views > 0')
           .groupBy('music.id') 
