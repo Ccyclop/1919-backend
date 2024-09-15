@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Put } from "@nestjs/common";
+import { Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { GetCurrentUserId } from "../auth/decorators";
 import { FavoriteService } from "./favorite.service";
 
@@ -21,5 +21,13 @@ export class FavoriteController {
     @GetCurrentUserId() userId :number
     ) {
         return this.favoriteService.addMusicToFavorites(userId,musicId)
+  }
+
+  @Delete('deleteMusic/:musicid')
+  async deleteMusicFromFavorites(
+    @Param('musicid') musicid :number,
+    @GetCurrentUserId() userId :number
+  ){
+    return await this.favoriteService.deleMusicFromFavorites(userId,musicid)
   }
 }
