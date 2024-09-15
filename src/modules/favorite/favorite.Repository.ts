@@ -16,6 +16,8 @@ export class FavoriteRepository {
         return await this.favoriteRepository
           .createQueryBuilder('favorites')
           .leftJoinAndSelect('favorites.music','music')
+          .leftJoinAndSelect('music.photo','photo')
+          .leftJoinAndSelect('music.audio','audio')
           .where('favorites.user.id = :userId', { userId })
           .getMany(); 
       }
@@ -27,6 +29,6 @@ export class FavoriteRepository {
         .where('userId = :userId', { userId })
         .andWhere('musicId = :musicId', { musicId })
         .execute();
-      return { message: 'Music removed from favorites' };
+      return { message: 'music removed from favorites' };
     }
 }
