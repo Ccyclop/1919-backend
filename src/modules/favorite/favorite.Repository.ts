@@ -17,7 +17,7 @@ export class FavoriteRepository {
           .createQueryBuilder('favorites')
           .leftJoinAndSelect('favorites.music','music')
           .where('favorites.user.id = :userId', { userId })
-          .getOne(); 
+          .getMany(); 
       }
 
     async deleteFavorite(userId:number,musicId:number) {
