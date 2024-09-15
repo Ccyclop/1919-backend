@@ -24,20 +24,18 @@ export class FavoriteService {
       throw new NotFoundException(`music with id ${musicId} not found`);
     }
   
-    const isAlreadyFavorite = user.favorites.some(fav => fav.music?.id === musicId);
-  
-    if (isAlreadyFavorite) {
-      throw new BadRequestException('music is already in favorites');
-    }
-  
     const favorite = new FavoriteEntity();
     favorite.user = user;
-    favorite.music = music;
+    favorite.music = music
     
     return this.favoriteRepository.save(favorite);
   }
 
   async getFavorites(userId:number) {
     return this.favoriteRepository.findByUserId(userId);
+  }
+
+  async deleMusicFromFavorites(userId:number,musicId:number) { 
+    return await this.favoriteRepository.deleteFavorite(userId,musicId)
   }
 }

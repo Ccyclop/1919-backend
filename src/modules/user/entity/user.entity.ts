@@ -71,9 +71,4 @@ export class User {
     @OneToMany(() => ListenCounterEntity, listenCounter => listenCounter.user)
     listens: ListenCounterEntity[]
 
-
-
-
-
-
 }
