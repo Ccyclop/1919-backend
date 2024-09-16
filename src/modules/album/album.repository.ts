@@ -47,14 +47,15 @@ export class AlbumRepository {
 
   async findAlbumById(albumId: number): Promise<Album> {
     return this.albumRepository
-              .createQueryBuilder('album')
-              .where('album.id = :albumId', { albumId })
-              .leftJoinAndSelect('album.photo','photo')
-              .leftJoinAndSelect('album.author', 'author')
-              .leftJoinAndSelect('album.musics','music')
-              .leftJoinAndSelect('music.audio','audio')
-              .leftJoinAndSelect('music.photo','phoro')
-              .getOne();
+      .createQueryBuilder('album')
+      .where('album.id = :albumId', { albumId })
+      .leftJoinAndSelect('album.photo', 'photo')
+      .leftJoinAndSelect('album.author', 'author')
+      .leftJoinAndSelect('album.musics', 'music')
+      .leftJoinAndSelect('music.audio', 'audio')
+      .leftJoinAndSelect('music.photo', 'musicPhoto') 
+      .addSelect('album.authorName')  
+      .getOne();
   }
 
   

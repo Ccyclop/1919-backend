@@ -36,8 +36,6 @@ export class Album {
   @DeleteDateColumn({ type: 'timestamp' })
   deletedAt?: Date;
 
-  
-
   @Column()
   authorName: string
 
