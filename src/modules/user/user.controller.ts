@@ -25,6 +25,7 @@ export class UserController {
       return user;
     }
 
+    @Roles('admin')
     @Get()
     async GetAll(): Promise<User[]> {
       return await this.userService.GetAll();

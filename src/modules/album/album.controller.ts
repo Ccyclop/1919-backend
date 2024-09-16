@@ -40,7 +40,6 @@ export class AlbumController {
     return this.albumService.getTopAlbums();
   }
 
-  @Roles('admin')
   @Get(':id')
   async getAlbumById(@Param('id') id: string): Promise<Album> {
     return await this.albumService.getAlbum(parseInt(id, 10));
