@@ -14,6 +14,7 @@ import { playlistEntity } from '../../playlist/entities/playlist.entity';
 import { S3History } from '@src/modules/S3-history/entity/S3-history.entity';
 import { ListenCounterEntity } from '@src/modules/listen-counters/entities/listen-counter.entity';
 import { FavoriteEntity } from '@src/modules/favorite/entities/favorite.entity';
+import { Album } from '@src/modules/album/entities/album.entity';
   
 
 

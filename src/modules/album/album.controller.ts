@@ -35,6 +35,16 @@ export class AlbumController {
     return this.albumService.getAllAlbums();
   }
 
+  @Get('topHits')
+  async getTopHits(): Promise<Album[]> {
+    return this.albumService.getTopHits();
+  }
+
+  @Get('topCharts')
+  async getTopCharts(): Promise<Album[]> {
+    return await this.albumService.getTopCharts();
+  }
+
   @Get('top')
   async getTopAlbums(): Promise<Album[]> {
     return this.albumService.getTopAlbums();
@@ -44,6 +54,7 @@ export class AlbumController {
   async getAlbumById(@Param('id') id: string): Promise<Album> {
     return await this.albumService.getAlbum(parseInt(id, 10));
   }
+
 
   @Roles('admin')
   @Put('addMusic/:id')
