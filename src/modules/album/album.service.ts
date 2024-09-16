@@ -34,7 +34,7 @@ export class AlbumService {
       album.releaseDate = new Date();
       album.author = author;
       album.authorName = authorName;
-      album.user = userId
+      // album.user = userId
     
       album.photo = uploadResponse;
       
@@ -53,6 +53,14 @@ export class AlbumService {
       }
   
       return savedAlbum;
+    }
+
+     async getHits() {
+      return await this.albumRepository.getTopHits();
+    }
+
+    async getTopCharts() {
+      return await this.albumRepository.getTopCharts();
     }
 
     async addMusicToAlbum(albumId:number,musicId:number): Promise<Album> {
@@ -80,6 +88,10 @@ export class AlbumService {
 
     async getTopAlbums(): Promise<Album[]> {
       return await this.albumRepository.findTop10AlbumsByMusic()
+    }
+
+    async getTopHits(): Promise<Album[]> {
+      return await this.albumRepository.getTopHits()
     }
 
 

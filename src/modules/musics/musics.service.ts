@@ -118,9 +118,9 @@ export class MusicsService {
     return musicInPLaylist;
   }
 
-  async getHits() {
-    return this.musicRepo.getTopHits();
-  }
+  // async getHits() {
+  //   return this.musicRepo.getTopHits();
+  // }
 
   async getCharts() {
     return await this.musicRepo.getTopCharts()

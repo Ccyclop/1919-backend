@@ -71,10 +71,10 @@ export class MusicsController {
     return await this.musicsService.getTop10MusicForLastMonth()
   }
 
-  @Get('hits')
-  async getHits(): Promise<MusicEntity[]>  {
-    return await this.musicsService.getHits()
-  }
+  // @Get('hits')
+  // async getHits(): Promise<MusicEntity[]>  {
+  //   return await this.musicsService.getHits()
+  // }
 
   @Get('charts')
   async getCharts(): Promise<MusicEntity[]>  {
