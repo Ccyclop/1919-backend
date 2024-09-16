@@ -76,10 +76,10 @@ export class MusicsController {
   //   return await this.musicsService.getHits()
   // }
 
-  @Get('charts')
-  async getCharts(): Promise<MusicEntity[]>  {
-    return await this.musicsService.getCharts()
-  }
+  // @Get('charts')
+  // async getCharts(): Promise<MusicEntity[]>  {
+  //   return await this.musicsService.getCharts()
+  // }
 
 
 

@@ -50,4 +50,5 @@ export class Album {
   @ManyToOne(() => S3Entity, )
   @JoinColumn({ name: 'photoId' })
   photo: S3Entity
+
 }

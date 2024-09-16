@@ -62,6 +62,7 @@ export class AlbumRepository {
     return await this.albumRepository
       .createQueryBuilder('album')
       .leftJoinAndSelect('album.musics', 'music')
+      .leftJoinAndSelect('album.photo', 'photoId')
       .leftJoinAndSelect('music.photo', 'photo')
       .leftJoinAndSelect('music.audio', 'audio')
       .leftJoin('music.favorites', 'favorites')
@@ -70,6 +71,7 @@ export class AlbumRepository {
       .addSelect('SUM(music.views) * 0.6 + COUNT(favorites.id) * 0.4', 'score') 
       .groupBy('album.id')
       .addGroupBy('music.id')  
+      .addGroupBy('photo.id') 
       .orderBy('score', 'DESC')
       .limit(10)
       .getMany();
@@ -79,6 +81,7 @@ export class AlbumRepository {
     return await this.albumRepository
       .createQueryBuilder('album')
       .leftJoinAndSelect('album.musics', 'music')
+      .leftJoinAndSelect('album.photo', 'photoId')
       .leftJoinAndSelect('music.photo', 'photo')
       .leftJoinAndSelect('music.audio', 'audio')
       .where('music.createdAt >= :date', { date: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) }) 
