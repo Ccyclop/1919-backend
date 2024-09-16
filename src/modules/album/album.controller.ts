@@ -51,8 +51,8 @@ export class AlbumController {
   }
 
   @Get(':id')
-  async getAlbumById(@Param('id') id: string): Promise<Album> {
-    return await this.albumService.getAlbum(parseInt(id, 10));
+  async getAlbumById(@Param('id') id: number): Promise<Album> {
+    return await this.albumService.getAlbum(id);
   }
 
 
