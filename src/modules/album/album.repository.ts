@@ -69,6 +69,7 @@ export class AlbumRepository {
       .addSelect('COUNT(favorites.id) * 0.4', 'totalFavoritesScore') 
       .addSelect('SUM(music.views) * 0.6 + COUNT(favorites.id) * 0.4', 'score') 
       .groupBy('album.id')
+      .addGroupBy('music.id')  
       .orderBy('score', 'DESC')
       .limit(10)
       .getMany();
@@ -86,6 +87,7 @@ export class AlbumRepository {
       .addSelect('COUNT(favorites.id) * 0.3', 'totalFavoritesScore') 
       .addSelect('SUM(music.views) * 0.7 + COUNT(favorites.id) * 0.3', 'score') 
       .groupBy('album.id')
+      .addGroupBy('music.id')  
       .orderBy('score', 'DESC')
       .limit(10)
       .getMany();
