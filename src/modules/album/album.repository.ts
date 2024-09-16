@@ -41,7 +41,7 @@ export class AlbumRepository {
               .leftJoinAndSelect('album.author', 'author')
               .leftJoinAndSelect('album.musics','music')
               .leftJoinAndSelect('music.audio','audio')
-              .leftJoinAndSelect('music.photo','photo')
+              .leftJoinAndSelect('music.photo','phoro')
               .getOne();
   }
   
