@@ -37,6 +37,16 @@ export class PlaylistRepository {
         return this.playlistRepo.findOne({where: {id:id}, relations: ['musics','photo']});
     }
 
+    async getPlaylist(id:number) {
+      return await this.playlistRepo
+          .createQueryBuilder('playlist')
+          .leftJoinAndSelect('playlist.photo','photo')
+          .leftJoinAndSelect('playlist.musics', 'music')
+          .leftJoinAndSelect('music.photo', 'photoId')
+          .where('playlist.id = :id', { id})
+          .getOne();
+    }
+
     async getPLaylistByName(name:string) {
         return await this.playlistRepo.find({where: {name}});
     }

@@ -55,20 +55,6 @@ export class MusicsRepository{
     }
 
 
-    // async getTopHits(): Promise<MusicEntity[]> {
-    //     return await this.musicRepo
-    //       .createQueryBuilder('album')
-    //       .leftJoinAndSelect('album.music','music')
-    //       .leftJoin('music.favorites', 'favorites')
-    //       .leftJoinAndSelect('music.photo','photo')
-    //       .leftJoinAndSelect('music.audio', 'audio')
-    //       .addSelect( `((music.views * 0.6) + (COUNT(favorites.id) * 0.4))`,'score')
-    //       .groupBy('music.id')
-    //       .orderBy('score', 'DESC')
-    //       .limit(10)
-    //       .getMany();
-    //   }
-
       async getTopCharts(): Promise<MusicEntity[]> {
         return await this.musicRepo
           .createQueryBuilder('music')

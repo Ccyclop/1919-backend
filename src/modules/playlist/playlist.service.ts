@@ -78,8 +78,8 @@ export class PlaylistService {
     }
     
  
-    async getPlayListById(id:number): Promise<playlistEntity> {
-        const playlist = await this.playlistRepository.getPlaylistById(id);
+    async getPlayListById(id:number) {
+        const playlist = await this.playlistRepository.getPlaylist(id);
         return playlist 
     }
 
