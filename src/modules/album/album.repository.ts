@@ -31,18 +31,6 @@ export class AlbumRepository {
       .limit(10)
       .getMany();
   }
-
-  // async getTopHits(): Promise<Album[]> {
-  //   return this.albumRepository.createQueryBuilder('album')
-  //     .leftJoinAndSelect('album.musics', 'music')
-  //     .leftJoinAndSelect('album.photo', 'photo')
-  //     .leftJoinAndSelect('music.listens', 'listenerCounter')
-  //     .addSelect('SUM(listenerCounter.id)', 'totalListeners')
-  //     .groupBy('album.id')
-  //     .orderBy('totalListeners', 'DESC')
-  //     .limit(10)
-  //     .getMany();
-  // }
   
 
   async findAlbumById(albumId: number): Promise<Album> {
@@ -67,8 +55,6 @@ export class AlbumRepository {
       .leftJoinAndSelect('music.photo', 'photo')
       .leftJoinAndSelect('music.audio', 'audio')
       .leftJoin('music.favorites', 'favorites')
-      .addSelect('SUM(music.views) * 0.6', 'totalViewsScore')
-      .addSelect('COUNT(favorites.id) * 0.4', 'totalFavoritesScore') 
       .addSelect('SUM(music.views) * 0.6 + COUNT(favorites.id) * 0.4', 'score') 
       .groupBy('album.id')
       .addGroupBy('music.id')  
@@ -87,9 +73,7 @@ export class AlbumRepository {
       .leftJoinAndSelect('music.audio', 'audio')
       .where('music.createdAt >= :date', { date: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) }) 
       .leftJoin('music.favorites', 'favorites')
-      .addSelect('SUM(music.views) * 0.7', 'totalViewsScore')
-      .addSelect('COUNT(favorites.id) * 0.3', 'totalFavoritesScore') 
-      .addSelect('SUM(music.views) * 0.7 + COUNT(favorites.id) * 0.3', 'score') 
+      .addSelect('SUM(music.views) * 0.3 + COUNT(favorites.id) * 0.7', 'score') 
       .groupBy('album.id')
       .addGroupBy('music.id')  
       .orderBy('score', 'DESC')

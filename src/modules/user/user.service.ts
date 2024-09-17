@@ -36,19 +36,7 @@ export class UserService {
         
         await this.tokenService.saveToken(user.id, tokens.refresh_token,refreshTokenExpiresIn);    
 
-        // res.cookie('refresh_token', tokens.refresh_token, {
-        //   httpOnly: true,
-        //   secure: true,
-        //   expires: refreshTokenExpiresIn,
-
-        // });
-
-        // res.cookie('access_token', tokens.access_token, {
-        //   httpOnly: true,
-        //   secure: true,
-        //   expires: refreshTokenExpiresIn,
-
-        // });
+        
         return { access_token: tokens.access_token,refresh_token: tokens.refresh_token };
     }
 
