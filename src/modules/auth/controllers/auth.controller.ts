@@ -1,7 +1,7 @@
 import { Body, Controller, Param, Post, Put, Req, Res, UseGuards } from "@nestjs/common";
 import { AuthService } from "../services/auth.service";
 import { PublicRoute } from "../decorators/admin.decorator";
-import { AuthDto,ChangePDto } from "../../user/dto";
+import { AuthDto,ChangePDto } from "../../user/dtos";
 import { GetCurrentUserId } from "../decorators";
 import { Response,Request } from "express";
 import { CustomBody } from "../decorators/body.decorator";
@@ -46,7 +46,7 @@ export class AuthController {
       return await this.authService.blockUser(id);
     }
 
-
+    @Roles('admin')
     @Put('change-password/:id')
     async changePassword(
       @Param('id') id:number,@GetCurrentUserId() userId: number,

@@ -1,5 +1,5 @@
 import { ForbiddenException, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
-import { AuthDto,ChangePDto } from "../../user/dto";
+import { AuthDto,ChangePDto } from "../../user/dtos";
 import { UserRepository } from "../../user/user.repository";
 import * as bcryptjs from 'bcryptjs'
 import { TokenService } from "./token.service";
@@ -21,7 +21,6 @@ export class AuthService {
 
         if (!user || user.blocked) throw new ForbiddenException('access denied');
 
-
         const passwordMatches = await bcryptjs.compare(dto.password,user.hashP);
         if (!passwordMatches) throw new ForbiddenException('access denied');
 
@@ -40,8 +39,6 @@ export class AuthService {
         const tokens = await this.tokenService.getTokens(user.id, user.email);
         await this.tokenService.saveToken(user.id, tokens.refresh_token,refreshTokenExpiresIn);
 
-
-
         return { access_token: tokens.access_token, refresh_token:tokens.refresh_token, role: user.role };
     }
 
@@ -55,24 +52,19 @@ export class AuthService {
       const passwordMatches = await bcryptjs.compare(dto.password,user.hashP);
       if (!passwordMatches) throw new ForbiddenException('access denied');
 
-
-      
       await this.userRepository.updateUser(user)
    
       const refreshTokenExpiresIn = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
       const accessTokenExpiresIn = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); 
 
-
       const tokens = await this.tokenService.getTokens(user.id, user.email);
       await this.tokenService.saveToken(user.id, tokens.refresh_token,refreshTokenExpiresIn);
-
 
       return { access_token: tokens.access_token, refresh_token:tokens.refresh_token, role: user.role };
   }
         
       async logout(userId: number, res:Response): Promise<boolean> {
         const user = await this.userRepository.findById(userId);
-        console.log(userId)
 
         if (!user) {
           throw new Error(`user with id${userId} not found`);
@@ -86,8 +78,6 @@ export class AuthService {
 
         await this.userRepository.updateUser(user);
 
-        // res.clearCookie('access_token');
-        // res.clearCookie('refresh_token');
         return true;
         
       }

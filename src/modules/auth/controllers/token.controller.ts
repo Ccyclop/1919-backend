@@ -4,9 +4,8 @@ import { PublicRoute } from "../decorators/admin.decorator";
 import { RtGuard } from "../guards";
 import { GetCurrentUser } from "../decorators";
 import { JwtPayloadWithRt } from "../types";
-import { Response } from "express";
 import { Roles } from "@src/modules/auth/decorators/role.decorator";
-import { Token } from "../entity/token.entity";
+import { Token } from "../entities/token.entity";
 
 @Injectable()
 @Controller('token')

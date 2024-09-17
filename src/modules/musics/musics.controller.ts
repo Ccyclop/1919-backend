@@ -1,8 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, UploadedFiles, BadRequestException, Put } from '@nestjs/common';
 import { MusicsService } from './musics.service';
-import { CreateMusicDto } from './dto/create-music.dto';
-import { UpdateMusicDto } from './dto/update-music.dto';
-import { PublicRoute } from '../auth/decorators/admin.decorator';
+import { CreateMusicDto } from './dtos/create-music.dto';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { GetCurrentUserId } from '../auth/decorators';
 import { Roles } from '../auth/decorators/role.decorator';

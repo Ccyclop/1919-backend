@@ -1,11 +1,11 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { PlaylistService } from "./playlist.service";
 import { playlistEntity } from "./entities/playlist.entity";
-import { CreatePlaylistDto } from "./dto/create-playlist.dto";
+import { CreatePlaylistDto } from "./dtos/create-playlist.dto";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { GetCurrentUserId } from "../auth/decorators";
 import { S3Type } from "../S3/enum/S3.enum";
-import { UpdatePlaylistDto } from "./dto/update.playlist.dto";
+import { UpdatePlaylistDto } from "./dtos/update.playlist.dto";
 
 @Controller('playlist')
 export class PlaylistController {

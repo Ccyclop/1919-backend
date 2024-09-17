@@ -4,11 +4,11 @@ import * as bcryptjs from 'bcryptjs';
 import { UserService } from './user.service';
 import { UserRepository } from './user.repository';
 import { TokenService } from '../auth/services/token.service';
-import { CreateDto } from './dto';
+import { CreateDto } from './dtos';
 import { User } from './entity/user.entity';
 import { Response } from 'express';
 import { TokenRepository } from '../auth/repositories/token.repository';
-import { Token } from '../auth/entity/token.entity';
+import { Token } from '../auth/entities/token.entity';
 
 describe('UserService', () => {
     let service: UserService;

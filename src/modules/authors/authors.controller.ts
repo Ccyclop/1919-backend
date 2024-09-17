@@ -2,7 +2,6 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, Upl
 import { AuthorsService } from './authors.service';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
-import { PublicRoute } from '../auth/decorators/admin.decorator';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { S3Type } from '../S3/enum/S3.enum';
 import { GetCurrentUserId } from '../auth/decorators';
@@ -12,7 +11,6 @@ import { Author } from './entities/author.entity';
 @Controller('author')
 export class AuthorsController {
   constructor(private readonly authorsService: AuthorsService) {}
-
 
   @Roles('admin')
   @Post()
@@ -45,8 +43,6 @@ export class AuthorsController {
     return await this.authorsService.findAuthor(+id);
   }
   
-  
-
   @Roles('admin')
   @Put(':id')
   @UseInterceptors(FileInterceptor('img'))

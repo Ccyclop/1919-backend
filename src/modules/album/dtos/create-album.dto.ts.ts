@@ -1,6 +1,6 @@
 import { Transform, Type } from 'class-transformer';
 import { IsArray, IsDate, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
-import { CreateMusicDto } from 'src/modules/musics/dto/create-music.dto';
+import { CreateMusicDto } from '@src/modules/musics/dtos/create-music.dto';
 
 export class CreateAlbumDto {
   @IsString()

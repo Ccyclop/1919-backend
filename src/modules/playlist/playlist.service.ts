@@ -1,12 +1,11 @@
 import { MusicsRepository } from "../musics/musics.repository";
-import { CreatePlaylistDto } from "./dto/create-playlist.dto";
+import { CreatePlaylistDto } from "./dtos/create-playlist.dto";
 import { playlistEntity } from "./entities/playlist.entity";
 import { PlaylistRepository } from "./playlist.repository";
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { MusicEntity } from "../musics/entities/music.entity";
 import { S3Service } from "../S3/S3.service";
 import { S3Type } from "../S3/enum/S3.enum";
-import { UpdatePlaylistDto } from "./dto/update.playlist.dto";
+import { UpdatePlaylistDto } from "./dtos/update.playlist.dto";
 import { UploadPartCommand } from "@aws-sdk/client-s3";
 
 @Injectable()

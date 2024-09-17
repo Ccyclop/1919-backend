@@ -31,9 +31,7 @@ export class RolesGuard extends AuthGuard('jwt') {
     }
 
     const request = context.switchToHttp().getRequest<RequestInterface>();
-    console.log('Request User:', request.user); 
     const user = request.user;
-    console.log('user',user)
 
     if (!user) {
       throw new UnauthorizedException('User not authenticated');

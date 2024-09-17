@@ -2,7 +2,6 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { playlistEntity } from "./entities/playlist.entity";
 import { Repository } from "typeorm";
 import { MusicEntity } from "../musics/entities/music.entity";
-import { CreatePlaylistDto } from "./dto/create-playlist.dto";
 
 
 export class PlaylistRepository {
