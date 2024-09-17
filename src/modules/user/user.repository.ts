@@ -61,7 +61,7 @@ export class UserRepository{
 
       async getAllUsers(): Promise<User[]> {
         return await this.userRepository.createQueryBuilder('user')
-          .select(['user.id', 'user.first_name', 'user.email','user.role']) 
+          .select(['user.id', 'user.first_name', 'user.email','user.role','user.blocked']) 
           .getMany();
       }
     
