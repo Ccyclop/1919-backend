@@ -70,17 +70,6 @@ export class MusicsController {
     return await this.musicsService.getTop10MusicForLastMonth()
   }
 
-  // @Get('hits')
-  // async getHits(): Promise<MusicEntity[]>  {
-  //   return await this.musicsService.getHits()
-  // }
-
-  // @Get('charts')
-  // async getCharts(): Promise<MusicEntity[]>  {
-  //   return await this.musicsService.getCharts()
-  // }
-
-
 
   @Get(':id')
   async findOne(@GetCurrentUserId() userId: number, @Param('id') id: number): Promise<MusicEntity> {
