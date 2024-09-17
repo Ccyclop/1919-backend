@@ -5,6 +5,7 @@ import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { GetCurrentUserId } from '../auth/decorators';
 import { Roles } from '../auth/decorators/role.decorator';
 import { MusicEntity } from './entities/music.entity';
+import { UpdateMusicDto } from './dtos/update-music.dto';
 
 @Controller('music')
 export class MusicsController {
@@ -92,7 +93,7 @@ export class MusicsController {
   async updateMusic(
     @Param('id') id:number,
     @GetCurrentUserId() userId: number,
-    @Body() createMusicDto: CreateMusicDto,
+    @Body() updateMusicDto: UpdateMusicDto,
     @UploadedFiles() files?: Express.Multer.File[]
   ): Promise<MusicEntity> {
 
@@ -100,7 +101,7 @@ export class MusicsController {
     const audioFile = files.find(file => file.mimetype.startsWith('audio/'));
   
   
-    return await this.musicsService.updateMusic(id,createMusicDto, photoFile, audioFile, userId);
+    return await this.musicsService.updateMusic(id,updateMusicDto, photoFile, audioFile, userId);
   }
 
 
