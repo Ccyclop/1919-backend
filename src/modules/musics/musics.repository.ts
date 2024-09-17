@@ -126,7 +126,6 @@ export class MusicsRepository{
         const insertedMusics = await this.musicRepo.createQueryBuilder()
             .insert()
             .values(musicDto)
-            // .values(musicDto.map(dto => ({ ...dto, author: author }))) 
             .execute();
     
         const insertedIds = insertedMusics.identifiers.map(id => id.id);

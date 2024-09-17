@@ -42,7 +42,7 @@ export class MusicsController {
 
   @Get('inAlbum/:id')
   async getMusicInPLaylist(@Param('id') PLaylistId: number): Promise<MusicEntity[]> {
-    return this.musicsService.getMusicInPlaylist(PLaylistId);
+    return this.musicsService.getMusicInAlbum(PLaylistId);
   }
 
   @Get('notInPlaylist/:id')
