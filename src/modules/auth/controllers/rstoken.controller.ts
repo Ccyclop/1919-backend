@@ -1,13 +1,8 @@
 import { Body, Controller, Param, Post, Put, UseGuards } from "@nestjs/common";
 import { RsTokenService } from "../services/RsToken.service";
-import { PublicRoute } from "../decorators/admin.decorator";
-import { GetCurrentUser } from "../decorators";
-import { JwtPayloadWithRt } from "../types";
-import { resetPDto } from "../dto/reset-password.dto";
-import { RtGuard } from "../guards";
-import { forgotPDto } from "../dto/forgotPassword.dto";
+import { resetPDto } from "../dtos/reset-password.dto";
+import { forgotPDto } from "../dtos/forgotPassword.dto";
 import { CustomBody } from "../decorators/body.decorator";
-import { Roles } from "@src/modules/auth/decorators/role.decorator";
 
 @Controller('resetToken')
 export class RsTokenController {

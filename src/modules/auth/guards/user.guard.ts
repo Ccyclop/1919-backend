@@ -32,8 +32,6 @@ export class UserGuard extends AuthGuard('jwt') {
     const request = context.switchToHttp().getRequest<RequestInterface>();
     request.user = user;
 
-    console.log('roleeeee',user.role)
-
     if (user.role !== 'user' && user.role !== 'admin') {
         throw new ForbiddenException('Unauthorized access - user or admin role required');
       }

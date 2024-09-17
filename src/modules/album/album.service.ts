@@ -5,7 +5,7 @@ import { UpdateAlbumDto } from '../album/dtos/update-album.dto';
 import { AuthorRepository } from '../authors/authors.repository.js';
 import { AlbumRepository } from './album.repository';
 import { MusicsRepository } from '../musics/musics.repository.js';
-import { CreateMusicDto } from '../musics/dto/create-music.dto.js';
+import { CreateMusicDto } from '../musics/dtos/create-music.dto.js';
 import { Author } from '../authors/entities/author.entity.js';
 import { S3Service } from '../S3/S3.service';
 import { S3Type } from '../S3/enum/S3.enum';

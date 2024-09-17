@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { ResetToken } from "../entity/reset-token.entity";
+import { ResetToken } from "../entities/reset-token.entity";
 import { Repository } from "typeorm";
 
 @Injectable()

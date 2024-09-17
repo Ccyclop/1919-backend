@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateMusicDto } from './dto/create-music.dto';
-import { UpdateMusicDto } from './dto/update-music.dto';
+import { CreateMusicDto } from './dtos/create-music.dto';
+import { UpdateMusicDto } from './dtos/update-music.dto';
 import { MusicsRepository } from './musics.repository';
 import { MusicEntity } from './entities/music.entity';
 import { S3Type } from '../S3/enum/S3.enum';

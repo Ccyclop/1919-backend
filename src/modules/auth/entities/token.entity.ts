@@ -1,7 +1,6 @@
 import { BeforeInsert, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "../../user/entity/user.entity";
 
-
 @Entity()
 export class Token {
     @PrimaryGeneratedColumn()

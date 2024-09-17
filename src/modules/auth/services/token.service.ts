@@ -3,7 +3,7 @@ import { JwtService } from "@nestjs/jwt";
 import { JwtPayload,JwtPayloadWithRt } from "../types";
 import * as bcryptjs  from 'bcryptjs';
 import { UserRepository } from "../../user/user.repository";
-import { Token } from "../entity/token.entity";
+import { Token } from "../entities/token.entity";
 import { TokenRepository } from "../repositories/token.repository";
 import { Response } from "express";
 import { UserRole } from "../types/role.type";
@@ -32,23 +32,10 @@ export class TokenService {
         if (isExpired) {
             throw new ForbiddenException('token has expired!');
         }
-
-        // const accessTokenExpiresIn = new Date(Date.now() + 15 * 60 * 1000); 
         const refreshTokenExpiresIn = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000); 
     
         const tokens = await this.getTokens(user.id, user.email);
         await this.saveToken(user.id, tokens.refresh_token,refreshTokenExpiresIn);
-    
-        // res.cookie('refresh_token', tokens.refresh_token, {
-        //   httpOnly: true,
-        //   secure: true,
-        // });
-
-        // res.cookie('access_token', tokens.access_token, {
-        //   httpOnly: true,
-        //   secure: true,
-        // });
-
 
         return { access_token: tokens.access_token };    
     }
@@ -86,8 +73,7 @@ export class TokenService {
         await this.userRepository.updateUser(user);
 
       }
-     
-
+  
     async getTokens(userId: number, email: string){
 
       const user = await this.userRepository.findById(userId);

@@ -1,6 +1,6 @@
 import { Type } from "class-transformer";
 import { IsString, MaxLength } from "class-validator";
-import { CreateMusicDto } from "src/modules/musics/dto/create-music.dto";
+import { CreateMusicDto } from "@src/modules/musics/dtos/create-music.dto";
 
 export class CreateAuthorDto {
 

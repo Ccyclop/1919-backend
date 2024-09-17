@@ -1,11 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { CreateDto } from "./dto";
+import { CreateDto } from "./dtos";
 import { User } from "./entity/user.entity";
 import { Repository } from "typeorm";
 import * as bcryptjs  from 'bcryptjs';
 import { UserRole } from "../auth/types/role.type";
-import { ChangePasswrodDto } from "./dto/change-passwrod.dto";
+import { ChangePasswrodDto } from "./dtos/change-passwrod.dto";
 
 @Injectable()
 export class UserRepository{

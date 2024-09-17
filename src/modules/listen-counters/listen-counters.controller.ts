@@ -2,7 +2,6 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ListenCountersService } from './listen-counters.service';
 import { CreateListenCounterDto } from './dto/create-listen-counter.dto';
 import { UpdateListenCounterDto } from './dto/update-listen-counter.dto';
-import { PublicRoute } from '../auth/decorators/admin.decorator';
 
 @Controller('listen-counters')
 export class ListenCountersController {

@@ -1,12 +1,12 @@
 import { Body, Controller, Delete, Get, Injectable, Param, Post, Put, Res, UseGuards, UseInterceptors } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateDto } from './dto';
+import { CreateDto } from './dtos';
 import { Response } from 'express';
 import { PublicRoute } from '../auth/decorators/admin.decorator';
 import { User } from "./entity/user.entity";
 import { CustomBody } from '../auth/decorators/body.decorator';
 import { Roles } from '../auth/decorators/role.decorator';
-import { ChangePasswrodDto } from './dto/change-passwrod.dto';
+import { ChangePasswrodDto } from './dtos/change-passwrod.dto';
 
 
 @Controller('user')

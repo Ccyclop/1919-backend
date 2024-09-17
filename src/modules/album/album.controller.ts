@@ -3,14 +3,12 @@ import { AlbumService } from './album.service';
 import { CreateAlbumDto } from '../album/dtos/create-album.dto.ts';
 import { Album } from '../album/entities/album.entity';
 import { UpdateAlbumDto } from '../album/dtos/update-album.dto';
-import { PublicRoute } from '../auth/decorators/admin.decorator';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { GetCurrentUserId } from '../auth/decorators';
 import { S3Type } from '../S3/enum/S3.enum';
 import { Roles } from '../auth/decorators/role.decorator';
 import { CustomBody } from '../auth/decorators/body.decorator';
 import { AddMusicToAlbumDto } from './dtos/addMusicToAlbum.dto';
-import { DeleteMusicFromAlbumDto } from './dtos/deleteMusicFromAlbum.dto';
 
 @Controller('album')
 export class AlbumController {
