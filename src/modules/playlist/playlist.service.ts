@@ -49,7 +49,6 @@ export class PlaylistService {
       
         return await this.playlistRepository.savePlaylist(playlist);
     
-    
       }
 
 
@@ -83,8 +82,8 @@ export class PlaylistService {
         return playlist 
     }
 
-    async getAllPlaylist(): Promise<playlistEntity[]> {
-        return this.playlistRepository.getAllPlaylist()
+    async getAllPlaylist(userId:number): Promise<playlistEntity[]> {
+        return this.playlistRepository.getAllPlaylist(userId)
     }
 
     async deletePlaylist(id:number) {

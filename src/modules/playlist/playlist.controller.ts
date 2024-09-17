@@ -12,8 +12,10 @@ export class PlaylistController {
     constructor(private readonly playlsitService: PlaylistService) {}
 
     @Get()
-    async getAll(): Promise<playlistEntity[]> {
-        return this.playlsitService.getAllPlaylist();
+    async getAll(
+        @GetCurrentUserId() userId: number
+    ): Promise<playlistEntity[]> {
+        return this.playlsitService.getAllPlaylist(userId);
     }
 
     @Get(':id')

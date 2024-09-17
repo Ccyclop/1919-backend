@@ -51,8 +51,16 @@ export class PlaylistRepository {
         return await this.playlistRepo.find({where: {name}});
     }
 
-    async getAllPlaylist() {
-        return this.playlistRepo.find({relations: ['musics','photo']})
+    async getAllPlaylist(userId:number) {
+        return this.playlistRepo
+              .createQueryBuilder('playlist')
+              .leftJoinAndSelect('playlist.photo','photo')
+              .leftJoinAndSelect('playlist.musics', 'music')
+              .leftJoin('playlist.user', 'user')
+              .where('user.id =:userId',{userId})
+              .getMany()
+
+
     }
 
     async savePlaylist(playlist:playlistEntity): Promise<playlistEntity> {

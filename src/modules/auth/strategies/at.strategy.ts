@@ -20,7 +20,6 @@ export class AtStrategy extends PassportStrategy(Strategy, 'jwt') {
   }
 
   async validate(payload: JwtPayload) {
-    console.log('Validate Payload:', payload); 
     const { sub, email, role } = payload;
     
     if (!sub || !email) {
