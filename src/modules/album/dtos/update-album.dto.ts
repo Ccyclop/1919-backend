@@ -19,5 +19,5 @@ export class UpdateAlbumDto {
     authorName?: string;
 
     @IsOptional()
-    file:Express.Multer.File
+    file?:Express.Multer.File
 }
