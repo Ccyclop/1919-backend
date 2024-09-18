@@ -46,10 +46,10 @@ export class AuthorRepository {
         return this.authorRepo.createQueryBuilder('author')
           .leftJoinAndSelect('author.musics', 'music')
           .leftJoinAndSelect('author.photo', 'photo')
-          .leftJoinAndSelect('music.listens', 'listenerCounter')
-          .addSelect('SUM(listenerCounter.id)', 'totalListeners')
+          .leftJoin('music.favorites', 'favorites')
+          .addSelect('COUNT(favorites.id)','SCORE' )
           .groupBy('author.id')
-          .orderBy('totalListeners', 'DESC')
+          .orderBy('SCORE', 'DESC')
           .limit(10)
           .getMany();
       }
