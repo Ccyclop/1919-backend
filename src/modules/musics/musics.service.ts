@@ -140,7 +140,7 @@ export class MusicsService {
 
   async getTop10MusicForlastDay() {
     const oneDay = new Date();
-    oneDay.setMonth((oneDay).getDate() - 1);
+    oneDay.setDate(oneDay.getDate() - 1);
     return await this.musicRepo.getTop10Music(oneDay)
 
   }

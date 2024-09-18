@@ -33,7 +33,6 @@ export class PlaylistController {
 
     const { filename, buffer, mimetype } = file;
     const type = S3Type.PHOTO
-    console.log(filename,buffer,mimetype,createPlaylistDto)
     return await this.playlsitService.CreatePlaylist(createPlaylistDto,filename, buffer, mimetype, type,userId);
 
     }
