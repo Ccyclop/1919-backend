@@ -95,15 +95,19 @@ export class MusicsRepository{
         }
       
         return await this.musicRepo
-          .createQueryBuilder('music')
-          .leftJoin('music.favorites', 'favorites')
-          .leftJoinAndSelect('music.photo','photo')
-          .leftJoinAndSelect('music.audio', 'audio')
-          .orWhere('music.authorId IN (:...artistIds)', { artistIds })
-          .orWhere('music.views > 0')
-          .groupBy('music.id') 
-          .getMany();
-      }
+            .createQueryBuilder('music')
+            .leftJoin('music.favorites', 'favorites')
+            .leftJoinAndSelect('music.photo', 'photo')
+            .leftJoinAndSelect('music.audio', 'audio')
+            .where('music.authorId IN (:...artistIds)', { artistIds })
+            .orWhere('music.views > 3') 
+            .addGroupBy('photo.id')
+            .addGroupBy('audio.id')
+            .orderBy('music.authorId IN (:...artistIds)', 'DESC') 
+            .addOrderBy('music.views', 'DESC') 
+            .limit(10) 
+            .getMany();
+        } 
       
 
 

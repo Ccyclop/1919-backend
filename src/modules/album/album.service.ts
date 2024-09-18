@@ -34,7 +34,6 @@ export class AlbumService {
       album.releaseDate = new Date();
       album.author = author;
       album.authorName = authorName;
-      // album.user = userId
     
       album.photo = uploadResponse;
       
@@ -118,18 +117,10 @@ export class AlbumService {
           album.title = title;
       }
 
-      // if (data && mimetype && type) {
-      //   const uploadResponse = await this.s3Service.saveS3(filename, data, mimetype, type,userId);
-      //   album.photo = uploadResponse; 
-      // }
-
       if (file) {
         const uploadPhoto = await this.s3Service.saveS3(filename,data,mimetype,type,userId);
         album.photo= uploadPhoto;
       }
-
-      // const uploadResponse = await this.s3Service.saveS3(filename,data,mimetype,type,userId);
-      // album.photo = uploadResponse;
   
 
       return await this.albumRepository.saveAlbum(album);
