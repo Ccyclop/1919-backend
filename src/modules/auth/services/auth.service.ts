@@ -90,6 +90,15 @@ export class AuthService {
         return 'user blocked'  
       }
 
+      async unBlockUser(id:number):Promise<String> {
+        const user = await this.userRepository.findById(id)
+        if (!user) throw new NotFoundException(`user with id ${id} not found `) 
+        user.blocked = false
+        await this.userRepository.updateUser(user)
+        return 'user unBlocked'  
+      }
+
+
       
       async changePassword( id:number,userId:number, dto:ChangePDto ): Promise<boolean>{
         const user = await this.userRepository.findById(id);

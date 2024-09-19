@@ -47,6 +47,12 @@ export class AuthController {
     }
 
     @Roles('admin')
+    @Put('unBlock/:id')
+    async unBblockUser(@Param('id') id:number): Promise<String> {
+      return await this.authService.unBlockUser(id);
+    }
+
+    @Roles('admin')
     @Put('change-password/:id')
     async changePassword(
       @Param('id') id:number,@GetCurrentUserId() userId: number,
