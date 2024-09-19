@@ -84,6 +84,7 @@ export class AuthorRepository {
     async searchAuthors(searchString: string): Promise<Author[]> {
         const lowerCaseSearchString = `%${String(searchString).toLowerCase()}%`;
         return await this.authorRepo.createQueryBuilder('author')
+          .leftJoinAndSelect('author.photo','photo')
           .where('LOWER(author.firstName) LIKE :searchString', { searchString: lowerCaseSearchString })
           .getMany();
       }
