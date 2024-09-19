@@ -9,6 +9,7 @@ import { ListenCounterRepository } from '../listen-counters/listen-counters.repo
 import { AuthorRepository } from '../authors/authors.repository';
 import { AlbumRepository } from '../album/album.repository';
 import { PlaylistRepository } from '../playlist/playlist.repository';
+import { only } from 'node:test';
 
 @Injectable()
 export class MusicsService {
@@ -31,10 +32,12 @@ export class MusicsService {
   ): Promise<MusicEntity> {
 
     const { name, authorName } = createMusicDto;
-    
-    const author = await this.authorRepository.getAuthorByName(authorName)
-    if(!author) throw new NotFoundException(`author with name ${ authorName} not found`)
 
+    const authorfullname = authorName.split(' ')
+    const onlyName = authorfullname[0]
+    
+    const author = await this.authorRepository.getAuthorByName(onlyName)
+    if(!author) throw new NotFoundException('author not found')
 
     const photoUploadResponse = await this.s3Service.saveS3(photoFile.originalname, photoFile.buffer, photoFile.mimetype, S3Type.PHOTO, userId);
   
