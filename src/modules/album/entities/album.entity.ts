@@ -3,15 +3,11 @@ Entity,
 Column,
 PrimaryGeneratedColumn,
 ManyToOne,
-JoinTable,
-ManyToMany,
 CreateDateColumn,
 OneToMany,
 JoinColumn,
 UpdateDateColumn,
 DeleteDateColumn,
-Auth,
-OneToOne,
 } from 'typeorm';
 
 import { Author } from 'src/modules/authors/entities/author.entity';
