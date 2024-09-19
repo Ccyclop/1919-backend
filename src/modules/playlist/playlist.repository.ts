@@ -92,6 +92,7 @@ export class PlaylistRepository {
     async searchPlaylists(searchString: string): Promise<playlistEntity[]> {
         const lowerCaseSearchString = `%${String(searchString).toLowerCase()}%`;
         return await this.playlistRepo.createQueryBuilder('playlist')
+          .leftJoinAndSelect('playlist.photo','photo')
           .where('LOWER(playlist.name) LIKE :searchString', { searchString: lowerCaseSearchString })
           .getMany();
       }

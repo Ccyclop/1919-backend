@@ -128,6 +128,8 @@ export class MusicsRepository{
     async searchMusic(searchString: string): Promise<MusicEntity[]> {
         const lowerCaseSearchString = `%${String(searchString).toLowerCase()}%`;
         return await this.musicRepo.createQueryBuilder('music')
+          .leftJoinAndSelect('music.photo','photo')
+          .leftJoinAndSelect('music.author','author')
           .where('LOWER(music.name) LIKE :searchString', { searchString: lowerCaseSearchString })
           .getMany();
       }
