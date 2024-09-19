@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post, Put, UseGuards } from "@nestjs/common";
+import {  Controller, Param, Post, Put, UseGuards } from "@nestjs/common";
 import { RsTokenService } from "../services/RsToken.service";
 import { resetPDto } from "../dtos/reset-password.dto";
 import { forgotPDto } from "../dtos/forgotPassword.dto";
