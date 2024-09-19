@@ -21,8 +21,11 @@ export class AlbumService {
 
     async createAlbum(createAlbumDto: CreateAlbumDto,filename: string, data: Buffer, mimetype: string,type: S3Type,userId:number): Promise<Album> {
       const { title, authorName, musics } = createAlbumDto;
+
+      const authorfullname = authorName.split(' ')
+      const onlyName = authorfullname[0]
   
-      const author = await this.authorRepository.getAuthorByName(authorName);
+      const author = await this.authorRepository.getAuthorByName(onlyName);
       if (!author) {
         throw new NotFoundException(`Author with name ${authorName} not found`);
       }
@@ -96,6 +99,7 @@ export class AlbumService {
 
     async updateAlbum(id:number,updateAlbumDto: UpdateAlbumDto,filename?: string, data?: Buffer, mimetype?: string,type?: S3Type,userId?:number): Promise<Album> {
       const {  title, authorName,file } = updateAlbumDto;
+    
 
       const album = await this.albumRepository.findAlbumWithArtistAndMusics(id)
 
@@ -103,7 +107,10 @@ export class AlbumService {
           throw new NotFoundException(`Album with id ${id} not found`);
       }
 
-      const author = await this.authorRepository.getAuthorByName(authorName);
+      const authorfullname = authorName.split(' ')
+      const onlyName = authorfullname[0]
+
+      const author = await this.authorRepository.getAuthorByName(onlyName);
 
       if (!author) {
         throw new NotFoundException(`Author with name ${authorName} not found`);

@@ -142,10 +142,13 @@ export class MusicsService {
 
     const { name, authorName } = updateMusicDto;
 
+    const authorfullname = authorName.split(' ')
+    const onlyName = authorfullname[0]
+
     const music = await this.musicRepo.findOne(id)
     if(!music) throw new NotFoundException(`music with id ${id} not found`)
         
-    const author = await this.authorRepository.getAuthorByName(authorName)
+    const author = await this.authorRepository.getAuthorByName(onlyName)
     if(!author) throw new NotFoundException(`author with name ${ authorName} not found`)
 
     if(photoFile) {
