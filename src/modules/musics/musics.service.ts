@@ -93,18 +93,6 @@ export class MusicsService {
     
   }
 
-  // async getMusicNotInPlaylist(playlistId: number): Promise<MusicEntity[]> {
-  //   const allMusic = await this.musicRepo.findAll();
-
-  //   const musicInPlaylist = await this.playlistRepositoty.getMusicsForPLaylist(playlistId);
-
-  //   const musicNotInPlaylist = allMusic.filter(
-  //     music => !musicInPlaylist.some(playlistMusic => playlistMusic.id === music.id),
-  //   );
-
-  //   return musicNotInPlaylist;
-  // }
-
   async getMusicInAlbum(albumId: number): Promise<MusicEntity[]> {
 
     const musicInAlbum = await this.albumRepo.getMusicsForAlbum(albumId);
@@ -118,9 +106,6 @@ export class MusicsService {
     return musicInPLaylist;
   }
 
-  // async getHits() {
-  //   return this.musicRepo.getTopHits();
-  // }
 
   async getCharts() {
     return await this.musicRepo.getTopCharts()

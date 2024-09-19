@@ -12,14 +12,12 @@ import { Token } from "../entities/token.entity";
 export class TokenController {
     constructor(private readonly tokenService: TokenService) {}
 
-    @PublicRoute()
     @UseGuards(RtGuard)
     @Post('refresh')
     async refreshTokens( @GetCurrentUser() user: JwtPayloadWithRt): Promise<Object> {
       return await this.tokenService.refreshTokens(user.sub, user.refreshToken);
     }
 
-    @Roles('user')
     @Get()
     async getAllTokens(): Promise<Token[]> {
       return this.tokenService.AllTokens();

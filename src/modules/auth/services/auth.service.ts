@@ -95,9 +95,6 @@ export class AuthService {
         const user = await this.userRepository.findById(id);
         if (!user) throw new ForbiddenException('access denied');
 
-        // const matchPassword = await bcryptjs.compare(dto.oldPassword, user.hashP)
-        // if(!matchPassword) throw new ForbiddenException('password is incorrect')
-
         const newPassword = await bcryptjs.hash(dto.newPassword,10)
         user.hashP = newPassword
 
