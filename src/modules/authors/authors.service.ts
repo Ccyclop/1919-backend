@@ -1,17 +1,19 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAuthorDto } from './dto/create-author.dto';
 import { UpdateAuthorDto } from './dto/update-author.dto';
 import { AuthorRepository } from './authors.repository';
 import { S3Type } from '../S3/enum/S3.enum';
 import { Author } from './entities/author.entity';
 import { S3Service } from '../S3/S3.service';
+import { UserRepository } from '../user/user.repository';
 
 @Injectable()
 export class AuthorsService {
 
   constructor(
         private readonly authorRepo: AuthorRepository,
-        private readonly s3Service : S3Service
+        private readonly s3Service : S3Service,
+        private readonly userRepository: UserRepository
       ) {}
 
   async create(createAuthorDto: CreateAuthorDto, filename: string, data: Buffer, mimetype: string, type: S3Type, userId: number): Promise<Author> {
@@ -55,7 +57,12 @@ export class AuthorsService {
     return await this.authorRepo.saveAuthor(author);
   }
 
-  async getTopAuthors() {
+  async getTopAuthors(userId:number) {
+    const user = await this.userRepository.findById(userId)
+    if(user.blocked === true) {
+      throw new ForbiddenException('user is blocked')
+    }
+
     return await this.authorRepo.findTop10AuthorsByMusic()
   }
 
