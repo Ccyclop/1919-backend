@@ -28,8 +28,10 @@ export class AuthorsController {
   }
 
   @Get('top')
-  async getTopAuthors(): Promise<Author[]> {
-    return this.authorsService.getTopAuthors();
+  async getTopAuthors(
+    @GetCurrentUserId() userId : number
+  ): Promise<Author[]> {
+    return this.authorsService.getTopAuthors(userId);
   }
   
   @Get()
