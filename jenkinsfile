@@ -1,29 +1,37 @@
 pipeline {
-    agent any 
-
+    agent { 
+        docker {
+            image 'alpine/socat:latest'
+        }
+    }
     stages {
+        stage('Checkout') {
+            steps {
+                echo "Cloning the repository..."
+                git 'https://github.com/Ccyclop/1919-backend.git'
+            }
+        }
         stage('Install Dependencies') {
             steps {
-                sh '''
-                cd 1919-BACKEND
-                npm install
-                '''
+                echo "Installing dependencies..."
+                dir('1919-BACKEND') {
+                    sh 'npm install'  
+                }
             }
         }
         stage('Build Project') {
             steps {
-                sh '''
-                cd 1919-BACKEND
-                npm run build
-                '''
+                echo "Building the project..."
+                dir('1919-BACKEND') {
+                    sh 'npm run build' 
+                }
             }
         }
         stage('Build Docker Image') {
             steps {
-                sh '''
-                cd 1919-BACKEND
-                docker build -t 1919-backend .
-                '''
+                echo "Building the Docker image..."
+                dir('1919-BACKEND') {
+                    sh 'docker build -t 1919-backend .'  
             }
         }
     }
