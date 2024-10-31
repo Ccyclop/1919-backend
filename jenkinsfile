@@ -1,41 +1,32 @@
 pipeline {
     agent { 
-        docker {
-            image 'alpine/socat:latest'
-        }
-    }
+        node {
+            label 'jenkins-agent-goes-here'
+            }
+      }
     stages {
-        stage('Checkout') {
+        stage('Build') {
             steps {
-                echo "Cloning the repository..."
-                git 'https://github.com/Ccyclop/1919-backend.git'
+                echo "Building.."
+                sh '''
+                echo "doing build stuff.."
+                '''
             }
         }
-        stage('Install Dependencies') {
+        stage('Test') {
             steps {
-                echo "Installing dependencies..."
-                // Navigate into the project directory before installing dependencies
-                dir('1919-BACKEND') {
-                    sh 'npm install'  // Replace with the appropriate package manager command if needed
-                }
+                echo "Testing.."
+                sh '''
+                echo "doing test stuff..
+                '''
             }
         }
-        stage('Build Project') {
+        stage('Deliver') {
             steps {
-                echo "Building the project..."
-                // Navigate into the project directory before building
-                dir('1919-BACKEND') {
-                    sh 'npm run build'  // Adjust this command based on your build setup
-                }
-            }
-        }
-        stage('Build Docker Image') {
-            steps {
-                echo "Building the Docker image..."
-                // Ensure you are in the correct directory for Docker build
-                dir('1919-BACKEND') {
-                    sh 'docker build -t your-image-name .'  // Replace 'your-image-name' with your desired image name
-                }
+                echo 'Deliver....'
+                sh '''
+                echo "doing delivery stuff.."
+                '''
             }
         }
     }
