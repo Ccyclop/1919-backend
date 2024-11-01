@@ -1,5 +1,10 @@
 pipeline {
-    agent { label 'docker-agent-alpine' } // Use the predefined label of your agent
+    agent {
+        docker {
+            image 'alpine/socat'
+            args '-u root -v /var/run/docker.sock:/var/run/docker.sock' // Use root user
+        }
+    }
     stages {
         stage('Clone Repository') {
             steps {
@@ -10,7 +15,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 script {
-                    // Install Node.js and npm in the agent
+                    // Install Node.js and npm
                     sh '''
                         apk add --no-cache nodejs npm
                         npm install
@@ -22,7 +27,7 @@ pipeline {
         stage('Build Application') {
             steps {
                 script {
-                    sh 'docker build -t 1919-back .' // Building the Docker image for your application
+                    sh 'docker build -t 1919-back .' // Build the Docker image for your application
                 }
             }
         }
@@ -30,7 +35,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh 'docker build -t 1919-back:latest .' // Optional second build step, can be removed if redundant
+                    sh 'docker build -t 1919-back:latest .' // Optional second build step
                 }
             }
         }
@@ -45,4 +50,3 @@ pipeline {
         }
     }
 }
-
