@@ -1,10 +1,6 @@
 pipeline {
- agent {
-        docker {
-            image 'alpine/socat'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
-        }
-    }
+    agent { label 'docker-agent-alpine' } 
+
     stages {
         stage('Clone Repository') {
             steps {
