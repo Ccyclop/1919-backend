@@ -1,33 +1,40 @@
 pipeline {
-    agent { 
-        node {
-            label 'docker-agent-alpine'
-            }
-      }
+    agent { label 'docker-agent-alpine' } 
+
     stages {
-        stage('Build') {
+        stage('Clone Repository') {
             steps {
-                echo "Building.."
-                sh '''
-                echo "doing build stuff.."
-                '''
+                git url: 'https://github.com/Ccyclop/1919-backend.git', branch: 'main'
             }
         }
-        stage('Test') {
+
+        stage('Install Dependencies') {
             steps {
-                echo "Testing.."
-                sh '''
-                echo "doing test stuff.."
-                '''
+                    sh 'npm install'
             }
         }
-        stage('Deliver') {
+
+        stage('Build Application') {
             steps {
-                echo 'Deliver....'
-                sh '''
-                echo "doing delivery stuff.."
-                '''
+                    sh 'docker build -t 1919-back .' 
             }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    sh 'docker build -t 1919-back:latest .'
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Build and Docker image creation successful!'
+        }
+        failure {
+            echo 'Build or Docker image creation failed.'
         }
     }
 }
