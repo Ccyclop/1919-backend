@@ -1,36 +1,40 @@
 pipeline {
-    agent {
-        docker {
-            image 'docker:latest'
-            args '--privileged' // Necessary for Docker-in-Docker
-        }
-    }
+    agent { label 'docker-agent-alpine' } 
     stages {
         stage('Clone Repository') {
             steps {
                 git url: 'https://github.com/Ccyclop/1919-backend.git', branch: 'main'
             }
         }
+
         stage('Install Dependencies') {
             steps {
-                sh 'npm install' // Assuming you have a Dockerfile that installs dependencies
-            }
-        }
-        stage('Build Application') {
-            steps {
                 script {
-                    sh 'docker build -t 1919-back .' // Build the Docker image for your application
+                    sh '''
+                        apk add --no-cache nodejs npm
+                        npm install
+                    '''
                 }
             }
         }
+
+        stage('Build Application') {
+            steps {
+                script {
+                    sh 'docker build -t 1919-back .' // Building the Docker image for your application
+                }
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh 'docker build -t 1919-back:latest .' // Optional second build step
+                    sh 'docker build -t 1919-back:latest .' // Optional second build step, can be removed if redundant
                 }
             }
         }
     }
+
     post {
         success {
             echo 'Build and Docker image creation successful!'
@@ -40,3 +44,4 @@ pipeline {
         }
     }
 }
+
