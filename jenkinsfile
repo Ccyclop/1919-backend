@@ -1,8 +1,8 @@
 pipeline {
     agent {
         docker {
-            image 'alpine/socat'
-            args '-u root -v /var/run/docker.sock:/var/run/docker.sock' // Use root user
+            image 'docker:latest'
+            args '--privileged' // Necessary for Docker-in-Docker
         }
     }
     stages {
@@ -11,19 +11,11 @@ pipeline {
                 git url: 'https://github.com/Ccyclop/1919-backend.git', branch: 'main'
             }
         }
-
         stage('Install Dependencies') {
             steps {
-                script {
-                    // Install Node.js and npm
-                    sh '''
-                        apk add --no-cache nodejs npm
-                        npm install
-                    '''
-                }
+                sh 'npm install' // Assuming you have a Dockerfile that installs dependencies
             }
         }
-
         stage('Build Application') {
             steps {
                 script {
@@ -31,7 +23,6 @@ pipeline {
                 }
             }
         }
-
         stage('Build Docker Image') {
             steps {
                 script {
@@ -40,7 +31,6 @@ pipeline {
             }
         }
     }
-
     post {
         success {
             echo 'Build and Docker image creation successful!'
