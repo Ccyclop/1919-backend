@@ -72,7 +72,6 @@ export class AlbumRepository {
       .leftJoinAndSelect('album.photo', 'photoId')
       .leftJoinAndSelect('music.photo', 'photo')
       .leftJoinAndSelect('music.audio', 'audio')
-      .where('music.createdAt >= :date') 
       .leftJoin('music.favorites', 'favorites')
       .addSelect('SUM(music.views) * 0.3 + COUNT(favorites.id) * 1.5', 'score') 
       .groupBy('album.id')
