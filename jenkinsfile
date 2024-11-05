@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'docker-agent-alpine' } 
+    agent { label 'stable-diffusion-back' } 
     stages {
         stage('Clone Repository') {
             steps {
